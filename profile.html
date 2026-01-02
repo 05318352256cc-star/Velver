@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>الملف الشخصي</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#ff69b4;min-height:100vh;direction:rtl;overflow-x:hidden;font-size:12px;max-width:100vw}
+.container{max-width:500px;margin:0 auto;padding:0 15px}
+.top-bar{background:linear-gradient(135deg,rgba(255,182,193,0.95),rgba(255,105,180,0.85));backdrop-filter:blur(15px);padding:8px 15px;box-shadow:0 4px 20px rgba(255,105,180,0.3);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.3)}
+.back-btn{background:linear-gradient(135deg,#ff1493,#dc143c);color:#fff;border:none;padding:6px 10px;border-radius:20px;cursor:pointer;font-size:14px;box-shadow:0 2px 10px rgba(220,20,60,0.3);transition:all 0.3s}
+.title{font-size:16px;font-weight:bold;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.3)}
+.profile-section{background:linear-gradient(135deg,rgba(255,255,255,0.9),rgba(255,192,203,0.8));backdrop-filter:blur(15px);border-radius:20px;padding:20px;margin:20px 0;text-align:center;box-shadow:0 8px 25px rgba(0,0,0,0.1);border:1px solid rgba(255,255,255,0.3)}
+.profile-pic{width:80px;height:80px;border-radius:50%;border:3px solid #ff69b4;margin:0 auto 15px;object-fit:cover;box-shadow:0 4px 15px rgba(255,105,180,0.3)}
+.user-name{font-size:18px;font-weight:bold;color:#ff1493;margin-bottom:5px;display:flex;align-items:center;justify-content:center;gap:8px}
+.user-email{font-size:14px;color:#666;margin-bottom:15px}
+.verified-badge{width:16px;height:16px}
+.quick-stats{display:flex;gap:10px;margin-bottom:15px}
+.stat-card{background:linear-gradient(135deg,#ff69b4,#ff1493);padding:10px;border-radius:10px;text-align:center;color:#fff;font-size:12px;flex:1;cursor:pointer;transition:all 0.3s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(0,0,0,0.2)}
+.stat-number{font-size:16px;font-weight:bold;display:block;margin-bottom:5px}
+.balance-section{background:linear-gradient(135deg,rgba(255,255,255,0.8),rgba(255,182,193,0.6));border-radius:15px;padding:15px;margin-bottom:15px;border:1px solid rgba(255,105,180,0.2)}
+.balance-title{font-size:14px;font-weight:bold;color:#ff1493;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.balance-amount{font-size:24px;font-weight:bold;color:#fff;background:linear-gradient(135deg,#ff69b4,#ff1493);padding:10px;border-radius:10px;text-align:center;box-shadow:0 2px 10px rgba(255,105,180,0.3)}
+.location-info{background:linear-gradient(135deg,rgba(255,255,255,0.8),rgba(255,182,193,0.6));border-radius:15px;padding:15px;border:1px solid rgba(255,105,180,0.2)}
+.location-title{font-size:14px;font-weight:bold;color:#ff1493;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.location-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.location-item{background:rgba(255,255,255,0.7);padding:8px;border-radius:8px;border:1px solid rgba(255,182,193,0.3)}
+.location-label{font-size:9px;color:#666;display:block;margin-bottom:2px}
+.location-value{font-size:10px;font-weight:bold;color:#ff1493;display:block}
+.edit-form{background:linear-gradient(135deg,rgba(255,255,255,0.8),rgba(255,182,193,0.6));border-radius:15px;padding:15px;margin:15px 0;border:1px solid rgba(255,105,180,0.2);display:none}
+.edit-title{font-size:14px;font-weight:bold;color:#ff1493;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.form-group{margin-bottom:10px}
+.form-group label{display:block;font-size:10px;color:#333;margin-bottom:3px}
+.form-group input{width:100%;padding:8px 12px;border:1px solid #ff69b4;border-radius:8px;font-size:11px;background:rgba(255,255,255,0.8);color:#333}
+.form-group input:focus{outline:none;border-color:#ff1493;box-shadow:0 0 5px rgba(255,20,147,0.3)}
+.form-buttons{display:flex;gap:8px;margin-top:10px}
+.btn{padding:8px 15px;border:none;border-radius:8px;cursor:pointer;font-size:11px;font-weight:bold;transition:all 0.3s;flex:1}
+.btn-save{background:linear-gradient(135deg,#ff69b4,#ff1493);color:#fff}
+.btn-cancel{background:linear-gradient(135deg,#ddd,#ccc);color:#666}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(0,0,0,0.2)}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#ff69b4,#ff1493);color:#fff;padding:10px 15px;border-radius:8px;font-size:12px;z-index:3000;box-shadow:0 4px 15px rgba(0,0,0,0.2)}
+.toast.error{background:linear-gradient(135deg,#ff4757,#ff3742)}
+.loading{text-align:center;padding:20px}
+.loading-spinner{border:3px solid #ffd700;border-top:3px solid transparent;border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;margin:0 auto 15px}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.auth-required{background:#ff69b4;padding:20px;border-radius:10px;text-align:center;margin:20px 0}
+.auth-btn{background:#ffd700;color:#1a1a2e;border:none;padding:12px 24px;border-radius:8px;font-weight:bold;cursor:pointer}
+@media (max-width:768px){.container{padding:0 10px}}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<div class="container">
+<div class="top-bar">
+<button class="back-btn" onclick="history.back()"><i class="fas fa-arrow-right"></i></button>
+<h2 class="title">الملف الشخصي</h2>
+<div></div>
+</div>
+
+<div id="authCheck" class="loading">
+<div class="loading-spinner"></div>
+<p>جاري التحقق من المصادقة...</p>
+</div>
+
+<div id="authRequired" class="auth-required" style="display:none;">
+<h3>مطلوب تسجيل الدخول</h3>
+<p>يرجى تسجيل الدخول للمتابعة</p>
+<button class="auth-btn" onclick="redirectToLogin()">تسجيل الدخول الآن</button>
+</div>
+
+<div id="mainContent" style="display:none;">
+<div class="profile-section">
+<img id="profilePic" class="profile-pic" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaVFbo9wgpnhLhu4XyhH1hBad-js0FGWyCqvjkOd91Yg&s=10" alt="صورة الملف الشخصي">
+<div class="user-name">
+<span id="userName">جاري التحميل...</span>
+<img id="verifiedBadge" class="verified-badge" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzvc_cq1M_gREuXpF1375WUSbhpTzWVyB5FkONeoJyjA&s=10" alt="موثق" style="display:none">
+</div>
+<div class="user-email" id="userEmail">جاري التحميل...</div>
+
+<div class="quick-stats">
+<div class="stat-card" onclick="toggleEditMode()">
+<span class="stat-number"><i class="fas fa-edit"></i></span>
+تعديل المعلومات
+</div>
+<div class="stat-card" id="balanceCard">
+<span class="stat-number" id="userBalance">$0</span>
+الرصيد
+</div>
+</div>
+</div>
+
+<div id="editForm" class="edit-form">
+<div class="edit-title">
+<i class="fas fa-edit"></i>
+تعديل البيانات
+</div>
+<div class="form-group">
+<label><i class="fas fa-user"></i> الاسم الكامل:</label>
+<input type="text" id="nameInput" placeholder="أدخل اسمك الكامل">
+</div>
+<div class="form-group">
+<label><i class="fas fa-at"></i> اسم المستخدم:</label>
+<input type="text" id="usernameInput" placeholder="أدخل اسم المستخدم" maxlength="15">
+</div>
+<div class="form-group">
+<label><i class="fas fa-envelope"></i> البريد الإلكتروني:</label>
+<input type="email" id="emailInput" placeholder="أدخل بريدك الإلكتروني" disabled>
+</div>
+<div class="form-group">
+<label><i class="fas fa-lock"></i> كلمة المرور الجديدة:</label>
+<input type="password" id="passwordInput" placeholder="أدخل كلمة مرور جديدة">
+</div>
+<div class="form-buttons">
+<button class="btn btn-save" onclick="saveProfile()">
+<i class="fas fa-save"></i> حفظ
+</button>
+<button class="btn btn-cancel" onclick="toggleEditMode()">
+<i class="fas fa-times"></i> إلغاء
+</button>
+</div>
+</div>
+
+<div class="balance-section">
+<div class="balance-title">
+<i class="fas fa-wallet"></i>
+معلومات الرصيد
+</div>
+<div class="balance-amount" id="balanceAmount">$0.00</div>
+</div>
+
+<div class="location-info">
+<div class="location-title">
+<i class="fas fa-map-marker-alt"></i>
+معلومات الموقع والجلسة
+</div>
+<div class="location-grid">
+<div class="location-item">
+<span class="location-label">📅 تاريخ الإنشاء</span>
+<span class="location-value" id="createdDate">جاري التحميل...</span>
+</div>
+<div class="location-item">
+<span class="location-label">📍 الموقع</span>
+<span class="location-value" id="userLocation">جاري التحميل...</span>
+</div>
+<div class="location-item">
+<span class="location-label">🌐 عنوان IP</span>
+<span class="location-value" id="userIP">جاري التحميل...</span>
+</div>
+<div class="location-item">
+<span class="location-label">📡 نوع الشبكة</span>
+<span class="location-value" id="networkType">جاري التحميل...</span>
+</div>
+<div class="location-item">
+<span class="location-label">🌍 البلد</span>
+<span class="location-value" id="country">جاري التحميل...</span>
+</div>
+<div class="location-item">
+<span class="location-label">🗺️ المنطقة</span>
+<span class="location-value" id="region">جاري التحميل...</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import{getAuth,onAuthStateChanged,updatePassword,signOut}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import{getFirestore,doc,setDoc,getDoc,updateDoc,onSnapshot}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+const firebaseConfig={apiKey:"AIzaSyA-MK1RYmvpYJrTOBAQcxDqxhp-z_FOb1o",authDomain:"mzjsjjshs.firebaseapp.com",projectId:"mzjsjjshs",storageBucket:"mzjsjjshs.firebasestorage.app",messagingSenderId:"944370558426",appId:"1:944370558426:web:70d4ee772c487f48b58ce3"};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const defaultAvatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaVFbo9wgpnhLhu4XyhH1hBad-js0FGWyCqvjkOd91Yg&s=10";
+
+let currentUser=null;
+let isEditMode=false;
+
+function showToast(message,type='success'){
+const toast=document.createElement('div');
+toast.className=`toast ${type}`;
+toast.textContent=message;
+document.body.appendChild(toast);
+setTimeout(()=>{
+if(toast.parentNode)toast.parentNode.removeChild(toast);
+},4000);
+}
+
+async function getLocationInfo(){
+try{
+const response=await fetch('https://ipapi.co/json/');
+const data=await response.json();
+return{
+ip:data.ip,
+country:data.country_name,
+region:data.region,
+city:data.city,
+network:data.org
+};
+}catch(e){
+return{
+ip:'غير محدد',
+country:'غير محدد',
+region:'غير محدد',
+city:'غير محدد',
+network:'غير محدد'
+};
+}
+}
+
+async function loadUserBalance(uid){
+try{
+const balanceDoc=await getDoc(doc(db,'balances',uid));
+return balanceDoc.exists()?balanceDoc.data().balance||0:0;
+}catch(error){
+return 0;
+}
+}
+
+window.toggleEditMode=function(){
+isEditMode=!isEditMode;
+const editForm=document.getElementById('editForm');
+if(isEditMode){
+editForm.style.display='block';
+loadUserData();
+}else{
+editForm.style.display='none';
+}
+};
+
+window.redirectToLogin=()=>{
+window.location.href='/login'||'../login.html'||'login.html';
+};
+
+async function loadUserData(){
+if(!currentUser)return;
+try{
+const userDoc=await getDoc(doc(db,"users",currentUser.uid));
+if(userDoc.exists()){
+const userData=userDoc.data();
+document.getElementById('nameInput').value=userData.displayName||'';
+document.getElementById('usernameInput').value=userData.username||'';
+}
+document.getElementById('emailInput').value=currentUser.email||'';
+}catch(error){
+console.error('Error loading user data:',error);
+}
+}
+
+window.saveProfile=async function(){
+if(!currentUser)return;
+try{
+const name=document.getElementById('nameInput').value.trim();
+const username=document.getElementById('usernameInput').value.trim();
+const password=document.getElementById('passwordInput').value;
+
+const updates={};
+if(name)updates.displayName=name;
+if(username)updates.username=username.toLowerCase();
+
+if(Object.keys(updates).length>0){
+await updateDoc(doc(db,"users",currentUser.uid),{
+...updates,
+updatedAt:new Date()
+});
+
+if(name)document.getElementById('userName').textContent=name;
+if(username)document.getElementById('userName').textContent=username;
+}
+
+if(password){
+await updatePassword(currentUser,password);
+}
+
+showToast('💾 تم حفظ البيانات بنجاح!','success');
+toggleEditMode();
+
+}catch(error){
+showToast('❌ حدث خطأ في حفظ البيانات','error');
+}
+};
+
+onAuthStateChanged(auth,async(user)=>{
+const authCheck=document.getElementById('authCheck');
+const authRequired=document.getElementById('authRequired');
+const mainContent=document.getElementById('mainContent');
+
+if(user){
+currentUser=user;
+authCheck.style.display='none';
+authRequired.style.display='none';
+mainContent.style.display='block';
+
+try{
+const userDocRef=doc(db,"users",user.uid);
+let userDoc=await getDoc(userDocRef);
+
+if(!userDoc.exists()){
+const locationInfo=await getLocationInfo();
+const userData={
+username:'user'+Math.random().toString(36).substr(2,6),
+displayName:'مستخدم جديد',
+avatar:defaultAvatar,
+verified:Math.random()>0.7,
+createdAt:new Date(),
+locationInfo
+};
+await setDoc(userDocRef,userData);
+userDoc=await getDoc(userDocRef);
+}
+
+const userData=userDoc.data();
+
+document.getElementById('userName').textContent=userData.displayName||userData.username||'مستخدم';
+document.getElementById('userEmail').textContent=user.email||'لا يوجد بريد إلكتروني';
+document.getElementById('profilePic').src=defaultAvatar;
+
+if(userData.verified===true){
+document.getElementById('verifiedBadge').style.display='inline';
+}
+
+const balance=await loadUserBalance(user.uid);
+document.getElementById('userBalance').textContent=`$${balance}`;
+document.getElementById('balanceAmount').textContent=`$${balance.toFixed(2)}`;
+
+onSnapshot(doc(db,'balances',user.uid),(doc)=>{
+if(doc.exists()){
+const newBalance=doc.data().balance||0;
+document.getElementById('userBalance').textContent=`$${newBalance}`;
+document.getElementById('balanceAmount').textContent=`$${newBalance.toFixed(2)}`;
+}
+});
+
+const createdDate=userData.createdAt?.toDate?userData.createdAt.toDate():new Date();
+document.getElementById('createdDate').textContent=createdDate.toLocaleDateString('ar-EG');
+
+const locationInfo=userData.locationInfo||await getLocationInfo();
+document.getElementById('userLocation').textContent=`${locationInfo.city}, ${locationInfo.region}`;
+document.getElementById('userIP').textContent=locationInfo.ip;
+document.getElementById('networkType').textContent=locationInfo.network;
+document.getElementById('country').textContent=locationInfo.country;
+document.getElementById('region').textContent=locationInfo.region;
+
+}catch(error){
+showToast('❌ حدث خطأ في تحميل البيانات','error');
+}
+}else{
+authCheck.style.display='none';
+authRequired.style.display='block';
+mainContent.style.display='none';
+}
+});
+</script>
+</body>
+</html>
+    
+  </body>
+  
+</html>

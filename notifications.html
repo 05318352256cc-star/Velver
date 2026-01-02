@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Notifications</title>
+  </head>
+    
+  <body>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Notifications - VIP Earnings</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Arial,sans-serif}body{background:linear-gradient(135deg,#fdfcf0 0%,#f5f2e8 100%);color:#2d2d2d;min-height:100vh;direction:ltr}.header{display:flex;align-items:center;justify-content:space-between;padding:20px;background:rgba(249,247,235,.95);box-shadow:0 4px 20px rgba(0,0,0,.1);border-bottom:2px solid #e6d700}.back-btn{background:none;border:none;color:#b8860b;font-size:24px;cursor:pointer}.title{font-size:22px;color:#b8860b;font-weight:700;cursor:pointer;transition:all .3s ease}.title:hover{text-shadow:0 0 10px #b8860b}.user-info{font-size:12px;color:#666;display:block}.tabs{display:flex;justify-content:center;background:rgba(249,247,235,.8);padding:20px;gap:15px}.tab{background:rgba(255,253,240,.6);color:#2d2d2d;border:2px solid #ddd;padding:12px 30px;border-radius:30px;cursor:pointer;font-weight:600;transition:all .3s ease}.tab.active{background:linear-gradient(45deg,#ffd700,#ffed4e);color:#2d2d2d;border-color:#b8860b}.container{padding:25px;min-height:calc(100vh - 180px)}.notification-card{background:linear-gradient(145deg,rgba(255,253,240,.9),rgba(249,247,235,.9));border-radius:20px;padding:0;margin-bottom:20px;border:1px solid rgba(184,134,11,.3);box-shadow:0 8px 25px rgba(0,0,0,.1);transition:all .3s ease;overflow:hidden}.notification-card:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(0,0,0,.15)}.notification-layout{display:grid;grid-template-columns:1fr 1fr;height:auto;min-height:200px}.notification-icon-section{background:linear-gradient(45deg,#ffd700,#ffed4e);position:relative;overflow:hidden}.notification-icon{width:100%;height:100%;object-fit:cover;display:block}.notification-content-section{padding:20px;display:flex;flex-direction:column;justify-content:space-between}.notification-header{margin-bottom:15px}.notification-title{color:#b8860b;font-size:18px;font-weight:700;margin-bottom:8px}.notification-type{background:linear-gradient(45deg,#28a745,#20c997);color:#fff;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;display:inline-block;margin-bottom:10px}.notification-type.general{background:linear-gradient(45deg,#007bff,#0056b3)}.notification-type.private{background:linear-gradient(45deg,#6f42c1,#5a2d91)}.notification-content{color:#444;font-size:14px;line-height:1.5;margin-bottom:15px;flex-grow:1}.notification-footer{display:flex;justify-content:space-between;align-items:center;margin-top:auto}.notification-date{color:#666;font-size:12px}.mark-read-btn{background:linear-gradient(45deg,#b8860b,#daa520);color:#fff;border:none;padding:8px 16px;border-radius:20px;cursor:pointer;font-size:12px;transition:all .3s ease}.mark-read-btn:hover{transform:scale(1.05)}.notification-card.read{opacity:.7}.notification-card.unread{border-left:4px solid #ffd700}.loading{text-align:center;padding:50px 20px;color:#666}.loading .spinner{width:40px;height:40px;border:4px solid #f3f3f3;border-top:4px solid #b8860b;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 20px}.loading p{color:#666}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}.no-data{text-align:center;padding:60px 20px;color:#666}.no-data h3{color:#b8860b;margin-bottom:10px;font-size:20px}.password-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:1000;justify-content:center;align-items:center}.password-box{background:linear-gradient(145deg,#fdfcf0,#f5f2e8);padding:40px;border-radius:15px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.3);border:2px solid #b8860b}.password-input{width:250px;padding:12px;border:2px solid #ddd;border-radius:8px;font-size:16px;text-align:center;margin-bottom:20px;background:#fff;color:#2d2d2d}.password-input:focus{outline:none;border-color:#b8860b}.password-btn{margin:0 10px;padding:10px 20px;border:none;border-radius:8px;cursor:pointer;font-weight:600;transition:all .3s ease}.admin-page{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(249,247,235,.98);z-index:999;overflow-y:auto}.admin-header{display:flex;justify-content:space-between;align-items:center;padding:20px;background:linear-gradient(45deg,#b8860b,#daa520);color:#fff;position:sticky;top:0;z-index:1001}.close-admin{background:none;border:none;color:#fff;font-size:24px;cursor:pointer;padding:5px}.admin-container{padding:30px;max-width:1200px;margin:0 auto}.admin-tabs{display:flex;justify-content:center;gap:15px;margin-bottom:30px;flex-wrap:wrap}.admin-tab{background:rgba(255,253,240,.6);color:#2d2d2d;border:2px solid #ddd;padding:12px 25px;border-radius:25px;cursor:pointer;font-weight:600;transition:all .3s ease}.admin-tab.active{background:linear-gradient(45deg,#ffd700,#ffed4e);border-color:#b8860b}.admin-section{background:rgba(255,253,240,.8);padding:25px;border-radius:15px;margin-bottom:20px;border:1px solid #ddd}.section-title{color:#b8860b;font-size:20px;margin-bottom:20px;font-weight:700}.form-group{margin-bottom:15px}.form-group label{display:block;margin-bottom:5px;font-weight:600;color:#2d2d2d}.form-group input,.form-group textarea{width:100%;padding:10px;border:2px solid #ddd;border-radius:8px;font-size:14px;background:#fff;color:#2d2d2d}.form-group input:focus,.form-group textarea:focus{outline:none;border-color:#b8860b}.form-group textarea{height:80px;resize:vertical}.admin-btn{padding:12px 25px;border:none;border-radius:8px;cursor:pointer;font-weight:600;transition:all .3s ease;margin:5px}.admin-btn.primary{background:linear-gradient(45deg,#b8860b,#daa520);color:#fff}.admin-btn.success{background:linear-gradient(45deg,#28a745,#20c997);color:#fff}.admin-btn.danger{background:linear-gradient(45deg,#dc3545,#c82333);color:#fff}.admin-btn:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,0,0,.2)}.request-filter{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}.filter-btn{background:rgba(255,253,240,.6);color:#2d2d2d;border:2px solid #ddd;padding:8px 16px;border-radius:20px;cursor:pointer;font-size:14px;transition:all .3s ease}.filter-btn.active{background:linear-gradient(45deg,#ffd700,#ffed4e);border-color:#b8860b}.request-card{background:rgba(255,253,240,.9);border-radius:12px;padding:20px;margin-bottom:15px;border:1px solid #ddd;transition:all .3s ease}.request-card:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,0,0,.1)}.request-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.request-title{font-size:16px;font-weight:700;color:#b8860b}.request-status{padding:4px 12px;border-radius:15px;font-size:12px;font-weight:600}.request-status.pending{background:#ffeaa7;color:#2d3436}.request-status.approved{background:#00b894;color:#fff}.request-status.rejected{background:#e17055;color:#fff}.request-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin-bottom:15px}.request-info-item{display:flex;justify-content:space-between;padding:8px;background:rgba(255,253,240,.5);border-radius:8px}.request-info-label{font-weight:600;color:#2d2d2d}.request-info-value{color:#666}.request-actions{display:flex;gap:10px;justify-content:center}.action-btn{padding:8px 16px;border:none;border-radius:6px;cursor:pointer;font-size:14px;transition:all .3s ease}.action-btn.approve{background:linear-gradient(45deg,#28a745,#20c997);color:#fff}.action-btn.reject{background:linear-gradient(45deg,#dc3545,#c82333);color:#fff}.action-btn:hover{transform:scale(1.05)}.user-detail{background:rgba(255,253,240,.9);border-radius:12px;padding:20px;margin-bottom:15px;border:1px solid #ddd}.user-detail h4{color:#b8860b;margin-bottom:15px;font-size:18px}.user-detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}.user-detail-item{display:flex;justify-content:space-between;padding:8px;background:rgba(255,253,240,.5);border-radius:8px}.user-label{font-weight:600;color:#2d2d2d}.user-value{color:#666}.icon-settings{margin-bottom:20px}.icon-group{display:flex;align-items:center;gap:15px;margin-bottom:15px;padding:15px;background:rgba(255,253,240,.5);border-radius:10px}.icon-group label{min-width:120px;font-weight:600;color:#2d2d2d}.icon-group input{flex:1}.icon-preview{width:40px;height:40px;object-fit:cover;border-radius:8px;border:1px solid #ddd}.success-toast{display:none;position:fixed;top:20px;right:20px;background:linear-gradient(45deg,#28a745,#20c997);color:#fff;padding:15px 25px;border-radius:8px;z-index:1002;font-weight:600;box-shadow:0 5px 15px rgba(0,0,0,.3)}.auth-error{display:none;position:fixed;top:20px;left:50%;transform:translateX(-50%);background:linear-gradient(45deg,#dc3545,#c82333);color:#fff;padding:15px 25px;border-radius:8px;z-index:1002;font-weight:600;box-shadow:0 5px 15px rgba(0,0,0,.3)}.connection-status{position:fixed;bottom:20px;left:20px;padding:10px 20px;border-radius:20px;font-size:14px;font-weight:600;z-index:1000;transition:all .3s ease}.status-connected{background:linear-gradient(45deg,#28a745,#20c997);color:#fff}.status-disconnected{background:linear-gradient(45deg,#dc3545,#c82333);color:#fff}@media (max-width:768px){.notification-layout{grid-template-columns:1fr;min-height:auto}.notification-icon-section{height:200px}.admin-tabs{justify-content:flex-start;overflow-x:auto}.request-info{grid-template-columns:1fr}.user-detail-grid{grid-template-columns:1fr}.icon-group{flex-direction:column;align-items:flex-start;gap:10px}.icon-group label{min-width:auto}}@media (max-width:480px){.header{padding:15px}.title{font-size:18px}.container{padding:15px}.admin-container{padding:15px}.tabs{padding:15px;gap:10px}.tab{padding:10px 20px;font-size:14px}}</style>
+</head>
+<body>
+<div class="header">
+<button class="back-btn" onclick="history.back()">←</button>
+<h1 class="title" onclick="showPasswordPrompt()">Notifications</h1>
+<div class="user-info" id="userInfo">Loading...</div>
+</div>
+
+<div class="tabs">
+<button class="tab active" onclick="filterNotifications('general')">General Notifications</button>
+<button class="tab" onclick="filterNotifications('private')">Private Notifications</button>
+</div>
+
+<div class="container">
+<div class="loading" id="loadingDiv"><div class="spinner"></div><p>Loading notifications...</p></div>
+<div id="notificationsContainer"></div>
+<div class="no-data" id="noDataDiv" style="display:none"><h3>No Notifications</h3><p>No notifications found.</p></div>
+</div>
+
+<div class="password-overlay" id="passwordOverlay">
+<div class="password-box">
+<input type="password" class="password-input" id="passwordInput" placeholder="Enter password">
+<div>
+<button class="password-btn admin-btn primary" onclick="checkPassword()">Login</button>
+<button class="password-btn admin-btn danger" onclick="closePassword()">Cancel</button>
+</div>
+</div>
+</div>
+
+<div class="admin-page" id="adminPage">
+<div class="admin-header">
+<h2 style="color:#fff">Admin Control Panel</h2>
+<button class="close-admin" onclick="closeAdmin()">×</button>
+</div>
+
+<div class="admin-container">
+<div class="admin-tabs">
+<button class="admin-tab active" onclick="switchAdminTab('notifications')">Notifications</button>
+<button class="admin-tab" onclick="switchAdminTab('requests')">Pending Requests</button>
+<button class="admin-tab" onclick="switchAdminTab('users')">Users</button>
+<button class="admin-tab" onclick="switchAdminTab('settings')">Settings</button>
+</div>
+
+<div id="notificationsTab">
+<div class="admin-section">
+<h3 class="section-title">Send General Notification</h3>
+<div class="form-group">
+<label>Title:</label>
+<input type="text" id="generalTitle" placeholder="General notification title">
+</div>
+<div class="form-group">
+<label>Content:</label>
+<textarea id="generalContent" placeholder="General notification content"></textarea>
+</div>
+<div class="form-group">
+<label>Icon URL:</label>
+<input type="url" id="generalIcon" placeholder="https://example.com/icon.jpg">
+</div>
+<button class="admin-btn primary" onclick="sendGeneralNotification()">Send to All</button>
+</div>
+
+<div class="admin-section">
+<h3 class="section-title">Send Private Notification</h3>
+<div class="form-group">
+<label>User Email:</label>
+<input type="email" id="userEmail" placeholder="user@example.com">
+</div>
+<div class="form-group">
+<label>Title:</label>
+<input type="text" id="privateTitle" placeholder="Private notification title">
+</div>
+<div class="form-group">
+<label>Content:</label>
+<textarea id="privateContent" placeholder="Private notification content"></textarea>
+</div>
+<div class="form-group">
+<label>Icon URL:</label>
+<input type="url" id="privateIcon" placeholder="https://example.com/icon.jpg">
+</div>
+<button class="admin-btn success" onclick="sendPrivateNotification()">Send to User</button>
+</div>
+</div>
+
+<div id="requestsTab" style="display:none">
+<div class="admin-section">
+<h3 class="section-title">Manage Deposit and Withdrawal Requests</h3>
+<div class="request-filter">
+<button class="filter-btn active" onclick="filterRequests('all')">All Requests</button>
+<button class="filter-btn" onclick="filterRequests('deposit')">Deposit Requests</button>
+<button class="filter-btn" onclick="filterRequests('withdrawal')">Withdrawal Requests</button>
+<button class="filter-btn" onclick="filterRequests('pending')">Pending</button>
+<button class="filter-btn" onclick="filterRequests('approved')">Approved</button>
+<button class="filter-btn" onclick="filterRequests('rejected')">Rejected</button>
+</div>
+<div id="requestsContainer">
+<div class="loading"><div class="spinner"></div><p>Loading requests...</p></div>
+</div>
+</div>
+</div>
+
+<div id="usersTab" style="display:none">
+<div class="admin-section">
+<h3 class="section-title">User Management</h3>
+<div id="usersContainer">
+<div class="loading"><div class="spinner"></div><p>Loading users...</p></div>
+</div>
+</div>
+</div>
+
+<div id="settingsTab" style="display:none">
+<div class="admin-section">
+<h3 class="section-title">Transaction Icon Settings</h3>
+<div class="icon-settings">
+<div class="icon-group">
+<label>Deposit Icon:</label>
+<input type="url" id="depositIcon" placeholder="Deposit icon URL">
+<img id="depositPreview" class="icon-preview" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Preview">
+</div>
+<div class="icon-group">
+<label>Withdrawal Icon:</label>
+<input type="url" id="withdrawIcon" placeholder="Withdrawal icon URL">
+<img id="withdrawPreview" class="icon-preview" src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png" alt="Preview">
+</div>
+</div>
+<button class="admin-btn primary" onclick="saveIconSettings()">Save Settings</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="success-toast" id="successToast">Success!</div>
+<div class="auth-error" id="authError"></div>
+
+<div class="connection-status" id="connectionStatus">
+<span id="statusText">Connecting...</span>
+</div>
+
+<script type="module">
+// Import required Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { 
+    getAuth, 
+    onAuthStateChanged, 
+    signInAnonymously, 
+    connectAuthEmulator,
+    setPersistence,
+    browserLocalPersistence 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { 
+    getFirestore, 
+    collection, 
+    addDoc, 
+    query, 
+    orderBy, 
+    onSnapshot, 
+    doc, 
+    updateDoc, 
+    where, 
+    setDoc, 
+    getDoc, 
+    getDocs, 
+    limit,
+    connectFirestoreEmulator,
+    enableNetwork,
+    disableNetwork
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyA-MK1RYmvpYJrTOBAQcxDqxhp-z_FOb1o",
+    authDomain: "mzjsjjshs.firebaseapp.com",
+    projectId: "mzjsjjshs",
+    storageBucket: "mzjsjjshs.firebasestorage.app",
+    messagingSenderId: "944370558426",
+    appId: "1:944370558426:web:70d4ee772c487f48b58ce3",
+    measurementId: "G-CWJWKWBBST"
+};
+
+// State variables
+let app;
+let auth;
+let db;
+let currentUser = null;
+let currentFilter = 'general';
+let currentRequestFilter = 'all';
+let notifications = [];
+let allRequests = [];
+let filteredRequests = [];
+let users = [];
+let iconSettings = {
+    deposit: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
+    withdraw: 'https://cdn-icons-png.flaticon.com/512/2331/2331970.png'
+};
+let isConnected = false;
+let retryCount = 0;
+const maxRetries = 3;
+
+// Firebase initialization function
+async function initializeFirebase() {
+    try {
+        console.log('🚀 Starting Firebase initialization...');
+        
+        // Initialize app
+        app = initializeApp(firebaseConfig);
+        console.log('✅ Firebase App initialized successfully');
+        
+        // Initialize Auth
+        auth = getAuth(app);
+        console.log('✅ Firebase Auth initialized successfully');
+        
+        // Set authentication persistence
+        await setPersistence(auth, browserLocalPersistence);
+        console.log('✅ Authentication persistence set');
+        
+        // Initialize Firestore
+        db = getFirestore(app);
+        console.log('✅ Firestore initialized successfully');
+        
+        // Update connection status
+        updateConnectionStatus(true, '');
+        isConnected = true;
+        
+        // Start authentication monitoring
+        setupAuthStateListener();
+        
+        // Load initial settings
+        await loadIconSettings();
+        
+        console.log('🎉 Firebase completely initialized!');
+        
+    } catch (error) {
+        console.error('❌ Firebase initialization error:', error);
+        updateConnectionStatus(false, 'Connection error: ' + error.message);
+        
+        // Retry
+        if (retryCount < maxRetries) {
+            retryCount++;
+            console.log(`🔄 Retry ${retryCount}/${maxRetries}...`);
+            setTimeout(() => initializeFirebase(), 2000 * retryCount);
+        } else {
+            showError('Connection failed.');
+        }
+    }
+}
+
+// Enhanced authentication state monitor
+function setupAuthStateListener() {
+    onAuthStateChanged(auth, async (user) => {
+        try {
+            console.log('👤 User state change:', user ? 'logged in' : 'not logged in');
+            
+            if (user) {
+                currentUser = user;
+                console.log('✅ User connected:', user.uid);
+                
+                // Update user info in interface
+                updateUserInfo(user);
+                
+                // Load data
+                await Promise.all([
+                    loadNotifications(),
+                    loadAllRequests(),
+                    loadAllUsers()
+                ]);
+                
+                // Hide loading screen
+                document.getElementById('loadingDiv').style.display = 'none';
+                
+            } else {
+                console.log('⚠️ User not connected, trying anonymous login...');
+                
+                try {
+                    const result = await signInAnonymously(auth);
+                    console.log('✅ Anonymous login successful:', result.user.uid);
+                } catch (signInError) {
+                    console.error('❌ Anonymous login error:', signInError);
+                    showError('Login error: ' + signInError.message);
+                }
+            }
+        } catch (error) {
+            console.error('❌ User state processing error:', error);
+            showError('User processing error: ' + error.message);
+        }
+    }, (error) => {
+        console.error('❌ Authentication monitor error:', error);
+        showError('Authentication monitoring error: ' + error.message);
+    });
+}
+
+// Update user info in interface
+function updateUserInfo(user) {
+    const userInfo = document.getElementById('userInfo');
+    if (user && user.uid) {
+        userInfo.textContent = `User: ${user.email || user.uid.substring(0, 8)}...`;
+        userInfo.style.display = 'block';
+    }
+}
+
+// Update connection status
+function updateConnectionStatus(connected, message) {
+    const statusElement = document.getElementById('connectionStatus');
+    const statusText = document.getElementById('statusText');
+    
+    statusText.textContent = message;
+    statusElement.className = `connection-status ${connected ? 'status-connected' : 'status-disconnected'}`;
+    
+    // Hide status after 5 seconds if connected
+    if (connected) {
+        setTimeout(() => {
+            statusElement.style.display = 'none';
+        }, 5000);
+    }
+}
+
+// Enhanced requests loading function
+async function loadAllRequests() {
+    if (!db || !currentUser) return;
+    
+    try {
+        console.log('📄 Loading deposit and withdrawal requests...');
+        
+        // Deposit requests
+        const depositsQuery = query(
+            collection(db, 'deposits'),
+            orderBy('createdAt', 'desc'),
+            limit(100)
+        );
+        
+        onSnapshot(depositsQuery, (snapshot) => {
+            const deposits = [];
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                deposits.push({
+                    id: doc.id,
+                    type: 'deposit',
+                    ...data,
+                    userEmail: data.userEmail || data.email || 'Not specified',
+                    amount: data.amount || 0,
+                    status: data.status || 'pending',
+                    createdAt: data.createdAt || data.timestamp,
+                    paymentMethod: data.paymentMethod || 'Not specified',
+                    transactionId: data.transactionId || 'Not specified'
+                });
+            });
+            updateRequestsList(deposits, 'deposits');
+        }, (error) => {
+            console.error('❌ Deposit requests loading error:', error);
+        });
+        
+        // Withdrawal requests
+        const withdrawalsQuery = query(
+            collection(db, 'withdrawals'),
+            orderBy('createdAt', 'desc'),
+            limit(100)
+        );
+        
+        onSnapshot(withdrawalsQuery, (snapshot) => {
+            const withdrawals = [];
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                withdrawals.push({
+                    id: doc.id,
+                    type: 'withdrawal',
+                    ...data,
+                    userEmail: data.userEmail || data.email || 'Not specified',
+                    amount: data.amount || 0,
+                    status: data.status || 'pending',
+                    createdAt: data.createdAt || data.timestamp,
+                    paymentMethod: data.paymentMethod || 'Not specified',
+                    walletAddress: data.walletAddress || 'Not specified'
+                });
+            });
+            updateRequestsList(withdrawals, 'withdrawals');
+        }, (error) => {
+            console.error('❌ Withdrawal requests loading error:', error);
+        });
+        
+    } catch (error) {
+        console.error('❌ General requests loading error:', error);
+        showError('Requests loading error: ' + error.message);
+    }
+}
+
+// Enhanced users loading function
+async function loadAllUsers() {
+    if (!db || !currentUser) return;
+    
+    try {
+        console.log('👥 Loading user data...');
+        
+        const q = query(
+            collection(db, 'users'),
+            orderBy('createdAt', 'desc'),
+            limit(50)
+        );
+        
+        onSnapshot(q, (snapshot) => {
+            users = [];
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                users.push({
+                    id: doc.id,
+                    ...data
+                });
+            });
+            displayUsers();
+        }, (error) => {
+            console.error('❌ Users loading error:', error);
+        });
+        
+    } catch (error) {
+        console.error('❌ General users loading error:', error);
+        showError('Users loading error: ' + error.message);
+    }
+}
+
+// Enhanced notifications loading function
+async function loadNotifications() {
+    if (!db || !currentUser) return;
+    
+    try {
+        console.log('🔔 Loading notifications...');
+        
+        const q = query(
+            collection(db, 'notifications'),
+            orderBy('createdAt', 'desc'),
+            limit(50)
+        );
+        
+        onSnapshot(q, (snapshot) => {
+            notifications = [];
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                // Show general notifications or private notifications for current user
+                if (data.type === 'general' || 
+                    (data.type === 'private' && data.targetEmail === currentUser.email)) {
+                    notifications.push({
+                        id: doc.id,
+                        ...data
+                    });
+                }
+            });
+            displayNotifications();
+            document.getElementById('loadingDiv').style.display = 'none';
+        }, (error) => {
+            console.error('❌ Notifications loading error:', error);
+            document.getElementById('loadingDiv').style.display = 'none';
+        });
+        
+    } catch (error) {
+        console.error('❌ General notifications loading error:', error);
+        document.getElementById('loadingDiv').style.display = 'none';
+        showError('Notifications loading error: ' + error.message);
+    }
+}
+
+// Icon settings loading function
+async function loadIconSettings() {
+    if (!db) return;
+    
+    try {
+        const docSnap = await getDoc(doc(db, 'settings', 'icons'));
+        if (docSnap.exists()) {
+            iconSettings = docSnap.data();
+            document.getElementById('depositIcon').value = iconSettings.deposit;
+            document.getElementById('withdrawIcon').value = iconSettings.withdraw;
+            document.getElementById('depositPreview').src = iconSettings.deposit;
+            document.getElementById('withdrawPreview').src = iconSettings.withdraw;
+        }
+    } catch (error) {
+        console.error('❌ Icon settings loading error:', error);
+    }
+}
+
+// Error message display function
+function showError(message) {
+    const errorElement = document.getElementById('authError');
+    errorElement.textContent = message;
+    errorElement.style.display = 'block';
+    setTimeout(() => {
+        errorElement.style.display = 'none';
+    }, 5000);
+}
+
+// Success message display function
+function showToast(message = 'Success!') {
+    const toast = document.getElementById('successToast');
+    toast.textContent = message;
+    toast.style.display = 'block';
+    setTimeout(() => toast.style.display = 'none', 3000);
+}
+
+// Rest of functions (unchanged) ...
+function updateRequestsList(newRequests, type) {
+    allRequests = allRequests.filter(req => req.type !== (type === 'deposits' ? 'deposit' : 'withdrawal'));
+    allRequests = [...allRequests, ...newRequests];
+    allRequests.sort((a, b) => {
+        const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt);
+        const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt);
+        return dateB - dateA;
+    });
+    filterAndDisplayRequests();
+}
+
+function filterAndDisplayRequests() {
+    filteredRequests = allRequests;
+    
+    if (currentRequestFilter === 'deposit') {
+        filteredRequests = allRequests.filter(req => req.type === 'deposit');
+    } else if (currentRequestFilter === 'withdrawal') {
+        filteredRequests = allRequests.filter(req => req.type === 'withdrawal');
+    } else if (currentRequestFilter !== 'all') {
+        filteredRequests = allRequests.filter(req => req.status === currentRequestFilter);
+    }
+    
+    displayRequests();
+}
+
+function displayRequests() {
+    const container = document.getElementById('requestsContainer');
+    if (filteredRequests.length === 0) {
+        container.innerHTML = '<div class="no-data">No requests</div>';
+        return;
+    }
+    
+    container.innerHTML = filteredRequests.map(request => createRequestCard(request)).join('');
+}
+
+function createRequestCard(request) {
+    return `
+    <div class="request-card ${request.type}">
+        <div class="request-header">
+            <div class="request-title">${request.type === 'deposit' ? 'Deposit Request' : 'Withdrawal Request'} - $${request.amount}</div>
+            <span class="request-status ${request.status}">${getStatusText(request.status)}</span>
+        </div>
+        <div class="request-info">
+            <div class="request-info-item">
+                <span class="request-info-label">Email:</span>
+                <span class="request-info-value">${request.userEmail}</span>
+            </div>
+            <div class="request-info-item">
+                <span class="request-info-label">Amount:</span>
+                <span class="request-info-value">$${request.amount}</span>
+            </div>
+            <div class="request-info-item">
+                <span class="request-info-label">Payment Method:</span>
+                <span class="request-info-value">${request.paymentMethod}</span>
+            </div>
+            <div class="request-info-item">
+                <span class="request-info-label">${request.type === 'deposit' ? 'Transaction ID' : 'Wallet Address'}:</span>
+                <span class="request-info-value">${request.transactionId || request.walletAddress || 'Not specified'}</span>
+            </div>
+            <div class="request-info-item">
+                <span class="request-info-label">Request Date:</span>
+                <span class="request-info-value">${formatDate(request.createdAt?.toDate ? request.createdAt.toDate() : new Date(request.createdAt))}</span>
+            </div>
+            <div class="request-info-item">
+                <span class="request-info-label">Type:</span>
+                <span class="request-info-value">${request.type === 'deposit' ? 'Deposit' : 'Withdrawal'}</span>
+            </div>
+        </div>
+        ${request.status === 'pending' ? `
+            <div class="request-actions">
+                <button class="action-btn approve" onclick="approveRequest('${request.id}', '${request.type}')">Approve Request</button>
+                <button class="action-btn reject" onclick="rejectRequest('${request.id}', '${request.type}')">Reject Request</button>
+            </div>
+        ` : ''}
+    </div>
+    `;
+}
+
+function displayUsers() {
+    const container = document.getElementById('usersContainer');
+    if (users.length === 0) {
+        container.innerHTML = '<div class="no-data">No registered users</div>';
+        return;
+    }
+    
+    container.innerHTML = users.map(user => `
+        <div class="user-detail">
+            <h4>User: ${user.email || 'Not specified'}</h4>
+            <div class="user-detail-grid">
+                <div class="user-detail-item">
+                    <span class="user-label">Name:</span>
+                    <span class="user-value">${user.name || 'Not specified'}</span>
+                </div>
+                <div class="user-detail-item">
+                    <span class="user-label">Balance:</span>
+                    <span class="user-value">$${user.balance || 0}</span>
+                </div>
+                <div class="user-detail-item">
+                    <span class="user-label">Phone:</span>
+                    <span class="user-value">${user.phone || 'Not specified'}</span>
+                </div>
+                <div class="user-detail-item">
+                    <span class="user-label">Country:</span>
+                    <span class="user-value">${user.country || 'Not specified'}</span>
+                </div>
+                <div class="user-detail-item">
+                    <span class="user-label">Registration Date:</span>
+                    <span class="user-value">${formatDate(user.createdAt?.toDate())}</span>
+                </div>
+                <div class="user-detail-item">
+                    <span class="user-label">Account Status:</span>
+                    <span class="user-value">${user.isActive ? 'Active' : 'Disabled'}</span>
+                </div>
+                <div class="user-detail-item">
+                    <span class="user-label">Total Deposits:</span>
+                    <span class="user-value">$${user.totalDeposits || 0}</span>
+                </div>
+                <div class="user-detail-item">
+                    <span class="user-label">Total Withdrawals:</span>
+                    <span class="user-value">$${user.totalWithdrawals || 0}</span>
+                </div>
+                <div class="user-detail-item">
+                    <span class="user-label">Transaction Count:</span>
+                    <span class="user-value">${user.transactionCount || 0}</span>
+                </div>
+                <div class="user-detail-item">
+                    <span class="user-label">Last Activity:</span>
+                    <span class="user-value">${formatDate(user.lastActivity?.toDate())}</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function getStatusText(status) {
+    const statusMap = {
+        pending: 'Pending',
+        approved: 'Approved',
+        rejected: 'Rejected',
+        completed: 'Completed',
+        processing: 'Processing'
+    };
+    return statusMap[status] || status;
+}
+
+function displayNotifications() {
+    const container = document.getElementById('notificationsContainer');
+    const noDataDiv = document.getElementById('noDataDiv');
+    container.innerHTML = '';
+    
+    let filteredNotifications = notifications;
+    if (currentFilter !== 'all') {
+        filteredNotifications = notifications.filter(n => n.type === currentFilter);
+    }
+    
+    if (filteredNotifications.length === 0) {
+        noDataDiv.style.display = 'block';
+        return;
+    }
+    
+    noDataDiv.style.display = 'none';
+    filteredNotifications.forEach(notification => {
+        const card = createNotificationCard(notification);
+        container.appendChild(card);
+    });
+}
+
+function createNotificationCard(notification) {
+    const card = document.createElement('div');
+    const isRead = notification.readBy && notification.readBy.includes(currentUser.uid);
+    card.className = `notification-card ${isRead ? 'read' : 'unread'}`;
+    
+    card.innerHTML = `
+        <div class="notification-layout">
+            <div class="notification-icon-section">
+                <img src="${notification.icon || iconSettings.deposit}" alt="Notification" class="notification-icon" onerror="this.style.display='none'">
+            </div>
+            <div class="notification-content-section">
+                <div class="notification-header">
+                    <div class="notification-title">${notification.title}</div>
+                    <span class="notification-type ${notification.type}">${notification.type === 'general' ? 'General' : 'Private'}</span>
+                </div>
+                <div class="notification-content">${notification.content.replace(/\n/g, '<br>')}</div>
+                <div class="notification-footer">
+                    <div class="notification-date">${formatDate(notification.createdAt?.toDate())}</div>
+                    ${!isRead ? `<button class="mark-read-btn" onclick="markAsRead('${notification.id}')">Mark as Read</button>` : ''}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    return card;
+}
+
+function formatDate(date) {
+    if (!date) return 'Not specified';
+    const now = new Date();
+    const diffTime = Math.abs(now - date);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return `${diffDays} days ago`;
+    return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
+// Global Functions
+window.filterNotifications = (filter) => {
+    currentFilter = filter;
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    event.target.classList.add('active');
+    displayNotifications();
+};
+
+window.filterRequests = (filter) => {
+    currentRequestFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    filterAndDisplayRequests();
+};
+
+window.markAsRead = async (notificationId) => {
+    if (!currentUser || !db) return;
+    
+    try {
+        const notificationRef = doc(db, 'notifications', notificationId);
+        const notification = notifications.find(n => n.id === notificationId);
+        if (notification) {
+            const readBy = notification.readBy || [];
+            if (!readBy.includes(currentUser.uid)) {
+                readBy.push(currentUser.uid);
+                await updateDoc(notificationRef, { readBy });
+            }
+        }
+    } catch (error) {
+        console.error('❌ Mark as read error:', error);
+        showError('Notification update error');
+    }
+};
+
+window.showPasswordPrompt = () => {
+    document.getElementById('passwordOverlay').style.display = 'flex';
+    document.getElementById('passwordInput').focus();
+};
+
+window.closePassword = () => {
+    document.getElementById('passwordOverlay').style.display = 'none';
+    document.getElementById('passwordInput').value = '';
+};
+
+window.checkPassword = () => {
+    const password = document.getElementById('passwordInput').value;
+    if (password === '05318352256') {
+        closePassword();
+        document.getElementById('adminPage').style.display = 'block';
+    } else {
+        alert('Wrong password');
+    }
+};
+
+window.closeAdmin = () => {
+    document.getElementById('adminPage').style.display = 'none';
+};
+
+window.switchAdminTab = (tab) => {
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    document.getElementById('notificationsTab').style.display = tab === 'notifications' ? 'block' : 'none';
+    document.getElementById('requestsTab').style.display = tab === 'requests' ? 'block' : 'none';
+    document.getElementById('usersTab').style.display = tab === 'users' ? 'block' : 'none';
+    document.getElementById('settingsTab').style.display = tab === 'settings' ? 'block' : 'none';
+};
+
+window.approveRequest = async (requestId, requestType) => {
+    if (!db) return;
+    
+    try {
+        const collectionName = requestType === 'deposit' ? 'deposits' : 'withdrawals';
+        const request = allRequests.find(r => r.id === requestId);
+        if (!request) return;
+        
+        await updateDoc(doc(db, collectionName, requestId), { status: 'approved' });
+        
+        const title = requestType === 'deposit' ? 'Deposit Approved' : 'Withdrawal Approved';
+        const content = requestType === 'deposit' ? 
+            `Your deposit request of $${request.amount} has been approved. The amount has been added to your balance.` :
+            `Your withdrawal request of $${request.amount} has been approved. The amount will be transferred within 24 hours.`;
+        
+        await addDoc(collection(db, 'notifications'), {
+            title,
+            content,
+            type: 'private',
+            targetEmail: request.userEmail,
+            icon: requestType === 'deposit' ? iconSettings.deposit : iconSettings.withdraw,
+            createdAt: new Date(),
+            readBy: []
+        });
+        
+        showToast('Request approved successfully');
+    } catch (error) {
+        console.error('❌ Request approval error:', error);
+        showError('Request approval error');
+    }
+};
+
+window.rejectRequest = async (requestId, requestType) => {
+    if (!db) return;
+    
+    try {
+        const collectionName = requestType === 'deposit' ? 'deposits' : 'withdrawals';
+        const request = allRequests.find(r => r.id === requestId);
+        if (!request) return;
+        
+        await updateDoc(doc(db, collectionName, requestId), { status: 'rejected' });
+        
+        const title = requestType === 'deposit' ? 'Deposit Request Rejected' : 'Withdrawal Request Rejected';
+        const content = `Your ${requestType === 'deposit' ? 'deposit' : 'withdrawal'} request of $${request.amount} has been rejected. Please contact support for more details.`;
+        
+        await addDoc(collection(db, 'notifications'), {
+            title,
+            content,
+            type: 'private',
+            targetEmail: request.userEmail,
+            icon: 'https://cdn-icons-png.flaticon.com/512/1828/1828843.png',
+            createdAt: new Date(),
+            readBy: []
+        });
+        
+        showToast('Request rejected successfully');
+    } catch (error) {
+        console.error('❌ Request rejection error:', error);
+        showError('Request rejection error');
+    }
+};
+
+window.sendGeneralNotification = async () => {
+    const title = document.getElementById('generalTitle').value;
+    const content = document.getElementById('generalContent').value;
+    const icon = document.getElementById('generalIcon').value || iconSettings.deposit;
+    
+    if (!title || !content) return alert('Please fill all fields');
+    if (!db) return showError('Database error');
+    
+    try {
+        await addDoc(collection(db, 'notifications'), {
+            title,
+            content,
+            type: 'general',
+            icon,
+            createdAt: new Date(),
+            readBy: []
+        });
+        
+        showToast('General notification sent successfully');
+        document.getElementById('generalTitle').value = '';
+        document.getElementById('generalContent').value = '';
+        document.getElementById('generalIcon').value = '';
+    } catch (error) {
+        console.error('❌ General notification sending error:', error);
+        showError('Notification sending error');
+    }
+};
+
+window.sendPrivateNotification = async () => {
+    const email = document.getElementById('userEmail').value;
+    const title = document.getElementById('privateTitle').value;
+    const content = document.getElementById('privateContent').value;
+    const icon = document.getElementById('privateIcon').value || iconSettings.deposit;
+    
+    if (!email || !title || !content) return alert('Please fill all fields');
+    if (!db) return showError('Database error');
+    
+    try {
+        await addDoc(collection(db, 'notifications'), {
+            title,
+            content,
+            type: 'private',
+            targetEmail: email,
+            icon,
+            createdAt: new Date(),
+            readBy: []
+        });
+        
+        showToast('Private notification sent successfully');
+        document.getElementById('userEmail').value = '';
+        document.getElementById('privateTitle').value = '';
+        document.getElementById('privateContent').value = '';
+        document.getElementById('privateIcon').value = '';
+    } catch (error) {
+        console.error('❌ Private notification sending error:', error);
+        showError('Notification sending error');
+    }
+};
+
+window.saveIconSettings = async () => {
+    const depositIcon = document.getElementById('depositIcon').value || iconSettings.deposit;
+    const withdrawIcon = document.getElementById('withdrawIcon').value || iconSettings.withdraw;
+    
+    if (!db) return showError('Database error');
+    
+    try {
+        iconSettings = { deposit: depositIcon, withdraw: withdrawIcon };
+        
+        await setDoc(doc(db, 'settings', 'icons'), iconSettings);
+        
+        document.getElementById('depositPreview').src = depositIcon;
+        document.getElementById('withdrawPreview').src = withdrawIcon;
+        
+        showToast('Icon settings saved successfully');
+    } catch (error) {
+        console.error('❌ Icon settings saving error:', error);
+        showError('Settings saving error');
+    }
+};
+
+// Event Listeners for icons
+document.getElementById('depositIcon').addEventListener('input', (e) => {
+    document.getElementById('depositPreview').src = e.target.value || iconSettings.deposit;
+});
+
+document.getElementById('withdrawIcon').addEventListener('input', (e) => {
+    document.getElementById('withdrawPreview').src = e.target.value || iconSettings.withdraw;
+});
+
+document.getElementById('passwordInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') checkPassword();
+});
+
+// Start application
+console.log('🚀 Starting application...');
+initializeFirebase();
+
+</script>
+
+</body>
+</html>
+    
+  </body>
+  
+</html>
+    
+  </body>
+  
+</html>

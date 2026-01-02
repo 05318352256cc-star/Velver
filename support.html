@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تطبيق الدردشة - Vienna</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#ff9a9e 0%,#fecfef 50%,#fecfef 100%);direction:rtl;width:100vw;height:100vh;overflow:hidden}
+.header{background:linear-gradient(135deg,#ff1744 0%,#e91e63 50%,#ff69b4 100%);color:white;padding:15px;text-align:center;font-size:20px;font-weight:bold;box-shadow:0 4px 15px rgba(255,23,68,0.3);flex-shrink:0;position:relative}
+.header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,0.1) 50%,transparent 70%);pointer-events:none}
+.chat-container{width:100vw;height:100vh;background:linear-gradient(135deg,#ff9a9e 0%,#fecfef 100%);display:flex;flex-direction:column;position:relative}
+.messages{flex:1;padding:20px 20px 200px 20px;overflow-y:auto;background:transparent;height:calc(100vh - 70px - 180px);max-height:calc(100vh - 250px)}
+.message{display:flex;margin:15px 0;align-items:flex-start;animation:slideIn 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(30px) scale(0.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+.message.sent{justify-content:flex-start;flex-direction:row-reverse}
+.message.received{justify-content:flex-start}
+.message-content{max-width:70%;position:relative}
+.message.sent .message-content{background:linear-gradient(135deg,#ffffff 0%,#f8f9fa 100%);border:2px solid #e0e0e0;border-radius:20px 20px 5px 20px;padding:15px 18px;margin-right:10px;box-shadow:0 3px 12px rgba(0,0,0,0.1);color:#333}
+.message.received .message-content{background:linear-gradient(135deg,#ff1744 0%,#e91e63 100%);color:white;border-radius:20px 20px 20px 5px;padding:15px 18px;margin-right:10px;box-shadow:0 3px 12px rgba(255,23,68,0.3)}
+.user-avatar{width:40px;height:40px;border-radius:50%;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;flex-shrink:0;border:3px solid rgba(255,255,255,0.5);box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+.message-text{font-size:16px;line-height:1.5;word-wrap:break-word;font-weight:500}
+.message-time{font-size:11px;color:#666;margin-top:8px;text-align:left}
+.message.received .message-time{color:rgba(255,255,255,0.8)}
+.message-status{background:linear-gradient(135deg,#ff69b4,#ff1744);color:white;font-size:10px;padding:3px 8px;border-radius:10px;margin-top:6px;display:inline-block;font-weight:bold;box-shadow:0 1px 3px rgba(0,0,0,0.2)}
+.message-status.seen{background:linear-gradient(135deg,#4caf50,#66bb6a);color:white}
+.input-area{position:fixed;bottom:120px;left:20px;right:20px;padding:15px;border-radius:25px;border:2px solid rgba(255,105,180,0.3);background:rgba(255,255,255,0.9);backdrop-filter:blur(10px);display:flex;align-items:center;gap:12px;z-index:1000;box-shadow:0 8px 32px rgba(255,105,180,0.2)}
+.message-input{flex:1;padding:15px 20px;border:2px solid #ff69b4;border-radius:25px;font-size:16px;background:white;outline:none;min-height:48px;color:#333;font-weight:500}
+.message-input:focus{border-color:#ff1744;box-shadow:0 0 0 3px rgba(255,23,68,0.1)}
+.message-input::placeholder{color:#999}
+.send-btn{background:linear-gradient(135deg,#ff1744 0%,#e91e63 50%,#ff69b4 100%);color:white;border:none;padding:15px 25px;border-radius:25px;cursor:pointer;font-size:16px;font-weight:bold;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);min-height:48px;white-space:nowrap;box-shadow:0 4px 15px rgba(255,23,68,0.3)}
+.send-btn:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(255,23,68,0.4);background:linear-gradient(135deg,#e91e63 0%,#ff1744 50%,#ff69b4 100%)}
+.send-btn:active{transform:scale(0.95)}
+.back-to-top{position:fixed;bottom:220px;left:20px;width:55px;height:55px;background:linear-gradient(135deg,#ff69b4,#ff1744);color:white;border:none;border-radius:50%;cursor:pointer;font-size:22px;display:none;z-index:1001;box-shadow:0 4px 15px rgba(255,105,180,0.4);transition:all 0.3s}
+.back-to-top:hover{transform:scale(1.1);box-shadow:0 6px 20px rgba(255,105,180,0.6)}
+.banned-message{background:linear-gradient(135deg,#ff1744,#d32f2f);color:white;padding:20px;margin:15px;border-radius:15px;text-align:center;font-weight:bold;box-shadow:0 4px 15px rgba(255,23,68,0.3)}
+.warning{color:#ffeb3b;font-size:20px;margin-bottom:8px}
+.vienna-name{color:#ff1744;font-weight:bold;font-size:18px}
+@media (max-width:768px){
+.header{padding:12px;font-size:18px}
+.messages{padding:15px 15px 180px 15px;height:calc(100vh - 60px - 160px);max-height:calc(100vh - 220px)}
+.message-content{max-width:85%}
+.input-area{padding:12px;bottom:100px;left:15px;right:15px}
+.message-input{font-size:16px;padding:12px 16px}
+.send-btn{padding:12px 20px;font-size:14px}
+.back-to-top{bottom:200px;left:15px;width:50px;height:50px}
+}
+@media (max-width:480px){
+.messages{height:calc(100vh - 55px - 150px);padding:10px 10px 170px 10px;max-height:calc(100vh - 200px)}
+.input-area{padding:10px;bottom:80px;left:10px;right:10px}
+.send-btn{padding:10px 16px;min-width:65px}
+.back-to-top{bottom:180px;left:10px}
+}
+</style>
+</head>
+<body>
+<div id="chatApp" class="chat-container">
+<div class="header">دعم فني - Vienna 💬</div>
+<div id="messages" class="messages"></div>
+<button class="back-to-top" id="backToTop" onclick="scrollToBottom()">⬇️</button>
+<div class="input-area" id="inputArea">
+<input type="text" id="messageInput" class="message-input" placeholder="اكتب رسالة..." onkeypress="if(event.key==='Enter')sendMessage()">
+<button class="send-btn" onclick="sendMessage()">إرسال ✈️</button>
+</div>
+</div>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import{getAuth,signInAnonymously,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import{getFirestore,doc,collection,query,orderBy,onSnapshot,addDoc,updateDoc,serverTimestamp,setDoc,getDoc}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyA-MK1RYmvpYJrTOBAQcxDqxhp-z_FOb1o",authDomain:"mzjsjjshs.firebaseapp.com",projectId:"mzjsjjshs",storageBucket:"mzjsjjshs.firebasestorage.app",messagingSenderId:"944370558426",appId:"1:944370558426:web:70d4ee772c487f48b58ce3",measurementId:"G-CWJWKWBBST"};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),adminUserId="admin";
+let currentUser=null,chatId=null,unsubscribe=null,welcomeShown=false,isAtBottom=true;
+
+async function initApp(){
+    try{
+        await signInAnonymously(auth);
+    }catch(error){
+        console.error("خطأ في التسجيل:",error);
+    }
+}
+
+onAuthStateChanged(auth,async(user)=>{
+    if(user){
+        currentUser=user;
+        chatId=user.uid;
+        await saveUserInfo();
+        await checkUserBanned();
+        loadMessages();
+    }
+});
+
+async function checkUserBanned(){
+    try{
+        const userRef=doc(db,'users',currentUser.uid);
+        const userDoc=await getDoc(userRef);
+        const userData=userDoc.data();
+        if(userData&&userData.banned){
+            document.getElementById('inputArea').innerHTML='<div class="banned-message"><div class="warning">⚠️ تحذير</div>تم تعليق حسابك بسبب سوء الاستخدام<br>للاستفسار تواصل مع الإدارة</div>';
+        }else if(!welcomeShown){
+            const userName=userData?.displayName||userData?.name||'أحمد';
+            showWelcomeMessages(userName);
+            welcomeShown=true;
+        }
+    }catch(error){
+        console.error("خطأ في فحص المستخدم:",error);
+        if(!welcomeShown){
+            showWelcomeMessages('أحمد');
+            welcomeShown=true;
+        }
+    }
+}
+
+function showWelcomeMessages(userName){
+    const messagesDiv=document.getElementById('messages');
+    
+    // رسالة الترحيب الوحيدة
+    const welcomeMsg=document.createElement('div');
+    welcomeMsg.className='message received';
+    welcomeMsg.style.transition='opacity 0.5s ease-out';
+    welcomeMsg.innerHTML=`
+        <div class="user-avatar" style="background-image:url('https://cdn-icons-png.flaticon.com/128/4460/4460756.png'); border-color:#ff69b4;"></div>
+        <div class="message-content">
+            <div class="message-text">مرحباً بك يا <strong>${userName}</strong> 👋<br>أنا مديرتك الشخصية <span class="vienna-name">Vienna</span> 💫<br>كيف يمكنني مساعدتك اليوم؟</div>
+            <div class="message-time">الآن</div>
+        </div>
+    `;
+    messagesDiv.appendChild(welcomeMsg);
+    scrollToBottom();
+    
+    // إخفاء رسالة الترحيب بعد 6 ثوانٍ
+    setTimeout(() => {
+        welcomeMsg.style.opacity = '0';
+        setTimeout(() => {
+            if (welcomeMsg.parentNode) {
+                welcomeMsg.parentNode.removeChild(welcomeMsg);
+            }
+        }, 500); // انتظار انتهاء تأثير الإخفاء
+    }, 6000);
+}
+
+async function saveUserInfo(){
+    try{
+        const userRef=doc(db,'users',currentUser.uid);
+        const userDoc=await getDoc(userRef);
+        if(!userDoc.exists()){
+            await setDoc(userRef,{
+                uid:currentUser.uid,
+                createdAt:serverTimestamp(),
+                lastSeen:serverTimestamp(),
+                status:'online',
+                name:'أحمد'
+            });
+        }
+    }catch(error){
+        console.error("خطأ في حفظ معلومات المستخدم:",error);
+    }
+}
+
+function loadMessages(){
+    if(unsubscribe)unsubscribe();
+    const messagesRef=collection(db,'messagee');
+    const q=query(messagesRef,orderBy('timestamp'));
+    unsubscribe=onSnapshot(q,(snapshot)=>{
+        snapshot.docChanges().forEach((change)=>{
+            if(change.type==="added"){
+                const message=change.doc.data();
+                if(message.chatId===chatId){
+                    displayMessage(message,change.doc.id);
+                }
+            }
+        });
+    });
+}
+
+function displayMessage(message,messageId){
+    const messagesDiv=document.getElementById('messages');
+    const messageDiv=document.createElement('div');
+    const isSent=message.senderId===currentUser.uid;
+    messageDiv.className=`message ${isSent?'sent':'received'}`;
+    const time=message.timestamp?new Date(message.timestamp.toDate()).toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'}):'الآن';
+    
+    let statusHTML='';
+    if(isSent){
+        const status=message.seen?'تمت المشاهدة ✓✓':'قيد الانتظار ⏳';
+        const statusClass=message.seen?'seen':'';
+        statusHTML=`<div class="message-status ${statusClass}">${status}</div>`;
+    }
+    
+    const avatarImg=isSent?'https://cdn-icons-png.flaticon.com/128/1077/1077012.png':'https://cdn-icons-png.flaticon.com/128/4460/4460756.png';
+    messageDiv.innerHTML=`
+        <div class="user-avatar" style="background-image:url('${avatarImg}'); border-color:${isSent?'#ff69b4':'#ff1744'};"></div>
+        <div class="message-content">
+            <div class="message-text">${message.text}</div>
+            <div class="message-time">${time}</div>
+            ${statusHTML}
+        </div>
+    `;
+    
+    messagesDiv.appendChild(messageDiv);
+    if(isAtBottom)scrollToBottom();
+    
+    if(!isSent&&!message.seen){
+        updateMessageSeen(messageId);
+    }
+}
+
+async function updateMessageSeen(messageId){
+    try{
+        const messageRef=doc(db,'messagee',messageId);
+        await updateDoc(messageRef,{seen:true});
+    }catch(error){
+        console.error("خطأ في تحديث المشاهدة:",error);
+    }
+}
+
+window.sendMessage=async function(){
+    const input=document.getElementById('messageInput');
+    const text=input.value.trim();
+    if(!text)return;
+    
+    try{
+        await addDoc(collection(db,'messagee'),{
+            text:text,
+            senderId:currentUser.uid,
+            receiverId:adminUserId,
+            chatId:chatId,
+            timestamp:serverTimestamp(),
+            seen:false,
+            senderType:'user'
+        });
+        
+        input.value='';
+        const userRef=doc(db,'users',currentUser.uid);
+        await updateDoc(userRef,{
+            lastMessage:text,
+            lastMessageTime:serverTimestamp(),
+            hasUnreadMessages:true
+        });
+        
+        isAtBottom=true;
+        setTimeout(scrollToBottom,100);
+    }catch(error){
+        console.error('خطأ في إرسال الرسالة:',error);
+    }
+};
+
+function scrollToBottom(){
+    const messagesDiv=document.getElementById('messages');
+    messagesDiv.scrollTop=messagesDiv.scrollHeight;
+    isAtBottom=true;
+    document.getElementById('backToTop').style.display='none';
+}
+
+window.scrollToBottom=scrollToBottom;
+
+document.addEventListener('DOMContentLoaded',function(){
+    const messageInput=document.getElementById('messageInput');
+    if(messageInput){
+        messageInput.addEventListener('focus',function(){
+            if(window.innerWidth<768){
+                document.querySelector('meta[name=viewport]').setAttribute('content','width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+            }
+        });
+        
+        messageInput.addEventListener('blur',function(){
+            document.querySelector('meta[name=viewport]').setAttribute('content','width=device-width, initial-scale=1.0');
+        });
+    }
+    
+    const messagesDiv=document.getElementById('messages');
+    messagesDiv.addEventListener('scroll',function(){
+        const backToTopBtn=document.getElementById('backToTop');
+        isAtBottom=messagesDiv.scrollTop>=messagesDiv.scrollHeight-messagesDiv.clientHeight-50;
+        if(!isAtBottom){
+            backToTopBtn.style.display='block';
+        }else{
+            backToTopBtn.style.display='none';
+        }
+    });
+});
+
+// بدء التطبيق فورا عند تحميل الصفحة
+initApp();
+</script>
+</body>
+</html>
+    
+  </body>
+  
+</html>
+    
+  </body>
+  
+</html>
+    
+  </body>
+  
+</html>

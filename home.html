@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VELTRX</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+
+body{
+background:linear-gradient(135deg,#2c3e50,#1a252f,#0f1419);
+min-height:100vh;
+width:100vw;
+overflow-x:hidden;
+user-select:none;
+-webkit-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+zoom:1.0;
+-webkit-text-size-adjust:100%;
+-moz-text-size-adjust:100%;
+-ms-text-size-adjust:100%;
+touch-action:manipulation;
+}
+
+/* تحسين container بـ Flexbox للاستجابة */
+.login-container{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:15px;
+background:linear-gradient(135deg,#ff69b4 0%,#ff1493 30%,#dc143c 70%,#8b0000 100%);
+position:relative;
+overflow:hidden;
+width:100%;
+box-sizing:border-box;
+}
+
+.login-container::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="g" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.06"/><stop offset="100%" stop-color="%23000000" stop-opacity="0.2"/></radialGradient></defs><circle cx="15" cy="15" r="12" fill="url(%23g)"/><circle cx="85" cy="30" r="8" fill="url(%23g)"/><circle cx="25" cy="75" r="15" fill="url(%23g)"/><circle cx="70" cy="85" r="10" fill="url(%23g)"/></svg>') repeat;opacity:0.8}
+
+/* تحسين logo section */
+.logo-section{
+text-align:center;
+margin-bottom:20px;
+position:relative;
+z-index:2;
+width:100%;
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+.logo-circle{
+width:100px;
+height:100px;
+background:linear-gradient(135deg,#ff91a4 0%,#ff69b4 50%,#ff1493 100%);
+border-radius:50%;
+padding:20px;
+display:flex;
+align-items:center;
+justify-content:center;
+margin:0 auto 20px;
+box-shadow:0 10px 40px rgba(255,105,180,0.5),0 0 0 4px rgba(255,255,255,0.3);
+cursor:pointer;
+transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+position:relative;
+overflow:hidden;
+flex-shrink:0;
+}
+
+.logo-circle::before{content:'';position:absolute;top:50%;left:50%;width:200%;height:200%;background:linear-gradient(45deg,transparent,rgba(255,255,255,0.3),transparent);transform:translate(-50%,-50%) rotate(-45deg);transition:all 0.6s ease}
+.logo-circle:hover{transform:translateY(-5px) scale(1.05);box-shadow:0 15px 50px rgba(255,105,180,0.6),0 0 0 6px rgba(255,255,255,0.4)}
+.logo-circle:hover::before{transform:translate(-50%,-50%) rotate(135deg)}
+.logo-circle:active{transform:translateY(-2px) scale(0.98)}
+.logo-circle img{width:100%;height:100%;object-fit:contain;position:relative;z-index:2}
+
+.logo-text{color:#fff;font-size:32px;font-weight:bold;margin-bottom:8px;text-shadow:2px 2px 8px rgba(0,0,0,0.8);letter-spacing:2px}
+.logo-subtitle{color:#ffe4e1;font-size:18px;opacity:0.9;text-shadow:1px 1px 4px rgba(0,0,0,0.6)}
+
+/* تحسين auth container بـ Flexbox */
+.auth-container{
+background:linear-gradient(145deg,#ffb6c1 0%,#ff69b4 30%,#ff1493 70%,#dc143c 100%);
+border-radius:25px;
+padding:25px;
+width:100%;
+max-width:400px;
+min-width:280px;
+box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 0 2px rgba(255,255,255,0.4);
+border:2px solid rgba(255,255,255,0.3);
+backdrop-filter:blur(20px);
+position:relative;
+z-index:2;
+transition:all 0.3s ease;
+display:flex;
+flex-direction:column;
+}
+
+.auth-container::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;border-radius:25px;background:linear-gradient(145deg,rgba(255,255,255,0.2) 0%,transparent 50%,rgba(0,0,0,0.1) 100%);pointer-events:none}
+
+/* تحسين auth tabs */
+.auth-tabs{
+display:flex;
+margin-bottom:20px;
+background:rgba(0,0,0,0.3);
+border-radius:15px;
+padding:4px;
+box-shadow:inset 0 2px 10px rgba(0,0,0,0.4);
+width:100%;
+}
+
+.tab-btn{
+flex:1;
+padding:12px;
+border:none;
+background:transparent;
+color:#ffe4e1;
+border-radius:12px;
+font-size:14px;
+font-weight:600;
+cursor:pointer;
+transition:all 0.4s cubic-bezier(0.4,0,0.2,1);
+position:relative;
+overflow:hidden;
+min-height:44px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.tab-btn::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,#ff91a4,#ff69b4);opacity:0;border-radius:12px;transition:all 0.4s ease;transform:scale(0.8)}
+.tab-btn.active{color:#fff;transform:translateY(-1px);text-shadow:0 0 10px rgba(255,255,255,0.8)}
+.tab-btn.active::before{opacity:1;transform:scale(1)}
+.tab-btn:hover:not(.active){color:#fff;background:rgba(255,255,255,0.1)}
+.tab-btn span{position:relative;z-index:2}
+
+/* تحسين form elements */
+.form-group{
+margin-bottom:20px;
+position:relative;
+width:100%;
+display:flex;
+flex-direction:column;
+}
+
+.form-label{
+color:#fff;
+font-size:14px;
+font-weight:600;
+margin-bottom:6px;
+display:block;
+transition:all 0.3s ease;
+text-shadow:1px 1px 2px rgba(0,0,0,0.5);
+flex-shrink:0;
+}
+
+.form-input{
+width:100%;
+padding:15px;
+border:2px solid rgba(255,255,255,0.4);
+border-radius:15px;
+font-size:16px;
+background:rgba(255,255,255,0.15);
+color:#fff;
+transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+height:50px;
+backdrop-filter:blur(10px);
+box-sizing:border-box;
+flex:1;
+}
+
+.form-input::placeholder{color:#ffe4e1;opacity:0.8;transition:all 0.3s ease}
+.form-input:focus{outline:none;border-color:#ff91a4;box-shadow:0 0 0 4px rgba(255,145,164,0.3),0 8px 25px rgba(255,105,180,0.25);background:rgba(255,255,255,0.2);transform:translateY(-1px)}
+.form-input:focus::placeholder{color:#fff;transform:translateY(-2px)}
+
+.password-group{position:relative;display:flex;align-items:center;}
+
+.password-toggle{
+position:absolute;
+right:15px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+color:#ffe4e1;
+font-size:18px;
+transition:all 0.3s ease;
+user-select:none;
+padding:5px;
+border-radius:50%;
+z-index:10;
+}
+
+.password-toggle:hover{color:#fff;background:rgba(255,255,255,0.2);transform:translateY(-50%) scale(1.1)}
+.password-toggle:active{transform:translateY(-50%) scale(0.95)}
+
+.submit-btn{
+width:100%;
+padding:15px;
+background:linear-gradient(135deg,#ff91a4 0%,#ff69b4 50%,#ff1493 100%);
+color:#fff;
+border:none;
+border-radius:15px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+transition:all 0.4s cubic-bezier(0.4,0,0.2,1);
+box-shadow:0 8px 25px rgba(255,105,180,0.4);
+height:50px;
+position:relative;
+overflow:hidden;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.submit-btn::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,0.3);border-radius:50%;transition:all 0.6s ease;transform:translate(-50%,-50%)}
+.submit-btn:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(255,105,180,0.5);background:linear-gradient(135deg,#ff91a4 0%,#ff69b4 30%,#dc143c 100%)}
+.submit-btn:hover::before{width:300px;height:300px}
+.submit-btn:active{transform:translateY(-1px) scale(0.98)}
+.submit-btn:disabled{opacity:0.7;cursor:not-allowed;transform:none}
+.submit-btn span{position:relative;z-index:2}
+
+/* تحسين container */
+.container{
+width:100%;
+margin:0;
+padding:0;
+display:none;
+padding-top:50px;
+box-sizing:border-box;
+}
+
+/* تحسين header elements */
+.page-header{
+display:flex;
+align-items:center;
+justify-content:center;
+padding:12px 15px;
+background:rgba(255,255,255,0.1);
+margin:0 8px 15px;
+border-radius:15px;
+position:relative;
+min-height:50px;
+}
+
+.back-btn{
+position:absolute;
+left:15px;
+background:rgba(255,255,255,0.2);
+border:none;
+border-radius:50%;
+width:40px;
+height:40px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+color:#fff;
+font-size:18px;
+flex-shrink:0;
+}
+
+.page-title{
+color:#fff;
+font-size:16px;
+font-weight:bold;
+text-shadow:1px 1px 2px rgba(0,0,0,0.5);
+text-align:center;
+flex:1;
+}
+
+.header{text-align:center;margin-bottom:8px;position:relative}
+
+/* تحسين top bar */
+.top-bar{
+position:fixed;
+top:0;
+left:0;
+right:0;
+width:100%;
+height:50px;
+background:linear-gradient(135deg,#ff69b4,#ff1493);
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 12px;
+box-shadow:0 2px 10px rgba(0,0,0,0.3);
+z-index:2000;
+box-sizing:border-box;
+}
+
+.top-bar-left{
+display:flex;
+gap:8px;
+flex:1;
+}
+
+.top-bar-right{
+display:flex;
+align-items:center;
+gap:8px;
+flex:1;
+justify-content:flex-end;
+}
+
+.top-bar-icon{
+width:35px;
+height:35px;
+background:rgba(255,255,255,0.2);
+border-radius:50%;
+padding:7px;
+backdrop-filter:blur(10px);
+cursor:pointer;
+transition:all 0.3s;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-shrink:0;
+}
+
+.top-bar-icon:hover{background:rgba(255,255,255,0.3);transform:scale(1.05)}
+.top-bar-icon img{width:100%;height:100%;object-fit:contain}
+
+.user-info-top{
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+.user-avatar-top{width:35px;height:35px;border-radius:50%;border:2px solid #fff;flex-shrink:0;}
+.username-top{color:#fff;font-size:12px;font-weight:bold;text-shadow:1px 1px 2px rgba(0,0,0,0.5)}
+.verification-icon{width:16px;height:16px;background:#1e90ff;border:2px solid #fff;border-radius:50%;padding:2px;position:absolute;bottom:-2px;right:-2px}
+
+/* تحسين balance card */
+.balance-card{
+background:url('https://i.pinimg.com/564x/3e/d9/e7/3ed9e7bc7ef5d0879118ff8165e90980.jpg') center/cover;
+border-radius:18px;
+padding:20px 15px;
+margin:0 8px 15px 8px;
+box-shadow:0 4px 20px rgba(0,0,0,0.3);
+border:1px solid rgba(255,255,255,0.3);
+position:relative;
+display:flex;
+flex-direction:column;
+min-height:80px;
+}
+
+.balance-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(255,20,147,0.4);border-radius:18px}
+.balance-card>*{position:relative;z-index:2}
+.balance-title{color:#fff;font-size:14px;margin-bottom:6px;font-weight:bold;text-shadow:1px 1px 2px rgba(0,0,0,0.7)}
+.balance-amount{color:#fff;font-size:24px;font-weight:bold;text-shadow:1px 1px 2px rgba(0,0,0,0.7)}
+.balance-icon{position:absolute;top:12px;right:15px;width:40px;height:40px;opacity:0.8;z-index:3}
+
+/* تحسين ticker */
+.ticker-container{
+background:rgba(255,255,255,0.9);
+border-radius:15px;
+margin:0 8px 15px 8px;
+border:2px solid rgba(54,162,235,0.6);
+box-shadow:0 4px 15px rgba(54,162,235,0.3);
+overflow:hidden;
+height:45px;
+position:relative;
+display:flex;
+align-items:center;
+}
+
+.ticker-wrapper{
+display:flex;
+align-items:center;
+height:100%;
+position:relative;
+width:100%;
+}
+
+.ticker-icon{
+position:absolute;
+left:8px;
+top:50%;
+transform:translateY(-50%);
+z-index:10;
+flex-shrink:0;
+}
+
+.ticker-icon-img{width:28px;height:28px;background:rgba(103,58,183,0.1);border-radius:8px;padding:4px}
+
+.ticker-content{
+width:100%;
+height:100%;
+overflow:hidden;
+padding-left:45px;
+display:flex;
+align-items:center;
+}
+
+.ticker-text{
+display:flex;
+align-items:center;
+height:100%;
+white-space:nowrap;
+animation:scroll 15s linear infinite;
+font-size:11px;
+font-weight:bold;
+}
+
+.ticker-item{
+margin-right:40px;
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+.deposit{color:#28a745}
+.withdraw{color:#dc3545}
+@keyframes scroll{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+
+/* تحسين action buttons بـ Flexbox Grid */
+.action-buttons{
+display:grid;
+grid-template-columns:repeat(auto-fit, minmax(70px, 1fr));
+gap:8px;
+margin:0 8px 15px 8px;
+background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFTL2EJ-n90bP68Z17JXEWM4uFeE_MmB_8UPhMMASNQ1lifVWAiL8DHwoc&s=10');
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+padding:15px 8px;
+border-radius:20px;
+position:relative;
+box-shadow:0 6px 25px rgba(0,0,0,0.3);
+border:none;
+overflow:hidden;
+}
+
+.action-buttons::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);border-radius:20px}
+
+.action-btn{
+text-align:center;
+border-radius:15px;
+text-decoration:none;
+color:white;
+font-size:11px;
+transition:all 0.4s cubic-bezier(0.4,0,0.2,1);
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+padding:12px 6px;
+margin:0;
+border:none;
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(10px);
+cursor:pointer;
+position:relative;
+z-index:2;
+box-shadow:0 4px 15px rgba(0,0,0,0.2);
+transform-origin:center;
+min-height:65px;
+}
+
+.action-btn:hover{transform:translateY(-4px) scale(1.08);background:rgba(255,255,255,0.25);box-shadow:0 8px 25px rgba(0,0,0,0.4)}
+.action-btn:active{transform:translateY(-2px) scale(1.02);transition:all 0.15s ease}
+
+.btn-icon{
+width:32px;
+height:32px;
+object-fit:contain;
+margin-bottom:6px;
+filter:drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+transition:all 0.3s ease;
+flex-shrink:0;
+}
+
+.action-btn:hover .btn-icon{transform:scale(1.1);filter:drop-shadow(0 4px 10px rgba(0,0,0,0.6))}
+
+.action-text{
+font-size:10px;
+font-weight:bold;
+color:#fff;
+text-shadow:2px 2px 4px rgba(0,0,0,0.7);
+transition:all 0.3s ease;
+text-align:center;
+}
+
+.action-btn:hover .action-text{transform:translateY(-1px);text-shadow:2px 2px 6px rgba(0,0,0,0.8)}
+
+/* تحسين stats grid */
+.stats-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin:0 8px 15px 8px;
+}
+
+.stat-card{
+background:rgba(255,255,255,0.9);
+border-radius:15px;
+padding:12px;
+box-shadow:0 6px 20px rgba(255,20,147,0.3);
+text-align:center;
+border:2px solid rgba(255,105,180,0.3);
+backdrop-filter:blur(10px);
+display:flex;
+flex-direction:column;
+justify-content:center;
+min-height:60px;
+}
+
+.stat-label{color:#8b008b;font-size:12px;margin-bottom:4px;font-weight:bold}
+.stat-amount{color:#32cd32;font-size:16px;font-weight:bold}
+.red-amount{color:#ff1493}
+
+/* تحسين plans section */
+.plans-section{
+background:rgba(255,255,255,0.95);
+border-radius:20px;
+padding:15px;
+margin:0 8px 15px 8px;
+box-shadow:0 6px 25px rgba(255,20,147,0.4);
+border:2px solid rgba(255,105,180,0.3);
+backdrop-filter:blur(15px);
+display:flex;
+flex-direction:column;
+}
+
+.plans-header{
+text-align:center;
+margin-bottom:15px;
+padding:0;
+}
+
+.plans-title{
+color:#8b008b;
+font-size:18px;
+font-weight:bold;
+text-shadow:1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* تحسين plans container بـ Flexbox */
+.plans-container{
+padding:0;
+display:grid;
+grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+gap:10px;
+}
+
+.plan-card{
+background:linear-gradient(135deg,#ff69b4,#ff1493);
+border-radius:15px;
+padding:15px 12px;
+position:relative;
+box-shadow:0 8px 25px rgba(255,105,180,0.4);
+border:2px solid rgba(255,255,255,0.3);
+width:100%;
+transition:all 0.3s;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+min-height:180px;
+}
+
+.plan-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(45deg,rgba(255,255,255,0.1),rgba(255,255,255,0.05));border-radius:15px}
+.plan-card>*{position:relative;z-index:2}
+
+.plan-header{
+text-align:center;
+margin-bottom:10px;
+}
+
+.plan-name{
+color:#fff;
+font-size:13px;
+font-weight:bold;
+text-shadow:2px 2px 4px rgba(0,0,0,0.5);
+margin-bottom:4px;
+}
+
+.plan-price{
+color:#ffff00;
+font-size:16px;
+font-weight:bold;
+text-shadow:2px 2px 4px rgba(0,0,0,0.5);
+position:relative;
+}
+
+.plan-features{
+margin-bottom:12px;
+flex:1;
+}
+
+.feature-item{
+display:flex;
+align-items:center;
+gap:6px;
+margin-bottom:6px;
+color:#fff;
+font-size:11px;
+text-shadow:1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.feature-icon{
+width:14px;
+height:14px;
+background:#32cd32;
+border-radius:50%;
+padding:2px;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-shrink:0;
+}
+
+.feature-icon::after{content:'✓';color:#fff;font-size:9px;font-weight:bold}
+
+.plan-btn{
+background:linear-gradient(135deg,#ffd700,#ffed4e);
+color:#8b4513;
+border:none;
+padding:8px 12px;
+border-radius:20px;
+font-size:11px;
+font-weight:bold;
+width:100%;
+cursor:pointer;
+box-shadow:0 6px 20px rgba(255,215,0,0.4);
+transition:all 0.3s;
+text-shadow:1px 1px 2px rgba(0,0,0,0.2);
+min-height:35px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.countdown-display{
+background:linear-gradient(135deg,#ff4500,#ff6347);
+color:#fff;
+border:none;
+padding:8px 12px;
+border-radius:20px;
+font-size:11px;
+font-weight:bold;
+width:100%;
+text-align:center;
+box-shadow:0 6px 20px rgba(255,69,0,0.4);
+min-height:35px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.collect-btn{
+background:linear-gradient(135deg,#32cd32,#228b22);
+color:#fff;
+border:none;
+padding:8px 12px;
+border-radius:20px;
+font-size:11px;
+font-weight:bold;
+width:100%;
+cursor:pointer;
+box-shadow:0 6px 20px rgba(50,205,50,0.4);
+transition:all 0.3s;
+min-height:35px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.plan-icon{position:absolute;top:6px;left:6px;width:30px;height:30px;z-index:10;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.4))}
+.premium-special-icon{position:absolute;top:6px;right:6px;width:20px;height:20px;z-index:11;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.4))}
+
+/* تحسين floating button */
+.gifts-floating-btn{
+position:fixed;
+right:15px;
+bottom:120px;
+width:55px;
+height:55px;
+background:#fff;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+cursor:pointer;
+transition:all 0.4s cubic-bezier(0.4,0,0.2,1);
+z-index:1999;
+border:3px solid rgba(255,105,180,0.6);
+}
+
+.gifts-floating-btn:hover{transform:translateY(-5px) scale(1.1);box-shadow:0 15px 40px rgba(0,0,0,0.5);border-color:#ff1493}
+.gifts-floating-btn:active{transform:translateY(-2px) scale(1.05)}
+.gifts-floating-btn img{width:30px;height:30px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.3))}
+
+/* تحسين bottom navigation */
+.bottom-nav{
+background:linear-gradient(135deg,#ff69b4,#ff1493);
+border-radius:25px 25px 0 0;
+padding:10px 0;
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+width:100vw;
+box-shadow:0 -6px 25px rgba(255,20,147,0.4);
+border-top:2px solid rgba(255,255,255,0.3);
+backdrop-filter:blur(15px);
+z-index:10000!important;
+height:80px;
+display:flex;
+align-items:center;
+}
+
+.nav-items{
+display:flex;
+justify-content:space-evenly;
+align-items:center;
+width:100%;
+padding:0 8px;
+height:100%;
+}
+
+.nav-item{
+text-align:center;
+color:#fff;
+text-decoration:none;
+font-size:9px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+flex:1;
+transition:all 0.3s;
+text-shadow:1px 1px 2px rgba(0,0,0,0.5);
+cursor:pointer;
+padding:5px 2px;
+min-height:60px;
+}
+
+.nav-item.active{color:#ffff00;transform:scale(1.1);text-shadow:0 0 10px #ffff00}
+.nav-icon{width:35px;height:35px;margin-bottom:4px;object-fit:contain;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));flex-shrink:0;}
+
+.spa-iframe-container{position:fixed;top:50px;left:0;right:0;bottom:80px;width:100vw;height:calc(100vh - 130px);background:rgba(0,0,0,0.9);z-index:1500;display:none;overflow:hidden}
+.spa-iframe{width:100%;height:100%;border:none;background:#fff;position:relative;z-index:1000;border-radius:0}
+
+.modal{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(5px)}
+
+.modal-content{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:#fff;
+padding:20px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.5);
+max-width:280px;
+width:90%;
+box-sizing:border-box;
+}
+
+.modal-title{color:#8b008b;font-size:16px;font-weight:bold;margin-bottom:12px}
+.modal-text{color:#333;font-size:13px;margin-bottom:15px;line-height:1.4}
+
+.modal-buttons{
+display:flex;
+gap:8px;
+}
+
+.modal-btn{
+flex:1;
+padding:10px;
+border:none;
+border-radius:8px;
+font-size:13px;
+font-weight:bold;
+cursor:pointer;
+transition:all 0.3s;
+min-height:40px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.confirm-btn{background:#32cd32;color:#fff}
+.cancel-btn{background:#ff4444;color:#fff}
+
+.loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:none;justify-content:center;align-items:center;z-index:3000}
+.spinner{width:40px;height:40px;border:4px solid #f3f3f3;border-top:4px solid #ff1493;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+.dynamic-content{padding-bottom:90px;min-height:100vh;box-sizing:border-box;}
+.hidden{display:none!important}
+
+.page-content{
+background:rgba(255,255,255,0.95);
+border-radius:20px;
+padding:20px;
+margin:0 8px;
+box-shadow:0 6px 25px rgba(255,20,147,0.4);
+min-height:calc(100vh - 200px);
+box-sizing:border-box;
+}
+
+body.logged-in{background:linear-gradient(135deg,#ff69b4,#ff1493,#dc143c);padding:50px 0 80px 0}
+body.logged-in .login-container{display:none!important}
+body.logged-in .container{display:block!important}
+body.logged-in .bottom-nav{display:flex!important}
+body.logged-in .top-bar{display:flex!important}
+body.logged-in .gifts-floating-btn{display:flex!important}
+body.not-logged-in .container{display:none!important}
+body.not-logged-in .login-container{display:flex!important}
+body.not-logged-in .bottom-nav{display:none!important}
+body.not-logged-in .top-bar{display:none!important}
+body.not-logged-in .gifts-floating-btn{display:none!important}
+
+.error-msg{
+color:#ffe4e1;
+font-size:12px;
+margin-top:6px;
+display:none;
+padding:8px;
+background:rgba(255,255,255,0.2);
+border-radius:8px;
+border-left:4px solid #ff91a4;
+}
+
+.error-page{text-align:center;padding:40px 15px;color:#fff}
+.error-page h3{margin-bottom:12px;font-size:20px}
+.error-page p{margin-bottom:20px;opacity:0.9;font-size:14px;}
+
+.retry-btn{
+background:#ff1493;
+color:#fff;
+border:none;
+padding:12px 25px;
+border-radius:25px;
+cursor:pointer;
+font-size:14px;
+font-weight:bold;
+transition:all 0.3s;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.retry-btn:hover{background:#dc143c;transform:translateY(-2px)}
+
+@keyframes ripple{0%{transform:scale(0);opacity:1}100%{transform:scale(4);opacity:0}}
+.ripple-effect{position:relative;overflow:hidden}
+.ripple-effect::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;border-radius:50%;background:rgba(255,255,255,0.6);transform:translate(-50%,-50%);animation:ripple 0.6s ease-out}
+
+/* صفحة الحظر - تغطي الصفحة بالكامل */
+.banned-overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100vw;
+height: 100vh;
+background: linear-gradient(135deg, #ff0a0a, #8b0000, #2b0000);
+z-index: 99999;
+display: none;
+justify-content: center;
+align-items: center;
+}
+
+.banned-content {
+text-align: center;
+color: #fff;
+padding: 30px;
+max-width: 400px;
+width: 90%;
+background: rgba(0, 0, 0, 0.5);
+border-radius: 20px;
+border: 2px solid #ff4444;
+box-shadow: 0 0 30px rgba(255, 68, 68, 0.3);
+}
+
+.banned-icon {
+width: 80px;
+height: 80px;
+margin: 0 auto 20px;
+color: #ff4444;
+font-size: 80px;
+}
+
+.banned-title {
+font-size: 24px;
+font-weight: bold;
+color: #ff4444;
+margin-bottom: 15px;
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.banned-message {
+font-size: 16px;
+margin-bottom: 20px;
+line-height: 1.5;
+opacity: 0.9;
+}
+
+.banned-details {
+font-size: 14px;
+opacity: 0.7;
+background: rgba(0, 0, 0, 0.3);
+padding: 15px;
+border-radius: 10px;
+margin-top: 20px;
+}
+
+/* تحسينات الاستجابة للشاشات الصغيرة جداً */
+@media (max-width:360px){
+.auth-container{
+padding:20px;
+margin:0 10px;
+max-width:340px;
+}
+
+.logo-circle{
+width:80px;
+height:80px;
+}
+
+.logo-text{
+font-size:26px;
+}
+
+.logo-subtitle{
+font-size:16px;
+}
+
+.form-input,.submit-btn,.tab-btn{
+height:45px;
+font-size:14px;
+}
+
+.plans-container{
+grid-template-columns:1fr;
+gap:8px;
+}
+
+.action-buttons{
+grid-template-columns:repeat(2,1fr);
+gap:6px;
+padding:12px 6px;
+}
+
+.action-btn{
+padding:10px 4px;
+min-height:60px;
+}
+
+.btn-icon{
+width:28px;
+height:28px;
+margin-bottom:4px;
+}
+
+.action-text{
+font-size:9px;
+}
+
+.nav-item{
+font-size:8px;
+padding:3px 1px;
+}
+
+.nav-icon{
+width:30px;
+height:30px;
+margin-bottom:2px;
+}
+
+.top-bar{
+padding:0 8px;
+}
+
+.top-bar-icon{
+width:32px;
+height:32px;
+}
+
+.username-top{
+font-size:11px;
+}
+
+.user-avatar-top{
+width:32px;
+height:32px;
+}
+
+.gifts-floating-btn{
+right:10px;
+width:50px;
+height:50px;
+bottom:100px;
+}
+
+.gifts-floating-btn img{
+width:26px;
+height:26px;
+}
+
+.modal-content{
+max-width:260px;
+padding:15px;
+}
+
+.modal-title{
+font-size:15px;
+}
+
+.modal-text{
+font-size:12px;
+}
+
+.stat-card{
+padding:10px;
+min-height:55px;
+}
+
+.stat-label{
+font-size:11px;
+}
+
+.stat-amount{
+font-size:14px;
+}
+
+.balance-card{
+padding:15px 12px;
+min-height:70px;
+}
+
+.balance-title{
+font-size:13px;
+}
+
+.balance-amount{
+font-size:20px;
+}
+
+.balance-icon{
+width:35px;
+height:35px;
+}
+
+.ticker-container{
+height:40px;
+}
+
+.ticker-icon-img{
+width:24px;
+height:24px;
+}
+
+.ticker-text{
+font-size:10px;
+}
+
+.banned-content {
+padding: 20px;
+max-width: 300px;
+}
+
+.banned-icon {
+width: 60px;
+height: 60px;
+font-size: 60px;
+}
+
+.banned-title {
+font-size: 20px;
+}
+
+.banned-message {
+font-size: 14px;
+}
+
+.banned-details {
+font-size: 12px;
+}
+}
+
+/* تحسينات إضافية للشاشات الصغيرة */
+@media (max-width:400px){
+.auth-container{
+padding:22px;
+margin:0 12px;
+max-width:370px;
+}
+
+.plans-container{
+grid-template-columns:1fr;
+gap:8px;
+}
+
+.action-buttons{
+grid-template-columns:repeat(2,1fr);
+}
+
+.logo-circle{
+width:85px;
+height:85px;
+}
+
+.logo-text{
+font-size:28px;
+}
+
+.form-input,.submit-btn{
+height:48px;
+font-size:15px;
+}
+
+.spa-iframe-container{
+width:100vw;
+}
+
+.gifts-floating-btn{
+right:12px;
+width:52px;
+height:52px;
+}
+
+.gifts-floating-btn img{
+width:28px;
+height:28px;
+}
+}
+
+/* تحسينات للشاشات المتوسطة */
+@media (min-width:401px) and (max-width:768px){
+.plans-container{
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+.action-buttons{
+grid-template-columns:repeat(4,1fr);
+gap:8px;
+}
+}
+
+/* تحسينات للشاشات الكبيرة */
+@media (min-width:769px){
+.auth-container{
+max-width:450px;
+}
+
+.plans-container{
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+}
+
+.action-buttons{
+grid-template-columns:repeat(4,1fr);
+gap:10px;
+}
+}
+
+.smooth-transition{transition:all 0.3s cubic-bezier(0.4,0,0.2,1)!important}
+.hover-lift:hover{transform:translateY(-2px)!important}
+.tap-shrink:active{transform:scale(0.98)!important}
+
+*{
+-webkit-touch-callout:none;
+-webkit-user-select:none;
+-khtml-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+user-select:none;
+-webkit-tap-highlight-color:transparent;
+}
+
+body{
+touch-action:manipulation;
+-webkit-overflow-scrolling:touch;
+}
+
+.action-btn, .nav-item, .plan-btn, .submit-btn, .modal-btn, .tab-btn{
+-webkit-transform:translateZ(0);
+transform:translateZ(0);
+-webkit-backface-visibility:hidden;
+backface-visibility:hidden;
+will-change:transform;
+}
+
+@keyframes smoothPulse{
+0%, 100%{transform:scale(1)}
+50%{transform:scale(1.02)}
+}
+
+.action-btn:hover{
+animation:smoothPulse 2s infinite ease-in-out;
+}
+
+@media (hover: none) and (pointer: coarse){
+.action-btn:hover, .nav-item:hover{
+animation:none;
+transform:none;
+}
+
+.action-btn:active{
+transform:scale(0.95);
+background:rgba(255,255,255,0.3);
+}
+}
+</style>
+</head>
+<body class="not-logged-in">
+<!-- صفحة الحظر -->
+<div id="bannedOverlay" class="banned-overlay">
+    <div class="banned-content">
+        <div class="banned-icon">🚫</div>
+        <div class="banned-title">حساب محظور</div>
+        <div class="banned-message">
+            تم حظر حسابك من استخدام هذه المنصة
+            <br>
+            يرجى التواصل مع الدعم الفني
+        </div>
+        <div class="banned-details">
+            <strong>سبب الحظر:</strong> مخالفة شروط الخدمة<br>
+            <strong>تاريخ الحظر:</strong> <span id="banDate">--</span><br>
+            <strong>الحالة:</strong> حظر دائم<br>
+            <br>
+            للاستفسار: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b1c2c4c1c1dec3c5f1c7d4ddc5c3c99fd2dedc">[email&#160;protected]</a>
+        </div>
+    </div>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div></div>
+<div class="login-container">
+<div class="logo-section">
+<div class="logo-circle hover-lift tap-shrink smooth-transition" onclick="handleLogoClick()">
+<img src="https://cdn-icons-png.flaticon.com/128/9069/9069049.png" alt="VELTRX Logo">
+</div>
+<div class="logo-text">VELTRX</div>
+<div class="logo-subtitle">Welcome to</div>
+</div>
+<div class="auth-container smooth-transition hover-lift">
+<div class="auth-tabs">
+<button class="tab-btn active smooth-transition" data-tab="register"><span>Sign Up</span></button>
+<button class="tab-btn smooth-transition" data-tab="login"><span>Login</span></button>
+</div>
+<form id="registerForm">
+<div class="form-group">
+<label class="form-label">Email Address</label>
+<input type="email" class="form-input smooth-transition" id="regEmail" placeholder="Enter your email" required>
+</div>
+<div class="form-group">
+<label class="form-label">Username</label>
+<input type="text" class="form-input smooth-transition" id="regUsername" placeholder="Username (max 7 characters)" maxlength="7" required>
+</div>
+<div class="form-group">
+<label class="form-label">Password</label>
+<div class="password-group">
+<input type="password" class="form-input smooth-transition" id="regPassword" placeholder="Create password" required>
+<span class="password-toggle smooth-transition">👁</span>
+</div>
+</div>
+<div class="form-group">
+<label class="form-label">Referral Code</label>
+<input type="text" class="form-input smooth-transition" id="regReferral" placeholder="Enter referral code (optional)">
+</div>
+<button type="submit" class="submit-btn smooth-transition ripple-effect" id="regSubmitBtn"><span>Create Account</span></button>
+<div class="error-msg" id="regError"></div>
+</form>
+<form id="loginForm" class="hidden">
+<div class="form-group">
+<label class="form-label">Email Address</label>
+<input type="email" class="form-input smooth-transition" id="loginEmail" placeholder="Enter your email" required>
+</div>
+<div class="form-group">
+<label class="form-label">Password</label>
+<div class="password-group">
+<input type="password" class="form-input smooth-transition" id="loginPassword" placeholder="Enter password" required>
+</div>
+</div>
+<button type="submit" class="submit-btn smooth-transition ripple-effect" id="loginSubmitBtn"><span>Login</span></button>
+<div class="error-msg" id="loginError"></div>
+</form>
+</div>
+</div>
+<div class="top-bar">
+<div class="top-bar-left">
+<div class="top-bar-icon" onclick="handlePageNavigation('notifications')">
+<img src="https://cdn-icons-png.flaticon.com/128/3650/3650315.png" alt="Notifications">
+</div>
+<div class="top-bar-icon" onclick="handlePageNavigation('support')">
+<img src="https://cdn-icons-png.flaticon.com/128/10439/10439779.png" alt="Support">
+</div>
+</div>
+<div class="top-bar-right">
+<div class="user-info-top">
+<div class="username-top" id="displayUsernameTop">مستخدم</div>
+<div style="position:relative">
+<img src="https://img.freepik.com/free-psd/3d-illustration-person_23-2149436192.jpg" alt="User Avatar" class="user-avatar-top">
+<img src="https://cdn-icons-png.flaticon.com/128/10629/10629607.png" alt="Verified" class="verification-icon">
+</div>
+</div>
+</div>
+</div>
+<div class="container" id="homeContainer">
+<div id="dynamicContent" class="dynamic-content">
+<div id="homeContent">
+<div class="header"></div>
+<div class="balance-card">
+<img src="https://cdn-icons-png.flaticon.com/128/9908/9908286.png" alt="Balance Icon" class="balance-icon">
+<div class="balance-title">MY BALANCE</div>
+<div class="balance-amount" id="userBalance">$ 0.00</div>
+</div>
+<div class="ticker-container">
+<div class="ticker-wrapper">
+<div class="ticker-icon">
+<img src="https://cdn-icons-png.flaticon.com/128/6701/6701712.png" alt="Ticker" class="ticker-icon-img">
+</div>
+<div class="ticker-content">
+<div class="ticker-text">
+<span class="ticker-item"><span class="deposit">Deposit ID 64***66 $638</span></span>
+<span class="ticker-item"><span class="withdraw">Withdraw ID 89***12 $245</span></span>
+<span class="ticker-item"><span class="deposit">Deposit ID 34***89 $892</span></span>
+</div>
+</div>
+</div>
+</div>
+<div class="action-buttons">
+<div class="action-btn hover-lift tap-shrink smooth-transition" onclick="handlePageNavigation('deposit')">
+<img src="https://cdn-icons-png.flaticon.com/256/7544/7544938.png" alt="Deposit" class="btn-icon">
+<span class="action-text">Deposit</span>
+</div>
+<div class="action-btn hover-lift tap-shrink smooth-transition" onclick="handlePageNavigation('withdraw')">
+<img src="https://cdn-icons-png.flaticon.com/256/7544/7544992.png" alt="Withdraw" class="btn-icon">
+<span class="action-text">Withdraw</span>
+</div>
+<div class="action-btn hover-lift tap-shrink smooth-transition" onclick="handlePageNavigation('history')">
+<img src="https://cdn-icons-png.flaticon.com/256/7169/7169864.png" alt="History" class="btn-icon">
+<span class="action-text">History</span>
+</div>
+<div class="action-btn hover-lift tap-shrink smooth-transition" onclick="handlePageNavigation('guide')">
+<img src="https://cdn-icons-png.flaticon.com/256/6182/6182827.png" alt="Guide" class="btn-icon">
+<span class="action-text">Guide</span>
+</div>
+</div>
+<div class="stats-grid">
+<div class="stat-card hover-lift smooth-transition">
+<div class="stat-label">Total Deposit</div>
+<div class="stat-amount" id="totalDeposits">$ 0.00</div>
+</div>
+<div class="stat-card hover-lift smooth-transition">
+<div class="stat-label">Total Withdraw</div>
+<div class="stat-amount red-amount" id="totalWithdraws">$ 0.00</div>
+</div>
+</div>
+<div class="plans-section">
+<div class="plans-header">
+<h2 class="plans-title">Investment Plans</h2>
+</div>
+<div class="plans-container" id="plansContainer"></div>
+</div>
+</div>
+</div>
+<div class="spa-iframe-container" id="spaIframeContainer">
+<iframe class="spa-iframe" id="spaIframe" src="about:blank"></iframe>
+</div>
+</div>
+<div class="gifts-floating-btn hover-lift tap-shrink smooth-transition" onclick="handlePageNavigation('gifts')">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCWxWoxpR0W8l-gvaGa470witoqX6mdb87UAuZlQSzAw&s=10" alt="Gifts">
+</div>
+<div class="modal" id="confirmModal">
+<div class="modal-content">
+<div class="modal-title">تأكيد الشراء</div>
+<div class="modal-text" id="modalText">هل تود شراء هذه الخطة؟ لا يمكن التراجع</div>
+<div class="modal-buttons">
+<button class="modal-btn confirm-btn smooth-transition hover-lift tap-shrink" onclick="confirmPurchase()">تأكيد</button>
+<button class="modal-btn cancel-btn smooth-transition hover-lift tap-shrink" onclick="closeModal()">إلغاء</button>
+</div>
+</div>
+</div>
+<div class="bottom-nav">
+<div class="nav-items">
+<div class="nav-item active smooth-transition hover-lift tap-shrink" id="nav-home" onclick="handlePageNavigation('home')">
+<img src="https://cdn-icons-png.flaticon.com/128/12000/12000683.png" alt="Home" class="nav-icon">
+Home
+</div>
+<div class="nav-item smooth-transition hover-lift tap-shrink" id="nav-chat" onclick="handlePageNavigation('chat')">
+<img src="https://cdn-icons-png.flaticon.com/128/1041/1041916.png" alt="Chat" class="nav-icon">
+Chat
+</div>
+<div class="nav-item smooth-transition hover-lift tap-shrink" id="nav-vip" onclick="handlePageNavigation('vip')">
+<img src="https://cdn-icons-png.flaticon.com/128/4807/4807598.png" alt="Team" class="nav-icon">
+Team
+</div>
+<div class="nav-item smooth-transition hover-lift tap-shrink" id="nav-wheel" onclick="handlePageNavigation('wheel')">
+<img src="https://cdn-icons-png.flaticon.com/128/8258/8258910.png" alt="Wheel" class="nav-icon">
+Wheel
+</div>
+<div class="nav-item smooth-transition hover-lift tap-shrink" id="nav-profile" onclick="handlePageNavigation('profile')">
+<img src="https://cdn-icons-png.flaticon.com/128/1144/1144709.png" alt="Profile" class="nav-icon">
+Profile
+</div>
+</div>
+</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js"
+import{getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js"
+import{getFirestore,doc,setDoc,getDoc,updateDoc}from"https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js"
+const firebaseConfig={apiKey:"AIzaSyA-MK1RYmvpYJrTOBAQcxDqxhp-z_FOb1o",authDomain:"mzjsjjshs.firebaseapp.com",projectId:"mzjsjjshs",storageBucket:"mzjsjjshs.firebasestorage.app",messagingSenderId:"944370558426",appId:"1:944370558426:web:70d4ee772c487f48b58ce3"}
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app)
+let currentUser=null,selectedPlan=null,currentPage='home',banCheckInterval=null
+const plans=[{name:"Starter Plan",price:100,dailyReturn:6.67,duration:15,icon:"https://cdn-icons-png.flaticon.com/128/18408/18408920.png"},{name:"Standard Plan",price:300,dailyReturn:2.23,duration:15,icon:"https://cdn-icons-png.flaticon.com/128/18407/18407609.png"},{name:"Advanced Plan",price:400,dailyReturn:1.67,duration:15,icon:"https://cdn-icons-png.flaticon.com/128/5759/5759987.png"},{name:"Professional",price:500,dailyReturn:1.33,duration:15,icon:"https://cdn-icons-png.flaticon.com/128/1420/1420338.png"},{name:"Premium Plan",price:600,dailyReturn:1.11,duration:15,icon:"https://cdn-icons-png.flaticon.com/128/3791/3791579.png"},{name:"Elite Plan",price:700,dailyReturn:0.95,duration:15,icon:"https://cdn-icons-png.flaticon.com/128/671/671173.png"},{name:"Executive",price:800,dailyReturn:0.83,duration:15,icon:"https://cdn-icons-png.flaticon.com/128/6701/6701794.png"},{name:"Ultimate",price:900,dailyReturn:0.74,duration:15,icon:"https://cdn-icons-png.flaticon.com/128/6650/6650064.png"}]
+
+// وظيفة للتحقق من حالة الحظر
+async function checkBanStatus(userId) {
+    if (!userId) return false;
+    
+    try {
+        const userDoc = await getDoc(doc(db, 'users', userId));
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            return userData.banned === true;
+        }
+        return false;
+    } catch (error) {
+        console.error('Error checking ban status:', error);
+        return false;
+    }
+}
+
+// وظيفة لإظهار صفحة الحظر
+function showBannedPage() {
+    const bannedOverlay = document.getElementById('bannedOverlay');
+    const banDateEl = document.getElementById('banDate');
+    
+    // تعيين تاريخ اليوم
+    const today = new Date().toLocaleDateString('ar-EG', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    });
+    banDateEl.textContent = today;
+    
+    bannedOverlay.style.display = 'flex';
+    
+    // إخفاء كامل محتوى الموقع
+    document.querySelector('.login-container').style.display = 'none';
+    document.querySelector('.container').style.display = 'none';
+    document.querySelector('.top-bar').style.display = 'none';
+    document.querySelector('.bottom-nav').style.display = 'none';
+    document.querySelector('.gifts-floating-btn').style.display = 'none';
+    
+    // منع التفاعل مع باقي العناصر
+    document.body.style.overflow = 'hidden';
+}
+
+// وظيفة بدء المراقبة المباشرة للحظر
+function startBanMonitoring(userId) {
+    if (banCheckInterval) {
+        clearInterval(banCheckInterval);
+    }
+    
+    // فحص فوري
+    checkBanStatus(userId).then(isBanned => {
+        if (isBanned) {
+            showBannedPage();
+            return;
+        }
+    });
+    
+    // مراقبة دورية كل دقيقة
+    banCheckInterval = setInterval(async () => {
+        const isBanned = await checkBanStatus(userId);
+        if (isBanned) {
+            showBannedPage();
+            clearInterval(banCheckInterval);
+        }
+    }, 60000); // كل دقيقة
+}
+
+// إيقاف المراقبة عند تسجيل الخروج
+function stopBanMonitoring() {
+    if (banCheckInterval) {
+        clearInterval(banCheckInterval);
+        banCheckInterval = null;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('click', function(e) {
+const target = e.target.closest('.ripple-effect');
+if (target) {
+const rect = target.getBoundingClientRect();
+const size = Math.max(rect.width, rect.height);
+const x = e.clientX - rect.left - size / 2;
+const y = e.clientY - rect.top - size / 2;
+const ripple = document.createElement('span');
+ripple.style.cssText = `position: absolute;width: ${size}px;height: ${size}px;top: ${y}px;left: ${x}px;border-radius: 50%;background: rgba(255, 255, 255, 0.6);animation: ripple 0.6s ease-out;pointer-events: none;z-index: 1000;`;
+target.appendChild(ripple);
+setTimeout(() => ripple.remove(), 600);
+}
+});
+const interactiveElements = document.querySelectorAll('.tab-btn, .form-input, .submit-btn, .action-btn, .nav-item, .plan-btn, .modal-btn, .gifts-floating-btn');
+interactiveElements.forEach(element => {
+element.addEventListener('touchstart', function(e) {
+this.style.transform = 'scale(0.97)';
+this.style.transition = 'transform 0.1s ease';
+});
+element.addEventListener('touchend', function() {
+setTimeout(() => {
+this.style.transform = '';
+this.style.transition = '';
+}, 120);
+});
+if (element.classList.contains('action-btn') || element.classList.contains('nav-item') || element.classList.contains('gifts-floating-btn')) {
+element.addEventListener('touchmove', function(e) {
+e.preventDefault();
+});
+}
+});
+document.addEventListener('gesturestart', function(e) {
+e.preventDefault();
+});
+document.addEventListener('gesturechange', function(e) {
+e.preventDefault();
+});
+document.addEventListener('gestureend', function(e) {
+e.preventDefault();
+});
+let isScrolling = false;
+document.addEventListener('scroll', function() {
+if (!isScrolling) {
+window.requestAnimationFrame(function() {
+isScrolling = false;
+});
+}
+isScrolling = true;
+});
+});
+window.showLoading=()=>document.getElementById('loadingOverlay').style.display='flex'
+window.hideLoading=()=>document.getElementById('loadingOverlay').style.display='none'
+window.handleLogoClick = () => {
+console.log('Logo clicked');
+}
+window.handlePageNavigation = page => {
+if(currentPage === page) return;
+if(page === 'home') {
+showHomeContent();
+updateNavigation('home');
+updateURL('home');
+return;
+}
+loadPageInIframe(page);
+}
+function loadPageInIframe(page){
+const pageUrl = page.includes('.html') ? page : `${page}.html`;
+const iframe = document.getElementById('spaIframe');
+const iframeContainer = document.getElementById('spaIframeContainer');
+const homeContent = document.getElementById('homeContent');
+showLoading();
+homeContent.style.display = 'none';
+iframeContainer.style.display = 'block';
+iframe.onload = () => hideLoading();
+iframe.onerror = () => {
+hideLoading();
+showErrorInIframe(`خطأ في تحميل الصفحة: ${pageUrl}`);
+};
+iframe.src = pageUrl;
+updateNavigation(page.replace('.html', '').toLowerCase());
+updateURL(page.replace('.html', '').toLowerCase());
+}
+function showHomeContent(){
+const homeContent = document.getElementById('homeContent');
+const iframeContainer = document.getElementById('spaIframeContainer');
+homeContent.style.display = 'block';
+iframeContainer.style.display = 'none';
+if(currentUser) {
+loadUserData(currentUser);
+}
+}
+function showErrorInIframe(errorMessage){
+const iframe = document.getElementById('spaIframe');
+const errorHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#2c3e50,#1a252f);margin:0;padding:20px;color:white;text-align:center;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center}.error-container{background:rgba(255,255,255,0.1);padding:30px;border-radius:20px;backdrop-filter:blur(10px)}.error-title{font-size:24px;margin-bottom:15px}.error-message{margin-bottom:20px;opacity:0.9}.retry-btn{background:#667eea;color:white;border:none;padding:15px 30px;border-radius:25px;cursor:pointer;font-size:16px;font-weight:bold;transition:all 0.3s}.retry-btn:hover{background:#5a6fd8;transform:translateY(-2px)}</style></head><body><div class="error-container"><div class="error-title">⚠️ خطأ في التحميل</div><div class="error-message">${errorMessage}</div><button class="retry-btn" onclick="parent.handlePageNavigation('home')">🏠 العودة للرئيسية</button></div></body></html>`;
+iframe.srcdoc = errorHtml;
+}
+function updateNavigation(page){
+document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+const navItem = document.getElementById(`nav-${page}`);
+if(navItem) navItem.classList.add('active');
+currentPage = page;
+}
+function updateURL(page){
+const newURL = page === 'home' ? '/home' : `/${page}`;
+window.history.pushState({page}, page, newURL);
+}
+window.addEventListener('popstate', event => {
+if(event.state && event.state.page) {
+handlePageNavigation(event.state.page);
+} else {
+handlePageNavigation('home');
+}
+});
+window.logout=()=>{showLoading();setTimeout(()=>{stopBanMonitoring();signOut(auth);hideLoading()},1000)}
+window.showError=(element,message)=>{element.textContent=message;element.style.display='block';setTimeout(()=>element.style.display='none',5000)}
+async function createUserProfile(userId,email,username,referralCode){try{await setDoc(doc(db,'users',userId),{email,username,referralCode:referralCode||'',balance:0.00,totalDeposits:0.00,totalWithdraws:0.00,activePlans:[],banned:false,createdAt:new Date().toISOString()})}catch(error){console.error('Error creating user profile:',error)}}
+async function getUserProfile(userId){try{const docRef=doc(db,'users',userId),docSnap=await getDoc(docRef);return docSnap.exists()?docSnap.data():null}catch(error){console.error('Error getting user profile:',error);return null}}
+async function updateUserData(userId,data){try{await updateDoc(doc(db,'users',userId),data)}catch(error){console.error('Error updating user data:',error)}}
+async function loadUserData(user){if(!user)return;const userProfile=await getUserProfile(user.uid);if(userProfile){const usernameEls=document.querySelectorAll('#displayUsername,#displayUsernameTop,#profileUsername');usernameEls.forEach(el=>el&&(el.textContent=userProfile.username||'مستخدم'));const balanceEl=document.getElementById('userBalance');balanceEl&&(balanceEl.textContent=`$ ${userProfile.balance?.toFixed(2)||'0.00'}`);const depositsEl=document.getElementById('totalDeposits');depositsEl&&(depositsEl.textContent=`$ ${userProfile.totalDeposits?.toFixed(2)||'0.00'}`);const withdrawsEl=document.getElementById('totalWithdraws');withdrawsEl&&(withdrawsEl.textContent=`$ ${userProfile.totalWithdraws?.toFixed(2)||'0.00'}`);generatePlans(userProfile.activePlans||[])}}
+function generatePlans(activePlans=[]){const container=document.getElementById('plansContainer');if(!container)return;container.innerHTML='';plans.forEach((plan,index)=>{const activePlan=activePlans.find(ap=>ap.planIndex===index),isActive=!!activePlan,premiumIconHtml=plan.price===600?'<img src="https://cdn-icons-png.flaticon.com/128/14763/14763752.png" alt="Premium Icon" class="premium-special-icon">':'';container.innerHTML+=`<div class="plan-card hover-lift smooth-transition"><img src="${plan.icon}" alt="Plan Icon" class="plan-icon">${premiumIconHtml}<div class="plan-header"><div class="plan-name">${plan.name}</div><div class="plan-price">$${plan.price}</div></div><div class="plan-features"><div class="feature-item"><div class="feature-icon"></div><span>Daily Return ${plan.dailyReturn}%</span></div><div class="feature-item"><div class="feature-icon"></div><span>Duration ${plan.duration} Days</span></div><div class="feature-item"><div class="feature-icon"></div><span>24/7 Support</span></div></div>${isActive?(activePlan.canCollect?`<button class="collect-btn hover-lift tap-shrink smooth-transition" onclick="collectProfit(${index})">جمع الربح</button>`:`<div class="countdown-display" id="countdown-${index}">00:00:00</div>`):`<button class="plan-btn hover-lift tap-shrink smooth-transition" onclick="selectPlan(${index})">Choose Plan</button>`}</div>`});activePlans.forEach(ap=>{if(!ap.canCollect)startCountdown(ap.planIndex,ap.nextCollectTime)})}
+function startCountdown(planIndex,nextCollectTime){const element=document.getElementById(`countdown-${planIndex}`);if(!element)return;const interval=setInterval(()=>{const now=Date.now(),timeLeft=nextCollectTime-now;if(timeLeft<=0){clearInterval(interval);element.outerHTML=`<button class="collect-btn hover-lift tap-shrink smooth-transition" onclick="collectProfit(${planIndex})">جمع الربح</button>`}else{const hours=Math.floor(timeLeft/(1000*60*60)),minutes=Math.floor((timeLeft%(1000*60*60))/(1000*60)),seconds=Math.floor((timeLeft%(1000*60))/1000);element.textContent=`${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`}},1000)}
+window.selectPlan=index=>{selectedPlan=index;document.getElementById('modalText').textContent=`هل تود شراء ${plans[index].name} بمبلغ $${plans[index].price}؟ لا يمكن التراجع`;document.getElementById('confirmModal').style.display='block'}
+window.confirmPurchase=async()=>{if(!currentUser||selectedPlan===null)return;showLoading();const userProfile=await getUserProfile(currentUser.uid),plan=plans[selectedPlan];if(!userProfile){closeModal();hideLoading();return}if(userProfile.balance<plan.price){document.getElementById('modalText').textContent='رصيدك غير كافي. قم بالإيداع أولاً';setTimeout(()=>{closeModal();hideLoading()},2000);return}const newBalance=userProfile.balance-plan.price,activePlans=userProfile.activePlans||[],nextCollectTime=Date.now()+24*60*60*1000;activePlans.push({planIndex:selectedPlan,purchaseTime:Date.now(),nextCollectTime,canCollect:false});await updateUserData(currentUser.uid,{balance:newBalance,activePlans});await loadUserData(currentUser);closeModal();selectedPlan=null;hideLoading()}
+window.collectProfit=async planIndex=>{if(!currentUser)return;showLoading();const userProfile=await getUserProfile(currentUser.uid);if(!userProfile){hideLoading();return}const plan=plans[planIndex],profit=(plan.price*plan.dailyReturn)/100,newBalance=userProfile.balance+profit,activePlans=userProfile.activePlans||[],planData=activePlans.find(ap=>ap.planIndex===planIndex);if(planData){planData.nextCollectTime=Date.now()+24*60*60*1000;planData.canCollect=false}await updateUserData(currentUser.uid,{balance:newBalance,activePlans});await loadUserData(currentUser);hideLoading()}
+window.closeModal=()=>document.getElementById('confirmModal').style.display='none'
+function initializePage(){
+const path=window.location.pathname;
+if(path && path !== '/' && path !== '/home'){
+const page=path.replace('/','');
+if(page && page !== 'home'){
+currentPage=page;
+updateNavigation(page);
+if(document.body.classList.contains('logged-in')){
+loadPageInIframe(page);
+}
+}
+}
+}
+onAuthStateChanged(auth,async user=>{
+currentUser=user;
+if(user){
+// التحقق من حالة الحظر فور تسجيل الدخول
+const isBanned = await checkBanStatus(user.uid);
+if(isBanned){
+showBannedPage();
+return;
+}
+
+// بدء المراقبة المباشرة للحظر
+startBanMonitoring(user.uid);
+
+document.body.classList.remove('not-logged-in');
+document.body.classList.add('logged-in');
+loadUserData(user);
+initializePage();
+} else {
+stopBanMonitoring();
+document.body.classList.remove('logged-in');
+document.body.classList.add('not-logged-in');
+updateURL('home');
+}
+})
+document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',function(){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');const tab=this.getAttribute('data-tab');document.getElementById('registerForm').classList.toggle('hidden',tab!=='register');document.getElementById('loginForm').classList.toggle('hidden',tab!=='login');updateURL(tab==='register'?'register':'login')}));document.querySelectorAll('.password-toggle').forEach(toggle=>toggle.addEventListener('click',function(){const input=this.previousElementSibling;if(input.type==='password'){input.type='text';this.textContent='🙈'}else{input.type='password';this.textContent='👁'}}));document.getElementById('registerForm').addEventListener('submit',async function(e){e.preventDefault();showLoading();const btn=document.getElementById('regSubmitBtn');btn.disabled=true;btn.textContent='جاري الإنشاء...';const email=document.getElementById('regEmail').value,username=document.getElementById('regUsername').value.trim(),referralCode=document.getElementById('regReferral').value.trim(),password=document.getElementById('regPassword').value,errorEl=document.getElementById('regError');if(username.length===0||username.length>7){showError(errorEl,'اسم المستخدم يجب أن يكون من 1-7 أحرف');btn.disabled=false;btn.textContent='إنشاء حساب';hideLoading();return}try{const userCredential=await createUserWithEmailAndPassword(auth,email,password);await createUserProfile(userCredential.user.uid,email,username,referralCode)}catch(error){const messages={'auth/email-already-in-use':'البريد الإلكتروني مستخدم بالفعل','auth/weak-password':'كلمة المرور ضعيفة','auth/invalid-email':'بريد إلكتروني غير صحيح'};showError(errorEl,messages[error.code]||'خطأ في إنشاء الحساب')}btn.disabled=false;btn.textContent='إنشاء حساب';hideLoading()});document.getElementById('loginForm').addEventListener('submit',async function(e){e.preventDefault();showLoading();const btn=document.getElementById('loginSubmitBtn');btn.disabled=true;btn.textContent='جاري تسجيل الدخول...';const email=document.getElementById('loginEmail').value,password=document.getElementById('loginPassword').value,errorEl=document.getElementById('loginError');try{await signInWithEmailAndPassword(auth,email,password)}catch(error){const messages={'auth/user-not-found':'لا يوجد حساب بهذا البريد','auth/wrong-password':'كلمة مرور خاطئة','auth/invalid-email':'بريد إلكتروني غير صحيح','auth/too-many-requests':'محاولات كثيرة. حاول لاحقاً'};showError(errorEl,messages[error.code]||'خطأ في تسجيل الدخول')}btn.disabled=false;btn.textContent='تسجيل الدخول';hideLoading()})})
+</script>
+</body>
+</html>
+    
+  </body>
+  
+</html>
+    
+  </body>
+  
+</html>
+    
+  </body>
+  
+</html>

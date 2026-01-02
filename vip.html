@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>My Team - Financial Exchange</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{background:linear-gradient(180deg,#2d1b26 0%,#4a2c3a 50%,#2d1b26 100%);color:#fff;min-height:100vh;width:100%;overflow-x:hidden}
+.container{width:100%;min-height:100vh;background:linear-gradient(180deg,#2d1b26 0%,#4a2c3a 50%,#2d1b26 100%)}
+.header{display:flex;align-items:center;justify-content:space-between;padding:20px;background:rgba(220,20,60,.8);backdrop-filter:blur(10px);box-shadow:0 2px 20px rgba(255,105,180,.4);position:sticky;top:0;z-index:100;border-bottom:2px solid rgba(255,105,180,.3)}
+.back-btn{background:none;border:none;color:#ff69b4;font-size:24px;cursor:pointer;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,105,180,0.1);transition:all .3s ease}
+.back-btn:hover{background:rgba(255,105,180,0.2);transform:scale(1.1)}
+.page-title{flex:1;text-align:center;font-size:22px;font-weight:700;color:#ff69b4;text-shadow:0 0 10px rgba(255,105,180,0.3)}
+.referral-banner{background:linear-gradient(135deg,rgba(220,20,60,.8)0%,rgba(199,21,133,.8)50%,rgba(220,20,60,.8)100%),url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSJwFTMD__YuK3DWyBxVtkewpj34uRK8gxjx1FkutWfS4zxJcf4fcnv_SH&s=10');background-size:cover,contain;background-position:center;background-repeat:no-repeat;margin:20px;padding:35px 30px;text-align:center;border-radius:24px;box-shadow:0 20px 60px rgba(255,105,180,.4);transition:all .3s ease;position:relative}
+.referral-banner:hover{transform:translateY(-3px);box-shadow:0 25px 70px rgba(255,105,180,.5)}
+.referral-title{font-size:18px;color:#ffb6c1;margin-bottom:15px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.referral-code-display{background:rgba(0,0,0,.6);padding:20px;border-radius:16px;display:inline-flex;align-items:center;gap:10px;border:2px dashed rgba(255,105,180,.5);box-shadow:0 4px 10px rgba(0,0,0,.2);margin-bottom:15px;backdrop-filter:blur(10px)}
+.referral-code-text{font-size:42px;font-weight:700;color:#fbbf24;letter-spacing:6px;text-shadow:0 0 20px rgba(251,191,36,.5);font-family:'Courier New',monospace}
+.copy-ref-btn{background:linear-gradient(135deg,#ff69b4 0%,#dc143c 100%);color:#fff;border:none;padding:12px 28px;border-radius:25px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 4px 15px rgba(255,105,180,.4);transition:all .3s ease;white-space:nowrap}
+.copy-ref-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,105,180,.6)}
+.referral-link{background:rgba(0,0,0,.7);padding:14px 18px;border-radius:14px;display:inline-flex;align-items:center;gap:10px;margin:20px 0;width:100%}
+.referral-link-text{font-size:12px;color:#ffb6c1;word-break:break-all;flex:1;font-family:monospace}
+.copy-link-btn{background:rgba(255,105,180,.5);color:#fff;border:none;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;transition:all .3s ease;white-space:nowrap}
+.copy-link-btn:hover{background:rgba(255,105,180,.8);transform:scale(1.05)}
+.team-stats-box{background:linear-gradient(135deg,rgba(220,20,60,.4)0%,rgba(199,21,133,.5)100%);margin:20px;padding:25px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.team-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.team-stat-item{text-align:center;background:rgba(0,0,0,.4);border-radius:14px;padding:20px 15px;backdrop-filter:blur(5px);transition:all .3s ease}
+.team-stat-item:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(255,105,180,.3)}
+.team-stat-label{font-size:13px;color:#ffb6c1;margin-bottom:10px;font-weight:500}
+.team-stat-value{font-size:28px;font-weight:700;color:#fff;text-shadow:0 2px 10px rgba(255,255,255,.2)}
+.team-instructions{background:linear-gradient(135deg,rgba(220,20,60,.4)0%,rgba(199,21,133,.5)100%);margin:20px;padding:25px 20px;line-height:1.8;color:#ffe4e1;font-size:14px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.team-instructions p{margin-bottom:12px}
+.team-instructions strong{color:#ff69b4;font-weight:700}
+.team-list-container{background:linear-gradient(135deg,rgba(220,20,60,.4)0%,rgba(199,21,133,.5)100%);margin:20px;padding:20px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.list-header{display:flex;align-items:center;justify-content:space-between;padding:15px 0;border-bottom:2px solid #ff69b4}
+.list-title{font-size:18px;font-weight:700;color:#ff69b4;display:flex;align-items:center;gap:8px}
+.list-title::before{content:'';width:4px;height:20px;background:#ff69b4;display:inline-block;border-radius:2px;box-shadow:0 0 5px rgba(255,105,180,0.5)}
+.table-wrapper{margin-top:15px}
+.table-header{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:15px;padding:12px 8px;background:rgba(0,0,0,.4);border-radius:10px;margin-bottom:8px}
+.table-col{font-size:11px;color:#ff69b4;font-weight:600;text-align:center;text-transform:uppercase;letter-spacing:0.5px}
+.member-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:15px;padding:12px 8px;border-bottom:1px solid rgba(255,105,180,.15);align-items:center;transition:all .3s ease;border-radius:8px}
+.member-row:hover{background:rgba(220,20,60,.15);border-color:rgba(255,105,180,.3)}
+.member-row:last-child{border-bottom:none}
+.member-cell{text-align:center;font-size:11px;color:#ffe4e1;font-weight:500}
+.avatar-container{display:flex;flex-direction:column;align-items:center;gap:5px;position:relative}
+.member-avatar{width:35px;height:35px;border-radius:50%;background-size:cover;background-position:center;border:1px solid #ff69b4}
+.user-id{font-size:10px;font-weight:600;color:#ffb6c1;background:rgba(255,182,193,.1);padding:2px 6px;border-radius:4px;min-width:30px;text-align:center;font-family:monospace}
+.deposit-amount{font-size:12px;font-weight:700;color:#fbbf24}
+.withdraw-amount{font-size:12px;font-weight:700;color:#f87171}
+.join-date{font-size:10px;color:#ffb6c1;font-weight:500}
+.empty-state{text-align:center;padding:60px 20px;color:#ffb6c1}
+.empty-icon{width:120px;height:120px;margin:0 auto 20px;opacity:0.6;filter:sepia(1) hue-rotate(270deg) brightness(1.2)}
+.empty-text{font-size:18px;margin-top:15px;color:#ffb6c1;font-weight:500}
+.toast{position:fixed;top:80px;left:50%;transform:translateX(-50%)translateY(-100px);background:linear-gradient(135deg,#10b981 0%,#059669 100%);color:#fff;padding:15px 30px;border-radius:50px;box-shadow:0 10px 30px rgba(16,185,129,.4);font-weight:600;z-index:1000;opacity:0;transition:all .4s cubic-bezier(.68,-.55,.265,1.55)}
+.toast.show{transform:translateX(-50%)translateY(0);opacity:1}
+.loader{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:#ff69b4;font-size:18px;z-index:9999;display:none;text-align:center}
+.loader.show{display:block}
+.spinner{border:4px solid rgba(220,20,60,.3);border-top:4px solid #ff69b4;border-radius:50%;width:50px;height:50px;animation:spin 1s linear infinite;margin:0 auto 15px}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+@media(max-width:768px){.team-stats-grid{grid-template-columns:repeat(2,1fr)}.table-header,.member-row{grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:10px}.referral-code-text{font-size:32px;letter-spacing:4px}.team-instructions{font-size:13px;padding:20px 15px}.table-col{font-size:9px}.member-cell{font-size:9px}.member-avatar{width:30px;height:30px}.user-id{font-size:8px;padding:1px 4px}.join-date,.deposit-amount,.withdraw-amount{font-size:9px}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<button class="back-btn" onclick="history.back()">←</button>
+<div class="page-title">My Team</div>
+<div style="width:40px"></div>
+</div>
+<div class="referral-banner">
+<div class="referral-title">Your Referral Code</div>
+<div class="referral-code-display">
+<span class="referral-code-text" id="userReferralCode">Loading...</span>
+<button class="copy-ref-btn" onclick="copyReferralCode()">📋 Copy</button>
+</div>
+<div class="referral-link">
+<span class="referral-link-text" id="referralLink">https://veltrx.netlify.app//register?ref=890155</span>
+<button class="copy-link-btn" onclick="copyReferralLink()">Copy</button>
+</div>
+</div>
+<div class="team-stats-box">
+<div class="team-stats-grid">
+<div class="team-stat-item">
+<div class="team-stat-label">Registrations</div>
+<div class="team-stat-value" id="registrationsCount">0</div>
+</div>
+<div class="team-stat-item">
+<div class="team-stat-label">Team Withdrawals</div>
+<div class="team-stat-value">$<span id="teamWithdrawals">0.00</span></div>
+</div>
+<div class="team-stat-item">
+<div class="team-stat-label">Team Deposits</div>
+<div class="team-stat-value">$<span id="teamDeposits">0.00</span></div>
+</div>
+<div class="team-stat-item">
+<div class="team-stat-label">Team Earnings</div>
+<div class="team-stat-value">$<span id="teamEarnings">0.00</span></div>
+</div>
+</div>
+</div>
+<div class="team-instructions">
+<p><strong>Invite your friends to earn from our platform!</strong></p>
+<p>You can also benefit from their deposits. For each deposit, <strong>5%</strong> will be added to you for each successful deposit made by the user.</p>
+<p>This is unlimited! You can earn more the more you invite.</p>
+<p>Encourage your friends to join our community and earn more as they will also get profits.</p>
+<p><strong>How to invite:</strong></p>
+<p>1. Copy your referral code from above</p>
+<p>2. Send the registration link to your friends</p>
+<p>3. When they register, they will enter your referral code</p>
+<p>4. You will get 5% of all their deposits automatically!</p>
+<p><strong>Good luck in our community! 🎉</strong></p>
+</div>
+<div class="team-list-container">
+<div class="list-header">
+<div class="list-title">Team List (<span id="teamCount">0</span>)</div>
+</div>
+<div class="table-wrapper">
+<div class="table-header">
+<div class="table-col">Account</div>
+<div class="table-col">User ID</div>
+<div class="table-col">Total Deposits</div>
+<div class="table-col">Total Withdrawals</div>
+<div class="table-col">Registration</div>
+</div>
+<div id="teamMembersList">
+<div class="loader show">
+<div class="spinner"></div>
+<p>Loading team list...</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="loader" id="mainLoader">
+<div class="spinner"></div>
+<p>Loading...</p>
+</div>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";import{getAuth,onAuthStateChanged,signInAnonymously}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";import{getFirestore,doc,getDoc,setDoc,collection,query,where,getDocs,onSnapshot,updateDoc,arrayUnion,increment,addDoc}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";const firebaseConfig={apiKey:"AIzaSyA-MK1RYmvpYJrTOBAQcxDqxhp-z_FOb1o",authDomain:"mzjsjjshs.firebaseapp.com",projectId:"mzjsjjshs",storageBucket:"mzjsjjshs.firebasestorage.app",messagingSenderId:"944370558426",appId:"1:944370558426:web:70d4ee772c487f48b58ce3",measurementId:"G-CWJWKWBBST"};const app=initializeApp(firebaseConfig);const auth=getAuth(app);const db=getFirestore(app);let currentUser=null,userData=null,teamMembers=[];function showLoader(){document.getElementById('mainLoader').classList.add('show')}function hideLoader(){document.getElementById('mainLoader').classList.remove('show')}function showToast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);t.classList.add('show');setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),400)},2500)}function generateReferralCode(){const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';let result='';for(let i=0;i<8;i++){result+=chars.charAt(Math.floor(Math.random()*chars.length))}return result}function generateUserId(){return Math.floor(100000+Math.random()*900000)}window.copyReferralCode=function(){const code=document.getElementById('userReferralCode').textContent;if(code&&code!=='Loading...'&&code!=='--------'){navigator.clipboard.writeText(code).then(()=>{showToast('✓ Code copied!')}).catch(()=>{const textArea=document.createElement('textarea');textArea.value=code;document.body.appendChild(textArea);textArea.select();document.execCommand('copy');document.body.removeChild(textArea);showToast('✓ Code copied!')})}else{showToast('❌ Code not available')}};window.copyReferralLink=function(){const link=document.getElementById('referralLink').textContent;if(link){navigator.clipboard.writeText(link).then(()=>{showToast('✓ Link copied!')}).catch(()=>{const textArea=document.createElement('textarea');textArea.value=link;document.body.appendChild(textArea);textArea.select();document.execCommand('copy');document.body.removeChild(textArea);showToast('✓ Link copied!')})}};function updateStats(){const totalDeposits=teamMembers.reduce((sum,member)=>sum+(member.totalDeposits||0),0);const totalWithdrawals=teamMembers.reduce((sum,member)=>sum+(member.totalWithdrawals||0),0);const totalEarnings=totalDeposits*0.05;document.getElementById('registrationsCount').textContent=teamMembers.length;document.getElementById('teamDeposits').textContent=totalDeposits.toFixed(2);document.getElementById('teamWithdrawals').textContent=totalWithdrawals.toFixed(2);document.getElementById('teamEarnings').textContent=totalEarnings.toFixed(2);document.getElementById('teamCount').textContent=teamMembers.length;updateUserBalance(totalEarnings)}async function updateUserBalance(earnings){if(!currentUser||!userData)return;try{const currentBalance=userData.balance||0;const newBalance=currentBalance+earnings;await updateDoc(doc(db,'users',currentUser.uid),{balance:newBalance,totalEarnings:earnings});userData.balance=newBalance;userData.totalEarnings=earnings}catch(error){console.error('Error updating balance:',error)}}function renderTeamList(){const list=document.getElementById('teamMembersList');if(!teamMembers||teamMembers.length===0){list.innerHTML='<div class="empty-state"><img src="https://tarmai.com/img/data-null-B_EYTc8w.png" class="empty-icon"><div class="empty-text">No invites yet<br>Start inviting your friends!</div></div>';return}let html='';teamMembers.forEach(member=>{const joinDate=new Date(member.joinDate||Date.now()).toLocaleDateString('en',{year:'2-digit',month:'2-digit',day:'2-digit'});const totalDepositsAmount=(member.totalDeposits||0).toFixed(2);const totalWithdrawalsAmount=(member.totalWithdrawals||0).toFixed(2);const userId=member.userId||'N/A';const userAvatar=member.avatar||`https://ui-avatars.com/api/?name=U&background=a855f7&color=fff&size=35`;html+=`<div class="member-row"><div class="member-cell"><div class="avatar-container"><div class="member-avatar" style="background-image:url('${userAvatar}')"></div></div></div><div class="member-cell"><div class="user-id">${userId}</div></div><div class="member-cell"><div class="deposit-amount">$${totalDepositsAmount}</div></div><div class="member-cell"><div class="withdraw-amount">$${totalWithdrawalsAmount}</div></div><div class="member-cell"><div class="join-date">${joinDate}</div></div></div>`});list.innerHTML=html;updateStats()}async function loadUserData(){if(!currentUser)return;showLoader();try{let userDoc=await getDoc(doc(db,'users',currentUser.uid));if(!userDoc.exists()){const newUserData={uid:currentUser.uid,email:currentUser.email||'',displayName:currentUser.displayName||'',userId:generateUserId(),referralCode:generateReferralCode(),joinDate:new Date().toISOString(),avatar:currentUser.photoURL||'',team:[],balance:0,deposits:0,totalEarnings:0,createdAt:new Date()};await setDoc(doc(db,'users',currentUser.uid),newUserData);userData=newUserData}else{userData=userDoc.data();if(!userData.referralCode){const referralCode=generateReferralCode();await updateDoc(doc(db,'users',currentUser.uid),{referralCode});userData.referralCode=referralCode}}document.getElementById('userReferralCode').textContent=userData.referralCode||'--------';document.getElementById('referralLink').textContent=`https://veltrx.netlify.app//register?ref=${userData.referralCode}`;teamMembers=userData.team||[];renderTeamList();setupTeamListener()}catch(e){console.error('Error loading user data:',e);showToast('❌ Error loading data');document.getElementById('userReferralCode').textContent='Error'}finally{hideLoader()}}function setupTeamListener(){if(!currentUser)return;const userDocRef=doc(db,'users',currentUser.uid);onSnapshot(userDocRef,docSnapshot=>{if(docSnapshot.exists()){const data=docSnapshot.data();teamMembers=data.team||[];renderTeamList()}},error=>{console.error('Error monitoring team data:',error)})}function setupReferralListener(){if(!userData?.referralCode)return;const q=query(collection(db,'users'),where('usedReferralCode','==',userData.referralCode));onSnapshot(q,snapshot=>{const newMembers=[];snapshot.forEach(doc=>{const data=doc.data();if(data.uid!==currentUser.uid){newMembers.push({uid:data.uid,userId:data.userId||generateUserId(),email:data.email||'',joinDate:data.joinDate||data.createdAt?.toDate?.()?.toISOString()||new Date().toISOString(),avatar:data.avatar||'',totalDeposits:data.totalDeposits||0,totalWithdrawals:data.totalWithdrawals||0})}});if(newMembers.length!==teamMembers.length||JSON.stringify(newMembers)!==JSON.stringify(teamMembers)){updateDoc(doc(db,'users',currentUser.uid),{team:newMembers}).catch(console.error)}})}onAuthStateChanged(auth,async user=>{if(user){currentUser=user;await loadUserData();setupReferralListener()}else{try{await signInAnonymously(auth)}catch(error){console.error('Login error:',error);showToast('❌ Connection error')}}});document.addEventListener('DOMContentLoaded',()=>{hideLoader()});
+</script>
+</body>
+</html>
+    
+  </body>
+  
+</html>
+    
+  </body>
+  
+</html>

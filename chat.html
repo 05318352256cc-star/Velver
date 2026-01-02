@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Group Chat</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth}
+body{font-family:'Cairo','Inter',sans-serif;background:linear-gradient(135deg,#0d1b2a 0%,#1e2a3a 100%);height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:12px;position:fixed;width:100%;transition:background 0.5s ease}
+.loading-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#0d1b2a,#1e2a3a);z-index:3000;display:flex;justify-content:center;align-items:center;flex-direction:column;opacity:1;transition:opacity 0.5s ease}
+.loading-screen.fade-out{opacity:0}
+.loading-spinner{width:45px;height:45px;border:3px solid rgba(100,181,246,0.2);border-top:3px solid #64b5f6;border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.loading-text{color:#64b5f6;margin-top:15px;font-size:13px;font-weight:600;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+.auth-container{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(13,27,42,0.97);backdrop-filter:blur(15px);z-index:2000;display:none;justify-content:center;align-items:center;opacity:0;transition:opacity 0.3s ease}
+.auth-container.show{opacity:1}
+.auth-box{background:linear-gradient(135deg,#1e2a3a,#2c3e50);border-radius:20px;padding:30px;max-width:340px;width:90%;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.6);border:1px solid rgba(100,181,246,0.3);transform:scale(0.9);transition:transform 0.3s ease}
+.auth-container.show .auth-box{transform:scale(1)}
+.auth-title{color:#fff;font-size:20px;font-weight:700;margin-bottom:25px;text-shadow:0 2px 4px rgba(0,0,0,0.3)}
+.auth-input{width:100%;padding:12px 15px;border:1px solid rgba(100,181,246,0.5);border-radius:12px;margin:10px 0;font-size:13px;outline:none;background:rgba(30,42,58,0.8);color:#fff;font-family:'Cairo','Inter',sans-serif;transition:all 0.3s ease}
+.auth-input::placeholder{color:rgba(255,255,255,0.5)}
+.auth-input:focus{border-color:#42a5f5;background:rgba(30,42,58,1);box-shadow:0 0 0 3px rgba(66,165,245,0.2);transform:translateY(-2px)}
+.auth-btn{width:100%;padding:13px;background:linear-gradient(135deg,#42a5f5,#1e88e5);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;margin:10px 0;transition:all 0.3s ease;box-shadow:0 4px 15px rgba(66,165,245,0.4)}
+.auth-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(66,165,245,0.6)}
+.auth-btn:active{transform:translateY(0)}
+.auth-toggle{color:#64b5f6;cursor:pointer;margin-top:15px;text-decoration:none;font-size:12px;transition:color 0.3s ease}
+.auth-toggle:hover{color:#42a5f5;text-decoration:underline}
+.auth-error{color:#f44336;margin:10px 0;font-size:12px;animation:shake 0.5s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+.guest-btn{background:linear-gradient(135deg,#ff9800,#f57c00);margin-top:15px}
+.top-bar{background:rgba(13,27,42,0.95);backdrop-filter:blur(15px);padding:10px 15px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 15px rgba(0,0,0,0.3);z-index:100;border-bottom:1px solid rgba(100,181,246,0.2);position:fixed;top:0;left:0;right:0;height:55px;transition:all 0.3s ease}
+.countdown-banner{background:linear-gradient(135deg,#f44336,#d32f2f);color:#fff;padding:10px;text-align:center;font-weight:700;position:fixed;top:55px;left:0;right:0;z-index:99;display:none;animation:slideDown 0.4s ease;font-size:13px;box-shadow:0 3px 15px rgba(244,67,54,0.6)}
+@keyframes slideDown{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
+.countdown-timer{font-size:15px;font-weight:800;text-shadow:0 2px 4px rgba(0,0,0,0.3)}
+.top-bar .left,.top-bar .right{display:flex;gap:8px;align-items:center}
+.top-bar .icon{width:38px;height:38px;cursor:pointer;transition:all 0.3s ease;border-radius:50%;border:2px solid rgba(100,181,246,0.5);padding:2px;object-fit:cover}
+.top-bar .icon:hover{transform:scale(1.1) rotate(5deg);border-color:#42a5f5;box-shadow:0 4px 15px rgba(66,165,245,0.6)}
+.admin-controls{background:linear-gradient(135deg,#f44336,#d32f2f);color:#fff;padding:6px 12px;border-radius:12px;font-size:10px;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(244,67,54,0.4)}
+.admin-controls:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(244,67,54,0.6)}
+.admin-color-controls{display:flex;gap:5px}
+.color-btn{width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.color-btn:hover{transform:scale(1.2);border-color:#fff;box-shadow:0 3px 12px rgba(0,0,0,0.5)}
+.color-btn.active{border-width:3px;transform:scale(1.15);box-shadow:0 4px 15px rgba(0,0,0,0.6)}
+.admin-time-input{background:rgba(44,62,80,0.9);color:#fff;border:1px solid rgba(100,181,246,0.5);border-radius:8px;padding:5px 8px;width:60px;font-size:11px;transition:all 0.3s ease}
+.admin-time-input:focus{border-color:#42a5f5;box-shadow:0 0 0 2px rgba(66,165,245,0.2)}
+.chat-status{background:linear-gradient(135deg,#f44336,#d32f2f);color:#fff;padding:12px;text-align:center;font-weight:700;border-radius:12px;margin:10px;animation:pulseGlow 2s infinite;box-shadow:0 4px 15px rgba(244,67,54,0.5)}
+@keyframes pulseGlow{0%,100%{transform:scale(1);box-shadow:0 4px 15px rgba(244,67,54,0.5)}50%{transform:scale(1.02);box-shadow:0 6px 20px rgba(244,67,54,0.8)}}
+.welcome-banner{background:linear-gradient(135deg,#42a5f5,#1e88e5,#1976d2);color:white;padding:10px 15px;margin:10px 20px;border-radius:18px;box-shadow:0 6px 25px rgba(66,165,245,0.5);text-align:center;animation:slideInFromRight 0.8s ease-out;border:1px solid rgba(255,255,255,0.3);position:fixed;top:75px;left:0;right:0;z-index:98;max-width:400px;margin-left:auto;margin-right:auto}
+@keyframes slideInFromRight{0%{transform:translateX(100px);opacity:0}100%{transform:translateX(0);opacity:1}}
+.welcome-text{font-size:14px;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,0.3)}
+.welcome-subtext{font-size:10px;opacity:0.95;margin-top:4px}
+.chat-container{position:fixed;top:95px;bottom:90px;left:5px;right:5px;overflow-y:auto;overflow-x:hidden;padding:12px 8px;display:flex;flex-direction:column;gap:12px;background:transparent;transition:all 0.3s ease;scrollbar-width:thin;scrollbar-color:rgba(100,181,246,0.5) transparent}
+.chat-container::-webkit-scrollbar{width:6px}
+.chat-container::-webkit-scrollbar-track{background:transparent}
+.chat-container::-webkit-scrollbar-thumb{background:rgba(100,181,246,0.5);border-radius:10px;transition:background 0.3s ease}
+.chat-container::-webkit-scrollbar-thumb:hover{background:rgba(100,181,246,0.8)}
+.message-wrapper{display:flex;gap:8px;align-items:flex-start;animation:fadeIn 0.3s ease;position:relative;max-width:75%;transition:all 0.3s ease;cursor:pointer}
+.message-wrapper:hover{transform:translateY(-1px)}
+.message-wrapper.sent{flex-direction:row;margin-left:auto;margin-right:5px}
+.message-wrapper.received{flex-direction:row-reverse;margin-right:auto;margin-left:5px}
+.message-wrapper.admin-ban{justify-content:center;margin:20px auto;max-width:90%}
+.admin-ban-message{background:linear-gradient(135deg,#f44336,#d32f2f);color:#fff;padding:10px 15px;border-radius:15px;font-weight:700;text-align:center;box-shadow:0 4px 15px rgba(244,67,54,0.6);border:1px solid rgba(255,255,255,0.3);animation:banPulse 3s ease-out;font-size:12px}
+@keyframes banPulse{0%,100%{transform:scale(1)}10%,30%,50%{transform:scale(1.08) rotate(1deg)}20%,40%{transform:scale(1.08) rotate(-1deg)}}
+.message-wrapper .user-avatar{width:32px;height:32px;border-radius:50%;cursor:pointer;transition:all 0.3s ease;border:2px solid rgba(100,181,246,0.6);flex-shrink:0;object-fit:cover;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.message-wrapper .user-avatar:hover{transform:scale(1.15) rotate(5deg);box-shadow:0 4px 15px rgba(100,181,246,0.7)}
+.message-box{max-width:100%;display:flex;flex-direction:column;border-radius:16px;padding:0;box-shadow:0 3px 12px rgba(0,0,0,0.35);position:relative;overflow:hidden;min-width:140px;transition:all 0.3s ease}
+.message-box:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(0,0,0,0.45)}
+.message-wrapper.sent .message-box{background:linear-gradient(135deg,#66bb6a,#43a047);border-bottom-right-radius:4px}
+.message-wrapper.received .message-box{background:linear-gradient(135deg,#fff,#f5f5f5);border-bottom-left-radius:4px}
+.message-wrapper.received.admin-msg .message-box{background:linear-gradient(135deg,#f44336,#d32f2f)!important}
+.username-display{padding:5px 8px;border-radius:20px;margin:0 10px 0;font-weight:700;font-size:11px;text-shadow:0 2px 4px rgba(0,0,0,0.3);border:2px solid;display:inline-block}
+.message-header{font-size:11px;font-weight:700;padding:6px 10px;display:flex;align-items:center;gap:5px;border-bottom:1px solid rgba(255,255,255,0.2);background:rgba(0,0,0,0.08)}
+.message-wrapper.sent .message-header{color:#fff}
+.message-wrapper.received .message-header{color:#1a237e}
+.message-wrapper.received.admin-msg .message-header{color:#fff;background:rgba(0,0,0,0.2)}
+.verified-badge{width:14px;height:14px;background:url('https://cdn-icons-png.flaticon.com/128/10629/10629607.png') no-repeat center;background-size:contain;display:inline-block;flex-shrink:0;animation:spin 20s linear infinite}
+.verified-badge.hidden{display:none}
+.reply-indicator{background:rgba(255,255,255,0.9);padding:6px 10px;margin:0;border-right:3px solid rgba(66,165,245,0.8);font-size:10px;display:flex;flex-direction:column;gap:2px}
+.reply-username{font-weight:700;color:rgba(66,165,245,1);font-size:10px}
+.reply-message{color:rgba(0,0,0,0.6);font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+.message-wrapper.sent .reply-indicator{border-right-color:rgba(255,255,255,0.8);background:rgba(255,255,255,0.9)}
+.message-wrapper.sent .reply-username{color:rgba(30,136,229,1)}
+.message-wrapper.sent .reply-message{color:rgba(0,0,0,0.6)}
+.message{font-size:13px;line-height:1.5;padding:8px 12px;word-wrap:break-word;font-weight:500;transition:all 0.3s ease}
+.message-wrapper.sent .message{color:#fff}
+.message-wrapper.received .message{color:#333}
+.message-wrapper.received.admin-msg .message{color:#fff;font-weight:600}
+.message-time{font-size:8px;opacity:0.7;padding:3px 10px 6px;text-align:left;font-weight:500}
+.message-wrapper.sent .message-time{color:rgba(255,255,255,0.9)}
+.message-wrapper.received .message-time{color:#666}
+.message-wrapper.received.admin-msg .message-time{color:rgba(255,255,255,0.9)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.input-container{background:rgba(13,27,42,0.98);backdrop-filter:blur(15px);padding:12px 18px;display:flex;gap:10px;align-items:center;box-shadow:0 -3px 20px rgba(0,0,0,0.4);border-top:2px solid rgba(100,181,246,0.3);position:fixed;bottom:35px;left:10px;right:10px;z-index:100;height:65px;border-radius:20px;transition:all 0.3s ease}
+.input-container:hover{box-shadow:0 -5px 25px rgba(0,0,0,0.5)}
+.reply-preview{background:rgba(66,165,245,0.15);padding:8px 12px;border-right:3px solid #42a5f5;margin-bottom:8px;border-radius:8px;display:none;position:relative}
+.reply-preview.show{display:block}
+.reply-preview-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.reply-preview-username{font-weight:700;color:#42a5f5;font-size:11px}
+.reply-preview-close{cursor:pointer;color:#f44336;font-size:16px;font-weight:700;padding:0 5px;transition:all 0.3s ease}
+.reply-preview-close:hover{transform:scale(1.2)}
+.reply-preview-message{color:#fff;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.input-container input{flex:1;border:2px solid rgba(100,181,246,0.5);border-radius:30px;padding:13px 22px;font-size:13px;outline:none;transition:all 0.3s ease;background:rgba(44,62,80,0.8);color:#fff;font-family:'Cairo','Inter',sans-serif;font-weight:500}
+.input-container input::placeholder{color:rgba(255,255,255,0.6)}
+.input-container input:focus{border-color:#42a5f5;background:rgba(44,62,80,1);box-shadow:0 0 0 4px rgba(66,165,245,0.2);transform:translateY(-1px)}
+.input-container button{background:linear-gradient(135deg,#42a5f5,#1e88e5);color:#fff;border:none;border-radius:50%;width:45px;height:45px;cursor:pointer;transition:all 0.3s ease;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 15px rgba(66,165,245,0.6);font-weight:bold}
+.input-container button:hover{transform:scale(1.1) rotate(15deg);box-shadow:0 6px 20px rgba(66,165,245,0.8)}
+.input-container button:active{transform:scale(0.95)}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);backdrop-filter:blur(5px);z-index:1000;justify-content:center;align-items:center;animation:fadeIn 0.3s;opacity:0;transition:opacity 0.3s ease}
+.modal.show{display:flex;opacity:1}
+.modal-content{background:linear-gradient(135deg,#0d1b2a,#1e2a3a);border-radius:20px;padding:22px;max-width:340px;width:92%;box-shadow:0 10px 40px rgba(0,0,0,0.6);animation:slideUp 0.4s cubic-bezier(0.34,1.56,0.64,1);position:relative;max-height:85vh;overflow-y:auto;border:1px solid rgba(100,181,246,0.4);scrollbar-width:thin;scrollbar-color:rgba(100,181,246,0.5) transparent}
+.modal-content::-webkit-scrollbar{width:6px}
+.modal-content::-webkit-scrollbar-track{background:transparent}
+.modal-content::-webkit-scrollbar-thumb{background:rgba(100,181,246,0.5);border-radius:10px}
+@keyframes slideUp{from{transform:translateY(50px) scale(0.9);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.close-modal{position:absolute;top:12px;left:12px;font-size:24px;cursor:pointer;color:#64b5f6;transition:all 0.3s ease;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:50%;z-index:10}
+.close-modal:hover{color:#fff;background:rgba(100,181,246,0.3);transform:rotate(90deg) scale(1.1)}
+.profile-header{text-align:center;margin-bottom:18px;padding-top:20px}
+.uid-badge{background:linear-gradient(135deg,#42a5f5,#1e88e5);color:#fff;padding:5px 12px;border-radius:18px;font-size:10px;font-weight:600;display:inline-block;margin-bottom:12px;box-shadow:0 2px 10px rgba(66,165,245,0.5);position:absolute;top:45px;right:18px;transition:all 0.3s ease}
+.uid-badge:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(66,165,245,0.7)}
+.profile-avatar-container{position:relative;display:inline-block;margin-bottom:10px}
+.profile-avatar{width:75px;height:75px;border-radius:50%;border:3px solid rgba(100,181,246,0.7);object-fit:cover;box-shadow:0 4px 15px rgba(100,181,246,0.6);transition:all 0.3s ease}
+.profile-avatar:hover{transform:scale(1.05) rotate(5deg);box-shadow:0 6px 20px rgba(100,181,246,0.8)}
+.profile-username{font-size:15px;font-weight:700;color:#fff;margin-bottom:5px;display:flex;align-items:center;justify-content:center;gap:6px;text-shadow:0 2px 4px rgba(0,0,0,0.3)}
+.user-age,.user-bio{font-size:11px;color:#90caf9;margin-bottom:8px;font-weight:500;transition:all 0.3s ease}
+.user-bio{color:#e3f2fd;line-height:1.5;padding:8px 12px;background:rgba(255,255,255,0.12);border-radius:12px;margin:10px 0;text-align:center;border:1px solid rgba(100,181,246,0.3);transition:all 0.3s ease}
+.user-bio:hover{background:rgba(255,255,255,0.15);border-color:rgba(100,181,246,0.5)}
+.stats-container{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.stat-box{background:linear-gradient(135deg,#42a5f5,#1e88e5);color:#fff;padding:10px;border-radius:12px;text-align:center;box-shadow:0 3px 12px rgba(66,165,245,0.5);transition:all 0.3s ease}
+.stat-box:hover{transform:translateY(-3px);box-shadow:0 5px 18px rgba(66,165,245,0.7)}
+.stat-label{font-size:10px;opacity:0.95;margin-bottom:4px;font-weight:600}
+.stat-value{font-size:17px;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,0.2)}
+.action-buttons{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.action-btn{padding:10px;border:none;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.3s ease;font-family:'Cairo','Inter',sans-serif;box-shadow:0 3px 10px rgba(0,0,0,0.3)}
+.action-btn.primary{background:linear-gradient(135deg,#42a5f5,#1e88e5);color:#fff}
+.action-btn.primary:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(66,165,245,0.7)}
+.action-btn.verify{background:linear-gradient(135deg,#4caf50,#388e3c);color:#fff}
+.action-btn.verify:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(76,175,80,0.7)}
+.action-btn:active{transform:translateY(0)}
+.edit-input{width:100%;padding:10px 12px;border:1px solid rgba(100,181,246,0.5);border-radius:10px;margin:6px 0;font-size:12px;font-family:'Cairo','Inter',sans-serif;outline:none;transition:all 0.3s ease;background:rgba(44,62,80,0.8);color:#fff}
+.edit-input::placeholder{color:rgba(255,255,255,0.5)}
+.edit-input:focus{border-color:#42a5f5;background:rgba(44,62,80,1);box-shadow:0 0 0 3px rgba(66,165,245,0.2);transform:translateY(-1px)}
+textarea.edit-input{min-height:70px;resize:vertical}
+.avatar-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+.avatar-option{width:100%;aspect-ratio:1;border-radius:12px;cursor:pointer;border:2px solid transparent;transition:all 0.3s ease;object-fit:cover;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.avatar-option:hover{border-color:#42a5f5;transform:scale(1.08);box-shadow:0 4px 15px rgba(66,165,245,0.6)}
+.avatar-option.selected{border-color:#1e88e5;border-width:3px;box-shadow:0 4px 18px rgba(30,136,229,0.8)}
+.privacy-settings{margin-top:12px;padding-top:12px;border-top:1px solid rgba(100,181,246,0.3)}
+.privacy-checkbox{display:flex;align-items:center;gap:8px;margin:8px 0;color:#fff;font-size:11px;cursor:pointer;transition:all 0.3s ease;padding:6px;border-radius:8px}
+.privacy-checkbox:hover{background:rgba(100,181,246,0.1)}
+.privacy-checkbox input{width:16px;height:16px;cursor:pointer}
+h3{font-size:13px;color:#64b5f6;margin-bottom:8px;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,0.2)}
+.loading{text-align:center;color:white;padding:20px;font-size:14px;animation:pulse 2s ease-in-out infinite}
+.emoji-picker{position:fixed;bottom:105px;right:20px;background:rgba(44,62,80,0.98);backdrop-filter:blur(10px);border-radius:15px;padding:10px;box-shadow:0 5px 25px rgba(0,0,0,0.6);display:none;max-width:220px;border:1px solid rgba(100,181,246,0.4);z-index:999;animation:popIn 0.3s ease}
+.emoji-picker.show{display:block}
+.emoji{font-size:20px;cursor:pointer;padding:5px;transition:all 0.3s ease;display:inline-block;border-radius:8px}
+.emoji:hover{transform:scale(1.3);background:rgba(100,181,246,0.2)}
+.verification-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);backdrop-filter:blur(5px);z-index:2001;display:none;justify-content:center;align-items:center;opacity:0;transition:opacity 0.3s ease}
+.verification-modal.show{opacity:1}
+.verification-content{background:linear-gradient(135deg,#0d1b2a,#1e2a3a);border-radius:20px;padding:25px;max-width:340px;width:90%;text-align:center;border:2px solid #ff9800;box-shadow:0 10px 40px rgba(255,152,0,0.6);animation:slideUp 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+.verification-title{color:#ff9800;font-size:18px;font-weight:700;margin-bottom:18px;text-shadow:0 2px 4px rgba(0,0,0,0.3)}
+.verification-text{color:#fff;line-height:1.6;margin-bottom:18px;font-size:12px}
+.verification-amount{color:#4caf50;font-size:20px;font-weight:700;margin:15px 0;text-shadow:0 2px 4px rgba(0,0,0,0.3)}
+.verification-instructions{background:rgba(255,152,0,0.1);border:1px solid rgba(255,152,0,0.3);border-radius:12px;padding:15px;margin:15px 0;text-align:right}
+.verification-steps{color:#fff;font-size:11px;line-height:1.8}
+.verification-steps ol{padding-right:20px;margin:10px 0}
+.verification-steps li{margin:8px 0}
+.avatar-section{margin:12px 0}
+.section-title{color:#64b5f6;font-weight:700;margin-bottom:8px;text-align:center;padding:6px;background:rgba(100,181,246,0.15);border-radius:10px;font-size:11px;transition:all 0.3s ease}
+.section-title:hover{background:rgba(100,181,246,0.25)}
+.profile-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);backdrop-filter:blur(5px);z-index:2000;display:none;justify-content:center;align-items:center;opacity:0;transition:opacity 0.3s ease}
+.profile-modal.show{opacity:1}
+.profile-content{background:linear-gradient(135deg,#0d1b2a,#1e2a3a);border-radius:20px;padding:25px;width:92%;max-width:420px;max-height:88vh;overflow-y:auto;border:1px solid rgba(100,181,246,0.4);position:relative;box-shadow:0 10px 40px rgba(0,0,0,0.6);scrollbar-width:thin;scrollbar-color:rgba(100,181,246,0.5) transparent}
+.profile-content::-webkit-scrollbar{width:6px}
+.profile-content::-webkit-scrollbar-track{background:transparent}
+.profile-content::-webkit-scrollbar-thumb{background:rgba(100,181,246,0.5);border-radius:10px}
+.close-profile{position:absolute;top:12px;left:12px;font-size:26px;color:#64b5f6;cursor:pointer;transition:all 0.3s ease;z-index:10;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.close-profile:hover{color:#fff;background:rgba(100,181,246,0.3);transform:rotate(90deg) scale(1.1)}
+.color-selector{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;justify-content:center}
+.name-color-option{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid rgba(255,255,255,0.5);transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.name-color-option:hover{transform:scale(1.2);box-shadow:0 4px 15px rgba(0,0,0,0.5)}
+.name-color-option.selected{border-width:3px;border-color:#fff;transform:scale(1.15);box-shadow:0 4px 18px rgba(0,0,0,0.6)}
+.hidden{display:none!important}
+@media (max-width:480px){
+.message-wrapper{max-width:85%}
+.message-box{min-width:120px}
+.message{font-size:12px}
+.message-header{font-size:10px}
+.user-avatar{width:28px!important;height:28px!important}
+.input-container{bottom:30px;left:5px;right:5px;padding:10px 12px;height:60px}
+.input-container input{padding:10px 18px;font-size:12px}
+.input-container button{width:40px;height:40px;font-size:16px}
+.emoji-picker{bottom:95px}
+}
+</style>
+</head>
+<body>
+<div class="loading-screen" id="loadingScreen">
+<div class="loading-spinner"></div>
+<div class="loading-text">جاري التحميل...</div>
+</div>
+<div class="auth-container" id="authContainer">
+<div class="auth-box">
+<div class="auth-title">🔐 تسجيل الدخول للدردشة</div>
+<div id="authError" class="auth-error"></div>
+<div id="loginForm">
+<input type="email" id="loginEmail" class="auth-input" placeholder="البريد الإلكتروني" required>
+<input type="password" id="loginPassword" class="auth-input" placeholder="كلمة المرور" required>
+<button id="loginBtn" class="auth-btn">🚀 تسجيل الدخول</button>
+<div class="auth-toggle" id="showRegister">ليس لديك حساب؟ سجل الآن</div>
+</div>
+<div id="registerForm" class="hidden">
+<input type="email" id="registerEmail" class="auth-input" placeholder="البريد الإلكتروني" required>
+<input type="password" id="registerPassword" class="auth-input" placeholder="كلمة المرور (6 أحرف على الأقل)" required>
+<input type="password" id="confirmPassword" class="auth-input" placeholder="تأكيد كلمة المرور" required>
+<button id="registerBtn" class="auth-btn">📝 إنشاء حساب</button>
+<div class="auth-toggle" id="showLogin">لديك حساب؟ سجل دخول</div>
+</div>
+<button id="guestBtn" class="auth-btn guest-btn">👤 متابعة كضيف</button>
+</div>
+</div>
+<header class="top-bar">
+<div class="left">
+<div class="admin-controls" id="adminToggle" style="display:none">🔧 مدير</div>
+<div id="adminTimeControls" style="display:none">
+<input type="number" id="timeInput" class="admin-time-input" placeholder="دقيقة" min="1" max="60">
+<button class="admin-controls" onclick="startCountdown()">⏰</button>
+<button class="admin-controls" onclick="stopCountdown()" style="background:#4caf50">🔓</button>
+</div>
+<div class="admin-color-controls" id="adminColors" style="display:none">
+<div class="color-btn active" style="background:#f44336" data-color="#f44336"></div>
+<div class="color-btn" style="background:#e91e63" data-color="#e91e63"></div>
+<div class="color-btn" style="background:#9c27b0" data-color="#9c27b0"></div>
+<div class="color-btn" style="background:#673ab7" data-color="#673ab7"></div>
+<div class="color-btn" style="background:#3f51b5" data-color="#3f51b5"></div>
+</div>
+</div>
+<div class="right">
+<img src="" alt="Profile" class="icon" id="profileIcon" style="display:none">
+</div>
+</header>
+<div class="countdown-banner" id="countdownBanner">
+<div class="countdown-timer" id="countdownTimer"></div>
+</div>
+<div class="welcome-banner" id="welcomeBanner" style="display:none">
+<div class="welcome-text" id="welcomeText">مرحباً بك!</div>
+<div class="welcome-subtext">أهلاً بك في الدردشة الجماعية</div>
+</div>
+<div class="chat-status" id="chatStatus" style="display:none">🔒 الدردشة مقفلة من قبل المدير</div>
+<div class="chat-container" id="chatMessages">
+<div class="loading">جاري تحميل الرسائل...</div>
+</div>
+<div class="input-container" id="inputContainer">
+<div class="reply-preview" id="replyPreview">
+<div class="reply-preview-header">
+<span class="reply-preview-username" id="replyUsername"></span>
+<span class="reply-preview-close" id="closeReply">×</span>
+</div>
+<div class="reply-preview-message" id="replyMessage"></div>
+</div>
+<button id="emojiBtn">😊</button>
+<input type="text" id="messageInput" placeholder="اكتب رسالتك...">
+<button id="sendBtn">➤</button>
+</div>
+<div class="emoji-picker" id="emojiPicker">
+<span class="emoji">😀</span><span class="emoji">😂</span><span class="emoji">😍</span><span class="emoji">😎</span>
+<span class="emoji">🥰</span><span class="emoji">😘</span><span class="emoji">🤗</span><span class="emoji">🤔</span>
+<span class="emoji">😊</span><span class="emoji">👍</span><span class="emoji">👏</span><span class="emoji">🎉</span>
+<span class="emoji">❤️</span><span class="emoji">💯</span><span class="emoji">🔥</span><span class="emoji">✨</span>
+</div>
+<div class="profile-modal" id="profileModal">
+<div class="profile-content">
+<span class="close-profile" id="closeProfile">×</span>
+<div class="uid-badge">UID <span id="myUid">123456789</span></div>
+<div class="profile-header">
+<div class="profile-avatar-container">
+<img src="" alt="Avatar" class="profile-avatar" id="modalAvatar">
+</div>
+<h2 class="profile-username" id="modalUsername">
+مستخدم جديد
+<span class="verified-badge" id="myVerifyBadge"></span>
+</h2>
+<div class="user-age" id="myAge">العمر: غير محدد</div>
+<div class="user-bio" id="myBio">لا يوجد نبذة</div>
+<div id="verificationStatus"></div>
+</div>
+<div class="stats-container">
+<div class="stat-box">
+<div class="stat-label">💰 السحوبات</div>
+<div class="stat-value" id="withdrawals">0</div>
+</div>
+<div class="stat-box">
+<div class="stat-label">💵 الإيداعات</div>
+<div class="stat-value" id="deposits">0</div>
+</div>
+</div>
+<div class="privacy-settings">
+<h3>🔒 إعدادات الخصوصية</h3>
+<label class="privacy-checkbox">
+<input type="checkbox" id="hideAge"> إخفاء العمر
+</label>
+<label class="privacy-checkbox">
+<input type="checkbox" id="hideBio"> إخفاء النبذة
+</label>
+<label class="privacy-checkbox">
+<input type="checkbox" id="hideStats"> إخفاء الإحصائيات
+</label>
+</div>
+<div class="edit-section">
+<h3>✏️ تعديل الملف الشخصي</h3>
+<input type="text" class="edit-input" id="editUsername" placeholder="اسم مستخدم جديد">
+<input type="text" class="edit-input" id="editAge" placeholder="العمر">
+<textarea class="edit-input" id="editBio" placeholder="نبذة عنك"></textarea>
+<h3>🎨 لون اسم المستخدم</h3>
+<div class="color-selector">
+<div class="name-color-option" style="background:#42a5f5" data-color="#42a5f5"></div>
+<div class="name-color-option" style="background:#4caf50" data-color="#4caf50"></div>
+<div class="name-color-option" style="background:#ff9800" data-color="#ff9800"></div>
+<div class="name-color-option" style="background:#f44336" data-color="#f44336"></div>
+<div class="name-color-option" style="background:#9c27b0" data-color="#9c27b0"></div>
+<div class="name-color-option" style="background:#e91e63" data-color="#e91e63"></div>
+<div class="name-color-option" style="background:#673ab7" data-color="#673ab7"></div>
+<div class="name-color-option" style="background:#795548" data-color="#795548"></div>
+</div>
+<div class="avatar-section">
+<div class="section-title">👩 صور نسائية</div>
+<div class="avatar-gallery">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSup9phH-B5G8YbSeg1Ahd6zJF7CYLIhembSKmLhMdnew&s=10" class="avatar-option" data-avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSup9phH-B5G8YbSeg1Ahd6zJF7CYLIhembSKmLhMdnew&s=10">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREqGpMihButS_smhAr-D4TkUnkETk0jxadSsUIOrzTwQ&s=10" class="avatar-option" data-avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREqGpMihButS_smhAr-D4TkUnkETk0jxadSsUIOrzTwQ&s=10">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9RyPVsFTqi1UtrOAe4mZygGqGWdTa4F1Jev8B2ANMjg&s=10" class="avatar-option" data-avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9RyPVsFTqi1UtrOAe4mZygGqGWdTa4F1Jev8B2ANMjg&s=10">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxRM-riNkdbqF3nZrtW7oaaqH0VnHxmDKWrEgQfRIwyw&s=10" class="avatar-option" data-avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxRM-riNkdbqF3nZrtW7oaaqH0VnHxmDKWrEgQfRIwyw&s=10">
+</div>
+</div>
+<div class="avatar-section">
+<div class="section-title">👨 صور رجالية</div>
+<div class="avatar-gallery">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToG1KGiy12UATiQV8aTshu6fhFAQA_3Zh8H9nKZyrmBQ&s=10" class="avatar-option" data-avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToG1KGiy12UATiQV8aTshu6fhFAQA_3Zh8H9nKZyrmBQ&s=10">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_9-6ehim4juYIV0lUqqv0QnDAyLrye9R7tgVM-AQDHA&s=10" class="avatar-option" data-avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_9-6ehim4juYIV0lUqqv0QnDAyLrye9R7tgVM-AQDHA&s=10">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8PgC6qnC7LnqUpckwN5fotKmYB8wmayaa8q_4UEoMIA&s=10" class="avatar-option" data-avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8PgC6qnC7LnqUpckwN5fotKmYB8wmayaa8q_4UEoMIA&s=10">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1olg1IpN3jOJ7rFtttGPhvVvxTCF58jgT_ClO0pIYEQ&s=10" class="avatar-option" data-avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1olg1IpN3jOJ7rFtttGPhvVvxTCF58jgT_ClO0pIYEQ&s=10">
+</div>
+</div>
+<button class="action-btn primary" id="saveChanges">💾 حفظ التغييرات</button>
+</div>
+</div>
+</div>
+<div class="modal" id="userModal">
+<div class="modal-content">
+<span class="close-modal" id="closeUserModal">×</span>
+<div class="uid-badge">UID <span id="userUid">000000000</span></div>
+<div class="profile-header">
+<div class="profile-avatar-container">
+<img src="" alt="Avatar" class="profile-avatar" id="userModalAvatar">
+</div>
+<h2 class="profile-username" id="userModalUsername">
+مستخدم
+<span class="verified-badge" id="userVerifyBadge"></span>
+</h2>
+<div class="user-age" id="userAge">العمر: غير محدد</div>
+<div class="user-bio" id="userBio">لا يوجد نبذة</div>
+</div>
+<div class="stats-container" id="userStatsContainer">
+<div class="stat-box">
+<div class="stat-label">💰 السحوبات</div>
+<div class="stat-value" id="userWithdrawals">0</div>
+</div>
+<div class="stat-box">
+<div class="stat-label">💵 الإيداعات</div>
+<div class="stat-value" id="userDeposits">0</div>
+</div>
+</div>
+<div class="action-buttons" id="adminUserActions" style="display:none">
+<button class="action-btn verify" id="verifyUserBtn">✅ منح التوثيق</button>
+<button class="action-btn verify" id="unverifyUserBtn" style="display:none;background:linear-gradient(135deg,#ff9800,#f57c00)">❌ إزالة التوثيق</button>
+</div>
+</div>
+</div>
+<div class="verification-modal" id="verificationModal">
+<div class="verification-content">
+<span class="close-modal" id="closeVerificationModal" style="color:#ff9800">×</span>
+<div class="verification-title">🔐 متطلبات التوثيق</div>
+<div class="verification-text">للحصول على التوثيق والشارة الزرقاء، يجب عليك:</div>
+<div class="verification-amount">إيداع $500 كحد أدنى</div>
+<div class="verification-instructions">
+<div class="verification-steps">
+<strong>خطوات الحصول على التوثيق:</strong>
+<ol>
+<li>قم بإيداع 500 دولار كحد أدنى</li>
+<li>تأكد من صحة معلومات الحساب</li>
+<li>انتظر 24 ساعة للمراجعة</li>
+<li>ستحصل على التوثيق تلقائياً</li>
+<li>الشارة الزرقاء ستظهر بجانب اسمك</li>
+</ol>
+<strong>مميزات التوثيق:</strong><br>
+• شارة زرقاء مميزة<br>
+• أولوية في الدعم الفني<br>
+• ميزات إضافية حصرية
+</div>
+</div>
+<button class="action-btn" style="background:#ff9800;color:#fff" onclick="closeVerificationModal()">فهمت</button>
+</div>
+</div>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+import{getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,signInAnonymously,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+import{getFirestore,collection,addDoc,query,orderBy,onSnapshot,serverTimestamp,doc,setDoc,getDoc,updateDoc,deleteDoc,getDocs,where}from"https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyA-MK1RYmvpYJrTOBAQcxDqxhp-z_FOb1o",authDomain:"mzjsjjshs.firebaseapp.com",projectId:"mzjsjjshs",storageBucket:"mzjsjjshs.firebasestorage.app",messagingSenderId:"944370558426",appId:"1:944370558426:web:70d4ee772c487f48b58ce3"};
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const ADMIN_EMAIL='ydnajdajajda@gmail.com';
+const loadingScreen=document.getElementById('loadingScreen');
+const authContainer=document.getElementById('authContainer');
+const loginForm=document.getElementById('loginForm');
+const registerForm=document.getElementById('registerForm');
+const authError=document.getElementById('authError');
+const showRegister=document.getElementById('showRegister');
+const showLogin=document.getElementById('showLogin');
+const loginBtn=document.getElementById('loginBtn');
+const registerBtn=document.getElementById('registerBtn');
+const guestBtn=document.getElementById('guestBtn');
+const loginEmail=document.getElementById('loginEmail');
+const loginPassword=document.getElementById('loginPassword');
+const registerEmail=document.getElementById('registerEmail');
+const registerPassword=document.getElementById('registerPassword');
+const confirmPassword=document.getElementById('confirmPassword');
+const chatMessages=document.getElementById('chatMessages');
+const messageInput=document.getElementById('messageInput');
+const sendBtn=document.getElementById('sendBtn');
+const emojiBtn=document.getElementById('emojiBtn');
+const emojiPicker=document.getElementById('emojiPicker');
+const welcomeBanner=document.getElementById('welcomeBanner');
+const welcomeText=document.getElementById('welcomeText');
+const profileIcon=document.getElementById('profileIcon');
+const profileModal=document.getElementById('profileModal');
+const closeProfile=document.getElementById('closeProfile');
+const modalUsername=document.getElementById('modalUsername');
+const modalAvatar=document.getElementById('modalAvatar');
+const myUid=document.getElementById('myUid');
+const myAge=document.getElementById('myAge');
+const myBio=document.getElementById('myBio');
+const editUsername=document.getElementById('editUsername');
+const editAge=document.getElementById('editAge');
+const editBio=document.getElementById('editBio');
+const saveChanges=document.getElementById('saveChanges');
+const withdrawals=document.getElementById('withdrawals');
+const deposits=document.getElementById('deposits');
+const adminToggle=document.getElementById('adminToggle');
+const adminColors=document.getElementById('adminColors');
+const adminTimeControls=document.getElementById('adminTimeControls');
+const timeInput=document.getElementById('timeInput');
+const countdownBanner=document.getElementById('countdownBanner');
+const countdownTimer=document.getElementById('countdownTimer');
+const chatStatus=document.getElementById('chatStatus');
+const inputContainer=document.getElementById('inputContainer');
+const userModal=document.getElementById('userModal');
+const closeUserModal=document.getElementById('closeUserModal');
+const userModalAvatar=document.getElementById('userModalAvatar');
+const userModalUsername=document.getElementById('userModalUsername');
+const userUid=document.getElementById('userUid');
+const userAge=document.getElementById('userAge');
+const userBio=document.getElementById('userBio');
+const userWithdrawals=document.getElementById('userWithdrawals');
+const userDeposits=document.getElementById('userDeposits');
+const userStatsContainer=document.getElementById('userStatsContainer');
+const adminUserActions=document.getElementById('adminUserActions');
+const verifyUserBtn=document.getElementById('verifyUserBtn');
+const unverifyUserBtn=document.getElementById('unverifyUserBtn');
+const myVerifyBadge=document.getElementById('myVerifyBadge');
+const userVerifyBadge=document.getElementById('userVerifyBadge');
+const hideAge=document.getElementById('hideAge');
+const hideBio=document.getElementById('hideBio');
+const hideStats=document.getElementById('hideStats');
+const verificationStatus=document.getElementById('verificationStatus');
+const verificationModal=document.getElementById('verificationModal');
+const closeVerificationModal=document.getElementById('closeVerificationModal');
+const replyPreview=document.getElementById('replyPreview');
+const replyUsername=document.getElementById('replyUsername');
+const replyMessage=document.getElementById('replyMessage');
+const closeReply=document.getElementById('closeReply');
+let currentUser=null;
+let userData={};
+let selectedAvatar='';
+let selectedNameColor='#42a5f5';
+let isAdmin=false;
+let chatLocked=false;
+let bannedUsers=new Set();
+let messagesListener=null;
+let adminSelectedColor='#f44336';
+let currentViewingUser=null;
+let countdownInterval=null;
+let isGuest=false;
+let lockCountdownListener=null;
+let replyToMessage=null;
+function generateUID(){return Math.floor(100000000+Math.random()*900000000).toString()}
+setTimeout(()=>{loadingScreen.classList.add('fade-out');setTimeout(()=>loadingScreen.style.display='none',500)},1800);
+showRegister.addEventListener('click',()=>{loginForm.classList.add('hidden');registerForm.classList.remove('hidden');authError.textContent=''});
+showLogin.addEventListener('click',()=>{registerForm.classList.add('hidden');loginForm.classList.remove('hidden');authError.textContent=''});
+loginBtn.addEventListener('click',async()=>{const email=loginEmail.value.trim();const password=loginPassword.value.trim();if(!email||!password){showError('الرجاء إدخال البريد الإلكتروني وكلمة المرور');return}try{loginBtn.disabled=true;loginBtn.textContent='جاري تسجيل الدخول...';await signInWithEmailAndPassword(auth,email,password)}catch(error){showError(getErrorMessage(error.code))}finally{loginBtn.disabled=false;loginBtn.textContent='🚀 تسجيل الدخول'}});
+registerBtn.addEventListener('click',async()=>{const email=registerEmail.value.trim();const password=registerPassword.value.trim();const confirm=confirmPassword.value.trim();if(!email||!password||!confirm){showError('الرجاء ملء جميع الحقول');return}if(password.length<6){showError('كلمة المرور يجب أن تكون 6 أحرف على الأقل');return}if(password!==confirm){showError('كلمات المرور غير متطابقة');return}try{registerBtn.disabled=true;registerBtn.textContent='جاري إنشاء الحساب...';await createUserWithEmailAndPassword(auth,email,password)}catch(error){showError(getErrorMessage(error.code))}finally{registerBtn.disabled=false;registerBtn.textContent='📝 إنشاء حساب'}});
+guestBtn.addEventListener('click',async()=>{try{isGuest=true;guestBtn.disabled=true;guestBtn.textContent='جاري الانضمام كضيف...';await signInAnonymously(auth)}catch(error){showError('فشل الانضمام كضيف');guestBtn.disabled=false;guestBtn.textContent='👤 متابعة كضيف'}});
+function showError(message){authError.textContent=message;setTimeout(()=>authError.textContent='',5000)}
+function getErrorMessage(code){switch(code){case'auth/user-not-found':return'لا يوجد حساب بهذا البريد الإلكتروني';case'auth/wrong-password':return'كلمة المرور غير صحيحة';case'auth/email-already-in-use':return'البريد الإلكتروني مستخدم بالفعل';case'auth/weak-password':return'كلمة المرور ضعيفة جداً';case'auth/invalid-email':return'البريد الإلكتروني غير صحيح';case'auth/too-many-requests':return'محاولات كثيرة، حاول لاحقاً';default:return'فشل تسجيل الدخول'}}
+function checkAdminStatus(user){const userEmail=user.email;isAdmin=userEmail===ADMIN_EMAIL;if(isAdmin){adminToggle.style.display='block';adminColors.style.display='flex';adminTimeControls.style.display='flex'}else{adminToggle.style.display='none';adminColors.style.display='none';adminTimeControls.style.display='none'}}
+async function loadUserData(user){try{const userId=user.uid;const userDoc=await getDoc(doc(db,'users',userId));if(userDoc.exists()){userData=userDoc.data()}else{const emailPrefix=user.email?user.email.split('@')[0]:`Guest${userId.slice(-4)}`;const defaultAvatars=['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1olg1IpN3jOJ7rFtttGPhvVvxTCF58jgT_ClO0pIYEQ&s=10','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSup9phH-B5G8YbSeg1Ahd6zJF7CYLIhembSKmLhMdnew&s=10'];userData={username:emailPrefix,avatar:defaultAvatars[Math.floor(Math.random()*defaultAvatars.length)],uid:generateUID(),email:user.email||'',age:'20',bio:'مرحباً 👋',nameColor:'#42a5f5',totalWithdraws:0,totalDeposits:0,verified:isAdmin,hideAge:false,hideBio:false,hideStats:false,createdAt:new Date()};await setDoc(doc(db,'users',userId),userData)}if(!userData.email&&user.email){userData.email=user.email;await updateDoc(doc(db,'users',userId),{email:user.email})}if(!userData.uid||userData.uid.toString().length!==9){userData.uid=generateUID();await updateDoc(doc(db,'users',userId),{uid:userData.uid})}if(!userData.nameColor){userData.nameColor='#42a5f5';await updateDoc(doc(db,'users',userId),{nameColor:userData.nameColor})}selectedAvatar=userData.avatar;selectedNameColor=userData.nameColor||'#42a5f5';checkAdminStatus(user);updateUI();showWelcomeBanner();await checkChatLockStatus();await loadBannedUsers();startLockCountdownListener()}catch(error){console.error('خطأ في تحميل بيانات المستخدم:',error)}}
+async function saveUserData(){if(!currentUser)return;try{await updateDoc(doc(db,'users',currentUser.uid),userData)}catch(error){console.error('خطأ في حفظ بيانات المستخدم:',error)}}
+async function checkChatLockStatus(){try{const settingsDoc=await getDoc(doc(db,'settings','chat'));if(settingsDoc.exists()&&settingsDoc.data().locked){chatLocked=true;chatStatus.style.display='block';inputContainer.style.display='none'}else{chatLocked=false;chatStatus.style.display='none';inputContainer.style.display='flex'}}catch(error){console.error('خطأ في التحقق من حالة الدردشة:',error)}}
+async function loadBannedUsers(){try{const bannedDoc=await getDoc(doc(db,'settings','banned'));if(bannedDoc.exists()){bannedUsers=new Set(bannedDoc.data().users||[])}}catch(error){console.error('خطأ في تحميل المستخدمين المحظورين:',error)}}
+function startLockCountdownListener(){const countdownRef=doc(db,'settings','countdown');lockCountdownListener=onSnapshot(countdownRef,(doc)=>{if(doc.exists()){const data=doc.data();if(data.active&&data.endTime){const now=new Date().getTime();const endTime=data.endTime.toDate().getTime();if(endTime>now){const remainingTime=Math.floor((endTime-now)/1000);showCountdownForAll(remainingTime);const interval=setInterval(()=>{const currentTime=new Date().getTime();const remaining=Math.floor((endTime-currentTime)/1000);if(remaining<=0){clearInterval(interval);countdownBanner.style.display='none';activateChatLock()}else{updateCountdownDisplay(remaining)}},1000)}else{countdownBanner.style.display='none';activateChatLock()}}else{countdownBanner.style.display='none'}}else{countdownBanner.style.display='none'}})}
+function showCountdownForAll(seconds){countdownBanner.style.display='block';updateCountdownDisplay(seconds)}
+function updateCountdownDisplay(seconds){const mins=Math.floor(seconds/60);const secs=seconds%60;countdownTimer.textContent=`سيتم قفل الدردشة خلال ${mins}:${secs.toString().padStart(2,'0')}`}
+async function activateChatLock(){try{await updateDoc(doc(db,'settings','chat'),{locked:true});chatLocked=true;chatStatus.style.display='block';inputContainer.style.display='none'}catch(error){console.error('خطأ في قفل الدردشة:',error)}}
+function updateUI(){modalUsername.innerHTML=userData.username+'<span class="verified-badge" id="myVerifyBadge"></span>';modalAvatar.src=userData.avatar;profileIcon.src=userData.avatar;myUid.textContent=userData.uid;myAge.textContent=userData.age?'العمر: '+userData.age:'العمر: 20';myBio.textContent=userData.bio||'مرحباً 👋';withdrawals.textContent=userData.totalWithdraws||0;deposits.textContent=userData.totalDeposits||0;document.getElementById('myVerifyBadge').classList.toggle('hidden',!userData.verified);if(!userData.verified){verificationStatus.innerHTML='<button class="action-btn" style="background:#ff9800;color:#fff;margin:10px 0" onclick="openVerificationModal()">✅ احصل على التوثيق</button>'}profileIcon.style.display='block';hideAge.checked=userData.hideAge||false;hideBio.checked=userData.hideBio||false;hideStats.checked=userData.hideStats||false;document.querySelectorAll('.name-color-option').forEach(option=>{option.classList.remove('selected');if(option.dataset.color===selectedNameColor){option.classList.add('selected')}})}
+function showWelcomeBanner(){welcomeText.textContent=`مرحباً ${userData.username}!`;welcomeBanner.style.display='block';setTimeout(()=>welcomeBanner.style.display='none',4000)}
+onAuthStateChanged(auth,async(user)=>{if(user){currentUser=user;await loadUserData(user);authContainer.style.display='none';startMessagesListener()}else{authContainer.style.display='flex';authContainer.classList.add('show')}});
+function startMessagesListener(){if(messagesListener){messagesListener()}const q=query(collection(db,'messages'),orderBy('timestamp','asc'));messagesListener=onSnapshot(q,(snapshot)=>{chatMessages.innerHTML='';snapshot.forEach((doc)=>{const msg=doc.data();renderMessage({...msg,id:doc.id})});chatMessages.scrollTop=chatMessages.scrollHeight})}
+function renderMessage(msg){if(!msg.username||!msg.message||!msg.timestamp)return;const div=document.createElement('div');div.className='message-wrapper';div.dataset.messageId=msg.id;div.dataset.userId=msg.userId;div.dataset.username=msg.username;div.dataset.message=msg.message;if(msg.userId===currentUser.uid){div.classList.add('sent')}else{div.classList.add('received')}if(msg.isAdmin){div.classList.add('admin-msg')}div.addEventListener('click',function(e){if(!e.target.closest('.user-avatar')){handleReply(this)}});const avatar=document.createElement('img');avatar.src=msg.avatar||'';avatar.className='user-avatar';avatar.alt=msg.username;avatar.addEventListener('click',(e)=>{e.stopPropagation();openUserProfile(msg.userId)});const msgBox=document.createElement('div');msgBox.className='message-box';const msgHeader=document.createElement('div');msgHeader.className='message-header';const usernameSpan=document.createElement('span');usernameSpan.className='username-display';usernameSpan.textContent=msg.username;usernameSpan.style.backgroundColor=msg.nameColor||'#42a5f5';usernameSpan.style.borderColor=msg.nameColor||'#42a5f5';usernameSpan.style.color='#fff';msgHeader.appendChild(usernameSpan);if(msg.verified){const verifyBadge=document.createElement('span');verifyBadge.className='verified-badge';msgHeader.appendChild(verifyBadge)}if(msg.replyTo){const replyIndicator=document.createElement('div');replyIndicator.className='reply-indicator';replyIndicator.innerHTML=`<div class="reply-username">${msg.replyTo.username}</div><div class="reply-message">${msg.replyTo.message}</div>`;msgBox.appendChild(replyIndicator)}const msgText=document.createElement('div');msgText.className='message';msgText.textContent=msg.message;const msgTime=document.createElement('div');msgTime.className='message-time';msgTime.textContent=formatTime(msg.timestamp);msgBox.appendChild(msgHeader);msgBox.appendChild(msgText);msgBox.appendChild(msgTime);div.appendChild(avatar);div.appendChild(msgBox);chatMessages.appendChild(div)}
+function handleReply(messageElement){const userId=messageElement.dataset.userId;const username=messageElement.dataset.username;const message=messageElement.dataset.message;replyToMessage={userId:userId,username:username,message:message};replyUsername.textContent=username;replyMessage.textContent=message;replyPreview.classList.add('show');messageInput.focus()}
+closeReply.addEventListener('click',()=>{replyToMessage=null;replyPreview.classList.remove('show')});
+function formatTime(timestamp){if(!timestamp)return'';const date=timestamp.toDate?timestamp.toDate():new Date(timestamp);const hours=date.getHours().toString().padStart(2,'0');const minutes=date.getMinutes().toString().padStart(2,'0');return`${hours}:${minutes}`}
+async function sendMessage(){const message=messageInput.value.trim();if(!message||chatLocked||bannedUsers.has(currentUser.uid))return;try{const messageData={username:userData.username,userId:currentUser.uid,avatar:userData.avatar,nameColor:userData.nameColor||'#42a5f5',message:message,timestamp:serverTimestamp(),isAdmin:isAdmin,verified:userData.verified||false};if(replyToMessage){messageData.replyTo={userId:replyToMessage.userId,username:replyToMessage.username,message:replyToMessage.message}}await addDoc(collection(db,'messages'),messageData);messageInput.value='';replyToMessage=null;replyPreview.classList.remove('show')}catch(error){console.error('خطأ في إرسال الرسالة:',error)}}
+sendBtn.addEventListener('click',sendMessage);
+messageInput.addEventListener('keypress',(e)=>{if(e.key==='Enter')sendMessage()});
+emojiBtn.addEventListener('click',()=>emojiPicker.classList.toggle('show'));
+document.querySelectorAll('.emoji').forEach(emoji=>{emoji.addEventListener('click',()=>{messageInput.value+=emoji.textContent;emojiPicker.classList.remove('show');messageInput.focus()})});
+profileIcon.addEventListener('click',()=>{profileModal.classList.add('show');profileModal.style.display='flex'});
+closeProfile.addEventListener('click',()=>{profileModal.classList.remove('show');setTimeout(()=>profileModal.style.display='none',300)});
+closeUserModal.addEventListener('click',()=>{userModal.classList.remove('show');setTimeout(()=>userModal.style.display='none',300)});
+document.querySelectorAll('.avatar-option').forEach(option=>{option.addEventListener('click',function(){document.querySelectorAll('.avatar-option').forEach(opt=>opt.classList.remove('selected'));this.classList.add('selected');selectedAvatar=this.dataset.avatar})});
+document.querySelectorAll('.name-color-option').forEach(option=>{option.addEventListener('click',function(){document.querySelectorAll('.name-color-option').forEach(opt=>opt.classList.remove('selected'));this.classList.add('selected');selectedNameColor=this.dataset.color})});
+saveChanges.addEventListener('click',async()=>{const newUsername=editUsername.value.trim();const newAge=editAge.value.trim();const newBio=editBio.value.trim();if(newUsername)userData.username=newUsername;if(newAge)userData.age=newAge;if(newBio)userData.bio=newBio;if(selectedAvatar)userData.avatar=selectedAvatar;if(selectedNameColor)userData.nameColor=selectedNameColor;userData.hideAge=hideAge.checked;userData.hideBio=hideBio.checked;userData.hideStats=hideStats.checked;await saveUserData();updateUI();alert('تم حفظ التغييرات بنجاح!')});
+async function openUserProfile(userId){if(!userId)return;try{const userDoc=await getDoc(doc(db,'users',userId));if(!userDoc.exists())return;const user=userDoc.data();currentViewingUser=userId;userModalAvatar.src=user.avatar;userModalUsername.innerHTML=`${user.username} ${user.verified?'<span class="verified-badge"></span>':''}`;userUid.textContent=user.uid;userAge.textContent=user.hideAge?'العمر: مخفي':`العمر: ${user.age||'غير محدد'}`;userBio.textContent=user.hideBio?'النبذة: مخفية':(user.bio||'لا يوجد نبذة');if(user.hideStats){userStatsContainer.style.display='none'}else{userStatsContainer.style.display='grid';userWithdrawals.textContent=user.totalWithdraws||0;userDeposits.textContent=user.totalDeposits||0}if(isAdmin){adminUserActions.style.display='block';if(user.verified){verifyUserBtn.style.display='none';unverifyUserBtn.style.display='block'}else{verifyUserBtn.style.display='block';unverifyUserBtn.style.display='none'}}else{adminUserActions.style.display='none'}userModal.classList.add('show');userModal.style.display='flex'}catch(error){console.error('خطأ في فتح ملف المستخدم:',error)}}
+verifyUserBtn.addEventListener('click',async()=>{if(!currentViewingUser)return;try{await updateDoc(doc(db,'users',currentViewingUser),{verified:true});alert('تم منح التوثيق بنجاح!');userModal.classList.remove('show');setTimeout(()=>userModal.style.display='none',300)}catch(error){console.error('خطأ في منح التوثيق:',error)}});
+unverifyUserBtn.addEventListener('click',async()=>{if(!currentViewingUser)return;try{await updateDoc(doc(db,'users',currentViewingUser),{verified:false});alert('تم إزالة التوثيق بنجاح!');userModal.classList.remove('show');setTimeout(()=>userModal.style.display='none',300)}catch(error){console.error('خطأ في إزالة التوثيق:',error)}});
+function openVerificationModal(){verificationModal.classList.add('show');verificationModal.style.display='flex'}
+window.closeVerificationModal=function(){verificationModal.classList.remove('show');setTimeout(()=>verificationModal.style.display='none',300)};
+closeVerificationModal.addEventListener('click',window.closeVerificationModal);
+window.startCountdown=async function(){const minutes=parseInt(timeInput.value);if(!minutes||minutes<1||minutes>60){alert('الرجاء إدخال رقم بين 1 و 60');return}try{const endTime=new Date(Date.now()+minutes*60*1000);await setDoc(doc(db,'settings','countdown'),{active:true,endTime:endTime,startedBy:currentUser.uid})}catch(error){console.error('خطأ في بدء العد التنازلي:',error)}};
+window.stopCountdown=async function(){try{await setDoc(doc(db,'settings','countdown'),{active:false});await updateDoc(doc(db,'settings','chat'),{locked:false});chatLocked=false;chatStatus.style.display='none';inputContainer.style.display='flex';countdownBanner.style.display='none'}catch(error){console.error('خطأ في إيقاف العد التنازلي:',error)}};
+document.querySelectorAll('.color-btn').forEach(btn=>{btn.addEventListener('click',function(){document.querySelectorAll('.color-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');adminSelectedColor=this.dataset.color})});
+document.addEventListener('click',(e)=>{if(!emojiPicker.contains(e.target)&&e.target!==emojiBtn){emojiPicker.classList.remove('show')}});
+</script>
+</body>
+</html>
+    
+  </body>
+  
+</html>

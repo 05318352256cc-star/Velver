@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Spin Wheel</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700;900&display=swap');
+*{box-sizing:border-box}body{margin:0;height:100vh;background:#2c0036;font-family:'Roboto',sans-serif;overflow:hidden;color:#fff}.top-bar{width:100%;height:70px;background:linear-gradient(to bottom,#4a0072,#2c0036);display:flex;align-items:center;padding:0 20px;box-shadow:0 6px 20px rgba(0,0,0,.8);position:relative;z-index:50}.back-btn{width:50px;height:50px;background:#d50000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;color:#fff;cursor:pointer;box-shadow:0 6px 18px rgba(213,0,0,.7)}.back-btn:active{transform:scale(.9)}.user-info{margin-left:20px;font-size:18px}.balance-info{margin-left:auto;font-size:18px;color:#ffd700}.content{display:flex;flex-direction:column;align-items:center;padding-top:30px}.wheel-container{position:relative;width:380px;height:380px;margin:10px 0 35px}.outer-ring{position:absolute;width:380px;height:380px;background:#ff6b00;border-radius:50%;box-shadow:0 0 60px #ff8c00;z-index:2}.inner-circle{position:absolute;width:340px;height:340px;background:#fff;border-radius:50%;top:20px;left:20px;border:8px solid #000;transition:transform 5s cubic-bezier(.17,.67,.12,.99);z-index:5}.center-circle{position:absolute;width:100px;height:100px;background:#d50000;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);border:6px solid #000;z-index:10}.pointer{position:absolute;width:0;height:0;border-left:34px solid transparent;border-right:34px solid transparent;border-top:85px solid #d50000;top:-18px;left:50%;transform:translateX(-50%);z-index:20;filter:drop-shadow(0 10px 20px rgba(0,0,0,.6))}.segment{position:absolute;width:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;z-index:8}.segment .prize{font-size:24px;color:#d50000;text-shadow:0 0 12px #fff;font-weight:900}.spin-btn{background:#d50000;color:#fff;font-size:32px;font-weight:900;padding:18px 100px;border:none;border-radius:50px;cursor:pointer;box-shadow:0 12px 35px rgba(213,0,0,.8)}.spin-btn:active{transform:scale(.94)}.spin-btn:disabled{background:#666;cursor:not-allowed}.info-text{margin-top:35px;padding:22px;background:rgba(255,255,255,.08);border-radius:22px;text-align:center;font-size:18px;line-height:1.6;max-width:92%;backdrop-filter:blur(8px);border:2px solid rgba(255,215,0,.4)}.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);z-index:999;opacity:0;transition:opacity .6s;pointer-events:none}.overlay.show{opacity:1;pointer-events:all}.gift-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);background:linear-gradient(135deg,#ffd700,#ff8c00);width:340px;height:300px;border-radius:32px;box-shadow:0 0 120px #ff0,inset 0 0 80px #fff;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:.9s cubic-bezier(.175,.885,.32,1.4);border:10px solid #000}.gift-popup.show{transform:translate(-50%,-50%) scale(1)}.win-text{font-size:32px;color:#000;text-shadow:0 0 15px #fff;margin-bottom:20px}.win-prize{font-size:64px;color:#d50000;font-weight:900;margin:15px 0;text-shadow:0 0 25px #fff}.close-popup{margin-top:25px;padding:15px 55px;background:#000;color:#ffd700;border:none;border-radius:32px;font-size:24px;cursor:pointer}.loading{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:24px;z-index:1001}
+</style>
+</head>
+<body>
+<div class="loading" id="loading">Loading...</div>
+<div class="top-bar">
+<div class="back-btn" onclick="history.back()">←</div>
+<div class="user-info" id="userInfo"></div>
+<div class="balance-info" id="balanceInfo">Balance: $0</div>
+</div>
+<div class="content" id="gameContent" style="display:none">
+<div class="wheel-container">
+<div class="pointer"></div>
+<div class="outer-ring"></div>
+<div class="inner-circle" id="wheel">
+<div class="segment" style="top:18px;left:120px"><div class="prize">$50</div></div>
+<div class="segment" style="top:48px;right:28px"><div class="prize">$500</div></div>
+<div class="segment" style="top:138px;right:8px"><div class="prize">$600</div></div>
+<div class="segment" style="bottom:48px;right:28px"><div class="prize">$200</div></div>
+<div class="segment" style="bottom:18px;left:120px"><div class="prize">$1</div></div>
+<div class="segment" style="bottom:48px;left:28px"><div class="prize">$30</div></div>
+<div class="segment" style="top:138px;left:8px"><div class="prize">$50</div></div>
+<div class="segment" style="top:48px;left:28px"><div class="prize">$10</div></div>
+<div class="center-circle"></div>
+</div>
+</div>
+<button class="spin-btn" id="spinBtn">SPIN</button>
+<div class="info-text">You can spin the wheel once per week.<br><span id="nextSpin"></span></div>
+</div>
+<div class="overlay" id="overlay"></div>
+<div class="gift-popup" id="giftPopup">
+<div class="win-text">Congratulations!</div>
+<div class="win-prize" id="winAmount">$1</div>
+<button class="close-popup" onclick="closePopup()">Great!</button>
+</div>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import{getAuth,signInAnonymously,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import{getFirestore,doc,getDoc,setDoc,serverTimestamp,increment}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyA-MK1RYmvpYJrTOBAQcxDqxhp-z_FOb1o",authDomain:"mzjsjjshs.firebaseapp.com",projectId:"mzjsjjshs",storageBucket:"mzjsjjshs.firebasestorage.app",messagingSenderId:"944370558426",appId:"1:944370558426:web:70d4ee772c487f48b58ce3"};
+const app=initializeApp(firebaseConfig);const auth=getAuth(app);const db=getFirestore(app);
+let currentUser=null,spinning=false;
+const wheel=document.getElementById('wheel'),spinBtn=document.getElementById('spinBtn'),gameContent=document.getElementById('gameContent'),userInfo=document.getElementById('userInfo'),balanceInfo=document.getElementById('balanceInfo'),nextSpinText=document.getElementById('nextSpin'),overlay=document.getElementById('overlay'),giftPopup=document.getElementById('giftPopup'),winAmount=document.getElementById('winAmount'),loading=document.getElementById('loading');
+const prizes=[50,500,600,200,1,30,50,10];
+signInAnonymously(auth).catch(e=>console.log(e));
+onAuthStateChanged(auth,async(user)=>{loading.style.display='none';if(user){currentUser=user;userInfo.textContent=`Player: ${user.uid.substring(0,8)}`;gameContent.style.display='flex';await checkSpinAvailability();await updateBalance();}});
+async function updateBalance(){if(!currentUser)return;try{const userDoc=doc(db,'users',currentUser.uid),docSnap=await getDoc(userDoc);balanceInfo.textContent=`Balance: $${docSnap.exists()?(docSnap.data().balance||0):0}`;}catch(e){console.log('Error updating balance:',e);}}
+async function checkSpinAvailability(){if(!currentUser)return;try{const userDoc=doc(db,'users',currentUser.uid),docSnap=await getDoc(userDoc);if(docSnap.exists()){const data=docSnap.data(),lastSpin=data.lastSpin?.toDate(),now=new Date(),weekAgo=new Date(now.getTime()-7*24*60*60*1000);if(lastSpin&&lastSpin>weekAgo){spinBtn.disabled=true;spinBtn.textContent='USED THIS WEEK';const nextAvailable=new Date(lastSpin.getTime()+7*24*60*60*1000);nextSpinText.textContent=`Next spin: ${nextAvailable.toLocaleDateString()}`;}else{spinBtn.disabled=false;spinBtn.textContent='SPIN';nextSpinText.textContent='';}}else{spinBtn.disabled=false;spinBtn.textContent='SPIN';}}catch(e){console.log('Error checking spin:',e);}}
+spinBtn.onclick=async()=>{if(spinning||spinBtn.disabled)return;spinning=true;spinBtn.textContent='SPINNING...';wheel.style.transition='none';wheel.style.transform='rotate(0deg)';void wheel.offsetWidth;setTimeout(async()=>{wheel.style.transition='transform 5s cubic-bezier(0.17,0.67,0.12,0.99)';
+// تعديل: إجبار العجلة على التوقف دائماً عند $1
+const forcedIndex=4; // موقع $1 في المصفوفة
+const targetDeg=2520+(forcedIndex*45);wheel.style.transform=`rotate(${targetDeg}deg)`;setTimeout(async()=>{
+// تعديل: استخدام القيمة الثابتة بدلاً من العشوائية
+const wonAmount=1; // دائماً $1
+try{await setDoc(doc(db,'users',currentUser.uid),{lastSpin:serverTimestamp(),uid:currentUser.uid,lastWin:`$${wonAmount}`,balance:increment(wonAmount)},{merge:true});winAmount.textContent=`$${wonAmount}`;overlay.classList.add('show');giftPopup.classList.add('show');spinning=false;spinBtn.disabled=true;spinBtn.textContent='USED THIS WEEK';await checkSpinAvailability();await updateBalance();}catch(e){console.log('Error saving spin:',e);spinning=false;spinBtn.textContent='ERROR - TRY AGAIN';}},5200);},50);};
+window.closePopup=()=>{giftPopup.classList.remove('show');overlay.classList.remove('show');};
+</script>
+</body>
+</html>
+    
+  </body>
+  
+</html>

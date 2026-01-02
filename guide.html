@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة Veltarx</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffb6c1, #ffc0cb, #ffb6c1);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #dc143c;
+            min-height: 100vh;
+        }
+        
+        .header-bar {
+            background: rgba(220, 20, 60, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(220, 20, 60, 0.2);
+        }
+        
+        .back-button {
+            background: none;
+            border: none;
+            color: #dc143c;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: rgba(220, 20, 60, 0.1);
+            transform: scale(1.1);
+        }
+        
+        .language-button {
+            background: linear-gradient(45deg, #dc143c, #b22222);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(220, 20, 60, 0.3);
+        }
+        
+        .language-button:hover {
+            background: linear-gradient(45deg, #b22222, #8b0000);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(220, 20, 60, 0.4);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        .main-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #dc143c, #b22222);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .content {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(220, 20, 60, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        h2 {
+            color: #b22222;
+            margin: 25px 0 15px 0;
+            font-size: 1.5em;
+            border-bottom: 2px solid rgba(220, 20, 60, 0.3);
+            padding-bottom: 5px;
+        }
+        
+        h3 {
+            color: #dc143c;
+            margin: 20px 0 10px 0;
+            font-size: 1.3em;
+        }
+        
+        p {
+            margin: 15px 0;
+            text-align: justify;
+            font-size: 1.1em;
+        }
+        
+        ul {
+            margin: 15px 0 15px 30px;
+        }
+        
+        li {
+            margin: 8px 0;
+            font-size: 1.1em;
+        }
+        
+        .highlight {
+            background: rgba(220, 20, 60, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-right: 4px solid #dc143c;
+        }
+        
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .team-member {
+            background: linear-gradient(45deg, #dc143c, #b22222);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(220, 20, 60, 0.3);
+        }
+        
+        .date-info {
+            background: rgba(220, 20, 60, 0.15);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .team-members {
+                justify-content: center;
+            }
+        }
+        
+        /* English version styles */
+        .english-content {
+            display: none;
+        }
+        
+        body.english .arabic-content {
+            display: none;
+        }
+        
+        body.english .english-content {
+            display: block;
+        }
+        
+        body.english {
+            direction: ltr;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-bar">
+        <button class="back-button" onclick="goBack()" title="العودة">
+            ←
+        </button>
+        <button class="language-button" onclick="toggleLanguage()" id="langBtn">
+            English
+        </button>
+    </div>
+
+    <div class="container">
+        <div class="arabic-content">
+            <h1 class="main-title">مرحبًا بكم في منصة Veltarx</h1>
+            
+            <div class="content">
+                <h2>نبذة عن المنصة</h2>
+                <p>Veltarx هي منصة رقمية متخصصة في تقديم حلول استثمارية حديثة، تم تطويرها لتلبية احتياجات المستخدمين الباحثين عن بيئة منظمة، واضحة، وآمنة لإدارة استثماراتهم عبر الإنترنت. تقوم المنصة على رؤية تهدف إلى الجمع بين الابتكار التقني والانضباط التشغيلي، مع التركيز على بناء ثقة طويلة الأمد مع المستخدمين من خلال الشفافية والاستقرار.</p>
+
+                <h2>النظام الاستثماري المُهيكل</h2>
+                <p>تعتمد منصة Veltarx على نظام استثماري مُهيكل يتيح للمستخدمين المشاركة في خطط استثمارية محددة المعايير، حيث يتم عرض تفاصيل كل خطة بشكل واضح يشمل مدة الاستثمار، آلية العمل، والنسب المتوقعة وفق ما هو مُعلن داخل المنصة. ويأتي هذا النهج في إطار حرص المنصة على تمكين المستخدم من اتخاذ قراراته بناءً على معلومات دقيقة وواضحة دون غموض أو تعقيد.</p>
+
+                <h2>البنية التقنية</h2>
+                <p>تم تصميم البنية التقنية لمنصة Veltarx وفق معايير حديثة تضمن الكفاءة التشغيلية وسلاسة الأداء، مع واجهة استخدام مدروسة تسهّل عملية التنقل والوصول إلى مختلف الأقسام، بما في ذلك لوحة التحكم، الملف الشخصي، سجل العمليات، الإشعارات، ونظام الدعم. وتهدف هذه البنية إلى توفير تجربة استخدام متوازنة تجمع بين البساطة والاحترافية في آن واحد.</p>
+
+                <h2>الأمان وحماية البيانات</h2>
+                <p>فيما يتعلق بالأمان، تضع Veltarx حماية بيانات المستخدمين وسلامة النظام في صدارة أولوياتها، حيث تعتمد على إجراءات تقنية متعددة تهدف إلى تقليل المخاطر التشغيلية، وتعزيز موثوقية المنصة، وضمان استمرارية الخدمة. كما يتم العمل بشكل مستمر على تطوير الأنظمة الداخلية، ومراجعة الأداء، وتحسين مستويات الحماية بما يتماشى مع المتطلبات التقنية الحديثة.</p>
+
+                <h2>سياسة الخصوصية</h2>
+                <p>تلتزم منصة Veltarx بمبدأ الخصوصية، حيث يتم التعامل مع بيانات المستخدمين وفق سياسات واضحة تضمن عدم إساءة استخدامها، مع اتخاذ التدابير اللازمة للحفاظ على سرية المعلومات وحمايتها من أي وصول غير مصرح به.</p>
+
+                <h2>نظام الدعم والإشعارات</h2>
+                <p>وتوفر المنصة نظام دعم مخصص يهدف إلى مساعدة المستخدمين والرد على استفساراتهم وملاحظاتهم، إضافة إلى نظام إشعارات داخلي يُبقي المستخدم على اطلاع دائم بكل ما يطرأ على حسابه من تحديثات أو تغييرات. ويُعد هذا الجانب جزءًا أساسيًا من استراتيجية المنصة في تعزيز التواصل والوضوح مع المستخدمين.</p>
+
+                <h2>رؤية المنصة</h2>
+                <p>إن Veltarx ليست مجرد منصة تقنية، بل مشروع رقمي يسعى إلى ترسيخ مفاهيم الانضباط، التنظيم، والتطوير المستمر في مجال الخدمات الاستثمارية الرقمية، مع الالتزام بتحسين الأداء وتحديث الخصائص بما يواكب تطلعات المستخدمين ويخدم أهدافهم على المدى المتوسط والطويل.</p>
+
+                <div class="highlight">
+                    <p><strong>وتؤمن منصة Veltarx بأن النجاح المستدام يقوم على الشفافية، التخطيط السليم، والتطوير المستمر، وتسعى من خلال ذلك إلى تقديم تجربة استثمارية رقمية متكاملة تقوم على الثقة، الوضوح، والاحترافية.</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="english-content">
+            <h1 class="main-title">Welcome to Veltarx Platform</h1>
+            
+            <div class="content">
+                <h2>About the Platform</h2>
+                <p>Veltarx is a digital platform specialized in providing modern investment solutions, developed to meet the needs of users seeking an organized, clear, and secure environment for managing their online investments. The platform is based on a vision that aims to combine technical innovation with operational discipline, focusing on building long-term trust with users through transparency and stability.</p>
+
+                <h2>Structured Investment System</h2>
+                <p>The Veltarx platform relies on a structured investment system that allows users to participate in investment plans with defined criteria, where the details of each plan are clearly displayed including investment duration, working mechanism, and expected rates according to what is announced within the platform. This approach comes within the framework of the platform's commitment to enable users to make their decisions based on accurate and clear information without ambiguity or complexity.</p>
+
+                <h2>Technical Infrastructure</h2>
+                <p>The technical infrastructure of the Veltarx platform has been designed according to modern standards that ensure operational efficiency and smooth performance, with a thoughtful user interface that facilitates navigation and access to various sections, including the control panel, personal profile, operations log, notifications, and support system. This infrastructure aims to provide a balanced user experience that combines simplicity and professionalism at the same time.</p>
+
+                <h2>Security and Data Protection</h2>
+                <p>Regarding security, Veltarx places the protection of user data and system safety at the top of its priorities, relying on multiple technical procedures aimed at reducing operational risks, enhancing platform reliability, and ensuring service continuity. Work is also being done continuously to develop internal systems, review performance, and improve protection levels in line with modern technical requirements.</p>
+
+                <h2>Privacy Policy</h2>
+                <p>The Veltarx platform is committed to the principle of privacy, where user data is handled according to clear policies that ensure it is not misused, with necessary measures taken to maintain information confidentiality and protect it from any unauthorized access.</p>
+
+                <h2>Support and Notification System</h2>
+                <p>The platform provides a dedicated support system aimed at helping users and responding to their inquiries and comments, in addition to an internal notification system that keeps the user constantly informed of any updates or changes to their account. This aspect is an essential part of the platform's strategy to enhance communication and clarity with users.</p>
+
+                <h2>Platform Vision</h2>
+                <p>Veltarx is not just a technical platform, but a digital project that seeks to establish concepts of discipline, organization, and continuous development in the field of digital investment services, with a commitment to improving performance and updating features in line with user aspirations and serving their goals in the medium and long term.</p>
+
+                <div class="highlight">
+                    <p><strong>The Veltarx platform believes that sustainable success is based on transparency, proper planning, and continuous development, and seeks through this to provide an integrated digital investment experience based on trust, clarity, and professionalism.</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                alert('لا توجد صفحة سابقة للعودة إليها');
+            }
+        }
+
+        function toggleLanguage() {
+            const body = document.body;
+            const langBtn = document.getElementById('langBtn');
+            
+            if (body.classList.contains('english')) {
+                body.classList.remove('english');
+                langBtn.textContent = 'English';
+                body.setAttribute('dir', 'rtl');
+            } else {
+                body.classList.add('english');
+                langBtn.textContent = 'العربية';
+                body.setAttribute('dir', 'ltr');
+            }
+        }
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const content = document.querySelector('.content');
+            content.style.opacity = '0';
+            content.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                content.style.transition = 'all 0.8s ease';
+                content.style.opacity = '1';
+                content.style.transform = 'translateY(0)';
+            }, 200);
+        });
+    </script>
+</body>
+</html>
+    
+  </body>
+  
+</html>
+    
+  </body>
+  
+</html>

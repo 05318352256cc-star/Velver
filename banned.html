@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حساب محظور</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:#0b1426;height:100vh;width:100vw;overflow-x:hidden;color:#ecf0f1}
+.container{width:100vw;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 0;background:#0b1426}
+.ban-card{background:#1a2332;width:500px;min-height:500px;position:relative;border-radius:20px;padding:30px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5);border:3px solid #e74c3c;margin-bottom:40px}
+.user-section{margin-bottom:30px}
+.user-avatar{width:100px;height:100px;margin:0 auto 15px;border-radius:50%;overflow:hidden;border:4px solid #e74c3c;box-shadow:0 8px 20px rgba(231,76,60,0.3)}
+.user-avatar img{width:100%;height:100%;object-fit:cover}
+.username{font-size:28px;font-weight:800;color:#e74c3c;margin:0;text-shadow:2px 2px 4px rgba(0,0,0,0.3)}
+.ban-message-section{margin-bottom:25px}
+.ban-message-box{background:#1f2937;border-radius:15px;padding:25px;border:3px solid #e74c3c;box-shadow:0 10px 25px rgba(0,0,0,0.3)}
+.ban-message-box h2{font-size:22px;font-weight:700;color:#e74c3c;margin-bottom:15px;display:flex;align-items:center;justify-content:center;gap:10px}
+.ban-message-box h2 i{font-size:24px}
+.ban-message-box p{font-size:16px;color:#ecf0f1;line-height:1.6;font-weight:500;text-align:justify}
+.ban-date-section{margin-bottom:25px}
+.ban-date-box{background:#1f2937;color:#e74c3c;padding:15px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:12px;font-size:18px;font-weight:700;border:3px solid #e74c3c;box-shadow:0 8px 20px rgba(0,0,0,0.2)}
+.ban-date-box i{font-size:20px}
+.appeal-section{margin-bottom:40px}
+.appeal-button{background:#1f2937;color:#e74c3c;border:3px solid #e74c3c;padding:18px 40px;font-size:18px;font-weight:700;border-radius:30px;cursor:pointer;transition:all 0.3s ease;display:inline-flex;align-items:center;gap:12px;font-family:'Cairo',sans-serif;box-shadow:0 8px 20px rgba(0,0,0,0.3);width:300px;height:60px;justify-content:center}
+.appeal-button:hover{background:#e74c3c;color:#1a2332;transform:translateY(-3px);box-shadow:0 12px 30px rgba(231,76,60,0.4)}
+.appeal-button:active{transform:translateY(-1px)}
+.appeal-button i{font-size:20px}
+.appeal-form{background:#1f2937;border:3px solid #e74c3c;border-radius:15px;padding:20px;display:none;margin-top:20px}
+.appeal-form textarea{width:100%;height:120px;background:#0b1426;color:#ecf0f1;border:2px solid #e74c3c;border-radius:10px;padding:12px;font-family:'Cairo',sans-serif;font-size:16px;resize:none;outline:none}
+.appeal-form textarea::placeholder{color:#95a5a6;opacity:0.8}
+.appeal-submit{background:#1f2937;color:#e74c3c;border:2px solid #e74c3c;padding:12px 25px;font-size:16px;font-weight:600;border-radius:20px;cursor:pointer;margin-top:15px;font-family:'Cairo',sans-serif;transition:all 0.3s ease;width:100%}
+.appeal-submit:hover{background:#e74c3c;color:#1f2937}
+.status-message{color:#e74c3c;font-size:18px;font-weight:700;padding:18px;border:3px solid #e74c3c;border-radius:15px;background:#1f2937;display:none;align-items:center;justify-content:center;gap:10px;box-shadow:0 8px 20px rgba(0,0,0,0.3);margin-top:20px}
+
+.instructions-section{width:100%;max-width:800px;background:#1a2332;border-radius:20px;padding:30px;border:3px solid #e74c3c;box-shadow:0 20px 60px rgba(0,0,0,0.3);margin:20px 0}
+.instructions-title{font-size:32px;font-weight:800;color:#e74c3c;text-align:center;margin-bottom:30px;text-shadow:2px 2px 4px rgba(0,0,0,0.3)}
+.instruction-item{background:#1f2937;border-radius:15px;padding:25px;margin-bottom:20px;border:2px solid #e74c3c}
+.instruction-item h3{font-size:20px;font-weight:700;color:#e74c3c;margin-bottom:15px;display:flex;align-items:center;gap:12px}
+.instruction-item i{font-size:22px;color:#e74c3c}
+.instruction-item p{font-size:16px;color:#ecf0f1;line-height:1.7;text-align:justify}
+.instruction-item ul{margin-right:20px;margin-top:10px}
+.instruction-item li{color:#ecf0f1;font-size:16px;margin-bottom:8px;list-style-type:disc}
+
+@media (max-width:768px){
+.ban-card{width:90vw;padding:25px}
+.user-avatar{width:80px;height:80px}
+.username{font-size:24px}
+.ban-message-box{padding:20px}
+.ban-message-box h2{font-size:18px}
+.ban-message-box p{font-size:14px}
+.ban-date-box{font-size:16px;padding:12px}
+.appeal-button{width:100%;font-size:16px;padding:15px}
+.instructions-section{width:90vw;padding:20px}
+.instructions-title{font-size:26px}
+.instruction-item h3{font-size:18px}
+.instruction-item p{font-size:14px}
+}
+@media (max-width:480px){
+.ban-card{width:95vw;padding:20px}
+.user-avatar{width:70px;height:70px}
+.username{font-size:20px}
+.ban-message-box h2{font-size:16px}
+.ban-message-box p{font-size:13px}
+.ban-date-box{font-size:14px}
+.appeal-button{font-size:15px;padding:12px}
+.instructions-section{width:95vw;padding:15px}
+.instructions-title{font-size:22px}
+.instruction-item{padding:20px}
+.instruction-item h3{font-size:16px}
+.instruction-item p{font-size:13px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="ban-card">
+<div class="user-section">
+<div class="user-avatar">
+<img id="userAvatar" src="https://img.freepik.com/free-psd/3d-illustration-person_23-2149436192.jpg" alt="المستخدم">
+</div>
+<h1 class="username" id="username">محمد أحمد</h1>
+</div>
+<div class="ban-message-section">
+<div class="ban-message-box">
+<h2><i class="fas fa-ban"></i>إشعار حظر الحساب</h2>
+<p id="banReason">تم تقييد حسابك بسبب انتهاك سياسات الاستثمار وقوانين المنصة. يرجى مراجعة الشروط والأحكام.</p>
+</div>
+</div>
+<div class="ban-date-section">
+<div class="ban-date-box">
+<i class="fas fa-calendar-times"></i>
+<span>تاريخ الحظر: <span id="banDate">2024/12/20</span></span>
+</div>
+</div>
+<div class="appeal-section">
+<button class="appeal-button" id="appealButton" onclick="showAppealForm()">
+<i class="fas fa-gavel"></i>
+<span>تقديم طعن</span>
+</button>
+<div class="appeal-form" id="appealForm">
+<textarea id="appealText" placeholder="اكتب سبب الطعن وتوضيحك هنا... اشرح الظروف التي أدت للحظر وكيف ستتجنبها مستقبلاً"></textarea>
+<button class="appeal-submit" onclick="submitAppeal()">متابعة الطعن</button>
+</div>
+<div class="status-message" id="statusMessage">
+<i class="fas fa-hourglass-half"></i>
+طعنك قيد الانتظار... سيتم المراجعة خلال 48 ساعة
+</div>
+</div>
+</div>
+
+<div class="instructions-section">
+<h2 class="instructions-title">معلومات مهمة حول منصة الاستثمار</h2>
+
+<div class="instruction-item">
+<h3><i class="fas fa-question-circle"></i>لماذا يتم حظر الحساب؟</h3>
+<p>يتم حظر الحساب في منصة الاستثمار لعدة أسباب رئيسية تشمل:</p>
+<ul>
+<li>انتهاك سياسات الاستثمار المسؤول</li>
+<li>التلاعب في أسعار الأسهم أو العملات</li>
+<li>استخدام معلومات داخلية غير مشروعة</li>
+<li>إنشاء حسابات وهمية متعددة</li>
+<li>غسيل الأموال أو الأنشطة المشبوهة</li>
+<li>تجاهل تحذيرات إدارة المخاطر</li>
+</ul>
+</div>
+
+<div class="instruction-item">
+<h3><i class="fas fa-shield-alt"></i>ما هو حل تجنب الحظر؟</h3>
+<p>لتجنب حظر حسابك في المستقبل، يرجى اتباع هذه الإرشادات:</p>
+<ul>
+<li>قراءة وفهم شروط وأحكام المنصة بعناية</li>
+<li>الالتزام بحدود الاستثمار المسموحة</li>
+<li>تجنب الاستثمار المفرط والمخاطر العالية</li>
+<li>عدم استخدام الروبوتات أو البرامج الآلية</li>
+<li>الحفاظ على أمان الحساب وكلمة المرور</li>
+<li>الإبلاغ عن أي نشاط مشبوه فوراً</li>
+</ul>
+</div>
+
+<div class="instruction-item">
+<h3><i class="fas fa-chart-line"></i>قواعد الاستثمار الآمن</h3>
+<p>للاستثمار بأمان في منصتنا، يجب مراعاة النقاط التالية:</p>
+<ul>
+<li>عدم استثمار أكثر من 10% من رأسمالك في صفقة واحدة</li>
+<li>تنويع المحفظة الاستثمارية لتقليل المخاطر</li>
+<li>دراسة السوق جيداً قبل اتخاذ أي قرار استثماري</li>
+<li>تحديد هدف واضح ووقف الخسارة لكل استثمار</li>
+<li>عدم الاعتماد على الإشاعات أو النصائح غير الموثوقة</li>
+<li>المراجعة الدورية للمحفظة الاستثمارية</li>
+</ul>
+</div>
+
+<div class="instruction-item">
+<h3><i class="fas fa-exclamation-triangle"></i>تحذيرات مهمة</h3>
+<p>انتبه لهذه التحذيرات المهمة لحماية حسابك:</p>
+<ul>
+<li>لا تشارك بيانات حسابك مع أي شخص آخر</li>
+<li>احذر من عمليات الاحتيال والمواقع المزيفة</li>
+<li>تأكد من صحة عنوان الموقع قبل إدخال بياناتك</li>
+<li>استخدم شبكة إنترنت آمنة عند تسجيل الدخول</li>
+<li>راجع كشوفات حسابك باستمرار للتأكد من عدم وجود عمليات مشبوهة</li>
+<li>قم بتفعيل المصادقة الثنائية لحماية أكبر</li>
+</ul>
+</div>
+
+<div class="instruction-item">
+<h3><i class="fas fa-balance-scale"></i>السياسات والقوانين</h3>
+<p>تحكم منصتنا مجموعة من السياسات الصارمة:</p>
+<ul>
+<li>عدم السماح بالتداول للقصر تحت سن 18 عام</li>
+<li>ضرورة التحقق من الهوية قبل البدء في الاستثمار</li>
+<li>الالتزام بقوانين مكافحة غسيل الأموال</li>
+<li>منع استخدام المنصة لأنشطة غير قانونية</li>
+<li>ضرورة الإبلاغ عن أي تغيير في البيانات الشخصية</li>
+<li>احترام حقوق المستثمرين الآخرين وعدم التلاعب</li>
+</ul>
+</div>
+
+<div class="instruction-item">
+<h3><i class="fas fa-headset"></i>كيفية التواصل مع الدعم</h3>
+<p>في حالة وجود أي استفسارات أو مشاكل، يمكنك التواصل معنا عبر:</p>
+<ul>
+<li>الدردشة المباشرة على الموقع (24/7)</li>
+<li>البريد الإلكتروني: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="98ebede8e8f7eaecd8f1f6eefdebecf5fdf6ecb5e8f4f9ecfef7eaf5b6fbf7f5">[email protected]</a></li>
+<li>الهاتف: 123-456-7890 (من 9 صباحاً حتى 5 مساءً)</li>
+<li>نموذج الاتصال في الموقع الرسمي</li>
+<li>مركز المساعدة والأسئلة الشائعة</li>
+<li>حساباتنا الرسمية على وسائل التواصل الاجتماعي</li>
+</ul>
+</div>
+
+<div class="instruction-item">
+<h3><i class="fas fa-graduation-cap"></i>الموارد التعليمية</h3>
+<p>نوفر لك مجموعة شاملة من الموارد التعليمية:</p>
+<ul>
+<li>دورات تدريبية مجانية لأساسيات الاستثمار</li>
+<li>ندوات ويبينارات مع خبراء الاستثمار</li>
+<li>تحليلات يومية للأسواق المالية</li>
+<li>مقالات تعليمية حول استراتيجيات الاستثمار</li>
+<li>محاكي التداول للتدريب بدون مخاطر</li>
+<li>فيديوهات تعليمية لفهم أدوات المنصة</li>
+</ul>
+</div>
+
+<div class="instruction-item">
+<h3><i class="fas fa-clock"></i>فترات المراجعة</h3>
+<p>معلومات حول فترات مراجعة الطعون والإجراءات:</p>
+<ul>
+<li>مراجعة الطعون العادية: 48-72 ساعة</li>
+<li>الحالات المعقدة: 5-7 أيام عمل</li>
+<li>المراجعة النهائية: 10-14 يوم عمل</li>
+<li>إشعارات بالبريد الإلكتروني لكل مرحلة</li>
+<li>إمكانية تتبع حالة الطعن عبر الموقع</li>
+<li>حق الاستئناف في حالة رفض الطعن</li>
+</ul>
+</div>
+</div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyA-MK1RYmvpYJrTOBAQcxDqxhp-z_FOb1o",
+authDomain: "mzjsjjshs.firebaseapp.com",
+projectId: "mzjsjjshs",
+storageBucket: "mzjsjjshs.firebasestorage.app",
+messagingSenderId: "944370558426",
+appId: "1:944370558426:web:70d4ee772c487f48b58ce3",
+measurementId: "G-CWJWKWBBST"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let currentUser = null;
+
+onAuthStateChanged(auth, async (user) => {
+if (user) {
+currentUser = user;
+await loadUserData(user.uid);
+}
+});
+
+async function loadUserData(userId) {
+try {
+const userDoc = await getDoc(doc(db, 'users', userId));
+
+if (userDoc.exists()) {
+const userData = userDoc.data();
+if (userData.banned === true) {
+displayBanInfo(userData);
+}
+} else {
+await createUserDocument(userId);
+}
+} catch (error) {
+console.error('Error loading user data:', error);
+}
+}
+
+async function createUserDocument(userId) {
+try {
+await setDoc(doc(db, 'users', userId), {
+uid: userId,
+displayName: currentUser.displayName || 'مستخدم',
+email: currentUser.email || '',
+photoURL: currentUser.photoURL || '',
+banned: false,
+banReason: '',
+banDate: '',
+appealStatus: 'none',
+appealText: '',
+createdAt: new Date().toISOString()
+});
+} catch (error) {
+console.error('Error creating user document:', error);
+}
+}
+
+function displayBanInfo(userData) {
+document.getElementById('username').textContent = userData.displayName || currentUser.displayName || 'مستخدم';
+if (userData.photoURL || currentUser.photoURL) {
+document.getElementById('userAvatar').src = userData.photoURL || currentUser.photoURL;
+}
+
+document.getElementById('banReason').textContent = userData.banReason || 'تم تقييد حسابك بسبب انتهاك سياسات الاستثمار وقوانين المنصة.';
+document.getElementById('banDate').textContent = userData.banDate || new Date().toLocaleDateString('ar-EG');
+
+if (userData.appealStatus === 'pending') {
+showPendingStatus();
+} else if (userData.appealStatus === 'submitted') {
+showSubmittedStatus();
+}
+}
+
+window.showAppealForm = function() {
+document.getElementById('appealForm').style.display = 'block';
+document.getElementById('appealButton').style.display = 'none';
+document.getElementById('statusMessage').style.display = 'none';
+}
+
+window.submitAppeal = async function() {
+const appealText = document.getElementById('appealText').value.trim();
+if (!appealText) {
+alert('يرجى كتابة سبب الطعن');
+return;
+}
+
+try {
+if (currentUser) {
+await updateDoc(doc(db, 'users', currentUser.uid), {
+appealStatus: 'pending',
+appealText: appealText,
+appealDate: new Date().toISOString()
+});
+}
+showPendingStatus();
+} catch (error) {
+console.error('Error submitting appeal:', error);
+alert('حدث خطأ أثناء تقديم الطعن');
+}
+}
+
+function showPendingStatus() {
+document.getElementById('appealForm').style.display = 'none';
+document.getElementById('appealButton').style.display = 'none';
+document.getElementById('statusMessage').style.display = 'flex';
+}
+
+function showSubmittedStatus() {
+document.getElementById('appealButton').innerHTML = '<i class="fas fa-check-circle"></i><span>تم تقديم الطعن</span>';
+document.getElementById('appealButton').style.background = '#e74c3c';
+document.getElementById('appealButton').style.color = '#1a2332';
+document.getElementById('appealButton').disabled = true;
+document.getElementById('appealButton').style.cursor = 'not-allowed';
+document.getElementById('appealButton').style.opacity = '0.8';
+}
+
+setInterval(async () => {
+if (currentUser) {
+try {
+const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+if (userDoc.exists()) {
+const userData = userDoc.data();
+if (!userData.banned) {
+location.reload();
+}
+}
+} catch (error) {
+console.error('Error checking ban status:', error);
+}
+}
+}, 5000);
+</script>
+</body>
+</html>
+    
+  </body>
+  
+</html>

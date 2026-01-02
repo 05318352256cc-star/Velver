@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financial Transactions</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#ffc0cb,#ffb6c1);min-height:100vh;direction:ltr}
+.container{max-width:800px;margin:20px auto;background:#fff;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.1);overflow:hidden}
+.header{background:linear-gradient(135deg,#ff69b4,#ff1493);color:#fff;padding:20px;text-align:center;font-size:20px;font-weight:600;position:relative}
+.back{position:absolute;right:20px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:24px;color:#fff;background:none;border:none;padding:0;width:auto;height:auto;border-radius:0;display:flex;align-items:center;justify-content:center;transition:opacity 0.3s}
+.back:hover{opacity:0.7}
+.content{padding:20px}
+.section-title{text-align:center;font-size:18px;font-weight:600;color:#ff1493;margin-bottom:20px;position:relative}
+.section-title:after{content:'';width:60px;height:3px;background:#ff1493;position:absolute;bottom:-5px;left:50%;transform:translateX(-50%)}
+.loading{text-align:center;padding:40px}
+.spinner{width:30px;height:30px;border:3px solid #f3f3f3;border-top:3px solid #ff1493;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 15px}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.transaction-card{background:#fff;border-radius:6px;padding:20px;margin-bottom:15px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.transaction-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px}
+.transaction-left{display:flex;flex-direction:column;gap:5px}
+.transaction-type{font-size:18px;font-weight:600;color:#2c3e50}
+.transaction-date{font-size:14px;color:#7f8c8d}
+.withdrawal-address{font-size:12px;color:#ff1493;background:#ffeef6;padding:4px 8px;border-radius:4px;margin-top:5px;word-break:break-all}
+.transaction-right{text-align:right}
+.amount{font-size:20px;font-weight:700}
+.amount-positive{color:#27ae60}
+.amount-negative{color:#e74c3c}
+.transaction-footer{display:flex;gap:10px;align-items:center;margin-top:15px;justify-content:space-between}
+.transaction-buttons{display:flex;gap:10px;margin-left:auto}
+.status-badge{padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;text-transform:capitalize}
+.status-pending{background:#f39c12;color:#fff}
+.status-processing{background:#ff1493;color:#fff}
+.status-completed{background:#ff1493;color:#fff}
+.status-approved{background:#27ae60;color:#fff}
+.status-cancelled{background:#95a5a6;color:#fff}
+.status-rejected{background:#e74c3c;color:#fff}
+.status-successfully{background:#27ae60;color:#fff}
+.btn{border:none;padding:6px 16px;border-radius:20px;font-size:12px;cursor:pointer;font-weight:600;transition:all 0.2s;text-transform:capitalize}
+.btn:hover{transform:translateY(-1px)}
+.btn-cancel{background:#e74c3c;color:#fff}
+.btn-approve{background:#27ae60;color:#fff}
+.btn-reject{background:#e74c3c;color:#fff}
+.btn-info{background:#ff1493;color:#fff}
+.no-data{text-align:center;padding:40px;color:#7f8c8d;font-size:16px}
+.success{background:#27ae60;color:#fff;padding:10px 20px;border-radius:6px;margin-bottom:15px;display:none;font-weight:600}
+.success.show{display:block}
+.details{display:none;background:#ffeef6;padding:15px;margin-top:10px;border-radius:6px;border-left:4px solid #ff1493}
+.details.show{display:block}
+.details-row{display:flex;justify-content:space-between;margin-bottom:8px;word-break:break-all}
+.details-label{font-weight:600;color:#2c3e50;min-width:120px;flex-shrink:0}
+.details-value{color:#7f8c8d;margin-left:10px}
+.wallet-badge{background:#ff1493;color:#fff;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600;margin-left:5px}
+@media (max-width:768px){
+.container{margin:10px;border-radius:6px}
+.transaction-header{flex-direction:column;align-items:flex-start;gap:10px}
+.transaction-right{text-align:left}
+.back{right:10px}
+.transaction-footer{flex-direction:column;align-items:flex-start;gap:10px}
+.transaction-buttons{width:100%;margin-left:0}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+Task Dashboard
+<button class="back" onclick="history.back()">←</button>
+</div>
+<div class="content">
+<h2 class="section-title">Transaction History</h2>
+<div class="success" id="successMsg"></div>
+<div class="loading" id="loading">
+<div class="spinner"></div>
+<p>Loading your transactions...</p>
+</div>
+<div class="no-data" id="noData" style="display:none">No transactions available for your account</div>
+<div id="transactions"></div>
+</div>
+</div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"
+import{getAuth,onAuthStateChanged,signInAnonymously}from"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"
+import{getFirestore,collection,query,where,orderBy,onSnapshot,doc,updateDoc,getDocs,getDoc,increment}from"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"
+
+const app=initializeApp({apiKey:"AIzaSyA-MK1RYmvpYJrTOBAQcxDqxhp-z_FOb1o",authDomain:"mzjsjjshs.firebaseapp.com",projectId:"mzjsjjshs",storageBucket:"mzjsjjshs.firebasestorage.app",messagingSenderId:"944370558426",appId:"1:944370558426:web:70d4ee772c487f48b58ce3"})
+
+const auth=getAuth(app),db=getFirestore(app)
+let user=null,allTrans=[],isAdmin=false
+
+onAuthStateChanged(auth,async(u)=>{
+if(u){
+user=u
+const userDoc=await getDoc(doc(db,'users',u.uid))
+isAdmin=userDoc.exists()&&userDoc.data().role==='admin'
+loadTransactions()
+}else{
+try{await signInAnonymously(auth)}catch(e){alert('Login error: '+e.message)}}
+})
+
+async function loadTransactions(){
+if(!user)return
+document.getElementById('loading').style.display='block'
+allTrans=[]
+try{
+if(isAdmin){
+const wSnap=await getDocs(collection(db,'withdrawals'))
+wSnap.forEach(d=>{allTrans.push({id:d.id,type:'withdrawal',...d.data()})})
+const dSnap=await getDocs(collection(db,'deposits'))
+dSnap.forEach(d=>{allTrans.push({id:d.id,type:'deposit',...d.data()})})
+}else{
+const wQuery=query(collection(db,'withdrawals'),where('userId','==',user.uid))
+const wSnap=await getDocs(wQuery)
+wSnap.forEach(d=>{allTrans.push({id:d.id,type:'withdrawal',...d.data()})})
+const dQuery=query(collection(db,'deposits'),where('userId','==',user.uid))
+const dSnap=await getDocs(dQuery)
+dSnap.forEach(d=>{allTrans.push({id:d.id,type:'deposit',...d.data()})})
+}
+displayTransactions()
+}catch(e){showError('Error loading transactions: '+e.message)}
+document.getElementById('loading').style.display='none'
+}
+
+function getWalletType(address){
+if(!address)return''
+if(address.startsWith('T')||address.startsWith('t'))return'TRC20'
+if(address.startsWith('0x')||address.startsWith('0X'))return'BEP20'
+return'USDT'
+}
+
+function maskAddress(address){
+if(!address)return''
+if(address.length<=8)return'*****.****'
+return'*****.****'
+}
+
+function displayTransactions(){
+const container=document.getElementById('transactions')
+const noData=document.getElementById('noData')
+container.innerHTML=''
+if(allTrans.length===0){
+noData.style.display='block'
+return
+}
+noData.style.display='none'
+allTrans.sort((a,b)=>getDate(b)-getDate(a))
+allTrans.forEach(t=>{
+const card=document.createElement('div')
+card.className='transaction-card'
+const canApprove=isAdmin&&t.status==='pending'
+const canCancel=t.type==='withdrawal'&&t.status==='pending'&&(!isAdmin||t.userId===user.uid)
+let buttons=''
+if(canApprove){
+if(t.type==='deposit'){
+buttons+=`<button class="btn btn-approve" onclick="approveDeposit('${t.id}')">Approve</button>`
+buttons+=`<button class="btn btn-reject" onclick="rejectDeposit('${t.id}')">Reject</button>`
+}else if(t.type==='withdrawal'){
+buttons+=`<button class="btn btn-approve" onclick="approveWithdrawal('${t.id}')">Approve</button>`
+buttons+=`<button class="btn btn-reject" onclick="rejectWithdrawal('${t.id}')">Reject</button>`
+}
+}else if(canCancel){
+buttons=`<button class="btn btn-cancel" onclick="cancelWithdrawal('${t.id}')">Cancel</button>`
+}
+const typeText=t.type==='withdrawal'?'Withdrawal':'Deposit'
+let statusText='',statusClass=t.status
+if(t.status==='approved'){statusText='Successfully';statusClass='successfully'}
+else if(t.status==='rejected'){statusText='Rejected';statusClass='rejected'}
+else statusText={pending:'Pending',processing:'Processing',completed:'Completed',cancelled:'Cancelled'}[t.status]||t.status
+const amountClass=t.type==='withdrawal'?'amount-negative':'amount-positive'
+const amountPrefix=t.type==='withdrawal'?'-':'+'
+const walletType=getWalletType(t.walletAddress||t.address)
+const walletBadge=walletType?`<span class="wallet-badge">${walletType}</span>`:''
+const addressDisplay=(t.type==='withdrawal'&&(t.address||t.walletAddress))?`<div class="withdrawal-address">Address: ${maskAddress(t.address||t.walletAddress)}${walletBadge}</div>`:''
+card.innerHTML=`
+<div class="transaction-header">
+<div class="transaction-left">
+<div class="transaction-type">${typeText}</div>
+<div class="transaction-date">${formatDate(getDate(t))}</div>
+${addressDisplay}
+</div>
+<div class="transaction-right">
+<div class="amount ${amountClass}">${amountPrefix}${(t.amount||0).toFixed(2)} USDT</div>
+</div>
+</div>
+<div class="transaction-footer">
+<div class="status-badge status-${statusClass}">${statusText}</div>
+<div class="transaction-buttons">
+${buttons}
+<button class="btn btn-info" onclick="toggleDetails('${t.id}')">View Details</button>
+</div>
+</div>
+<div class="details" id="details-${t.id}">
+<div class="details-row"><span class="details-label">Transaction ID:</span><span class="details-value">${t.id}</span></div>
+<div class="details-row"><span class="details-label">Type:</span><span class="details-value">${typeText}</span></div>
+<div class="details-row"><span class="details-label">Amount:</span><span class="details-value">${(t.amount||0).toFixed(2)} USDT</span></div>
+<div class="details-row"><span class="details-label">Status:</span><span class="details-value">${statusText}</span></div>
+<div class="details-row"><span class="details-label">Created:</span><span class="details-value">${formatDate(getDate(t))}</span></div>
+${(t.address||t.walletAddress)?`<div class="details-row"><span class="details-label">Wallet Address:</span><span class="details-value">${t.address||t.walletAddress} ${walletBadge}</span></div>`:''}
+${t.txHash?`<div class="details-row"><span class="details-label">TX Hash:</span><span class="details-value">${t.txHash}</span></div>`:''}
+${t.approvedAt?`<div class="details-row"><span class="details-label">Approved At:</span><span class="details-value">${formatDate(new Date(t.approvedAt))}</span></div>`:''}
+${t.rejectedAt?`<div class="details-row"><span class="details-label">Rejected At:</span><span class="details-value">${formatDate(new Date(t.rejectedAt))}</span></div>`:''}
+${t.cancelledAt?`<div class="details-row"><span class="details-label">Cancelled At:</span><span class="details-value">${formatDate(new Date(t.cancelledAt))}</span></div>`:''}
+</div>
+`
+container.appendChild(card)
+})
+}
+
+function getDate(t){
+const d=t.timestamp||t.createdAt||t.date||t.created_at
+if(!d)return new Date()
+return d.seconds?new Date(d.seconds*1000):new Date(d)
+}
+
+function formatDate(d){
+try{return d.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'})+' '+d.toLocaleTimeString('en-GB',{hour12:false})}catch{return'Invalid date'}
+}
+
+function showSuccess(msg){
+const s=document.getElementById('successMsg')
+s.textContent=msg
+s.classList.add('show')
+setTimeout(()=>s.classList.remove('show'),4000)
+}
+
+function showError(msg){
+document.getElementById('transactions').innerHTML=`<div style="color:#e74c3c;text-align:center;padding:30px;background:rgba(231,76,60,0.1);border-radius:6px;font-size:16px;font-weight:600">${msg}</div>`
+}
+
+window.toggleDetails=function(id){
+const details=document.getElementById('details-'+id)
+details.classList.toggle('show')
+}
+
+window.approveDeposit=async function(id){
+if(!confirm('Are you sure you want to approve this deposit?'))return
+try{
+await updateDoc(doc(db,'deposits',id),{status:'approved',approvedAt:new Date().toISOString(),approvedBy:user.uid})
+showSuccess('✅ Deposit approved successfully!')
+loadTransactions()
+}catch(e){alert('Error: '+e.message)}
+}
+
+window.rejectDeposit=async function(id){
+if(!confirm('Are you sure you want to reject this deposit?'))return
+try{
+await updateDoc(doc(db,'deposits',id),{status:'rejected',rejectedAt:new Date().toISOString(),rejectedBy:user.uid})
+showSuccess('❌ Deposit rejected!')
+loadTransactions()
+}catch(e){alert('Error: '+e.message)}
+}
+
+window.approveWithdrawal=async function(id){
+if(!confirm('Are you sure you want to approve this withdrawal?'))return
+try{
+await updateDoc(doc(db,'withdrawals',id),{status:'approved',approvedAt:new Date().toISOString(),approvedBy:user.uid})
+showSuccess('✅ Withdrawal approved successfully!')
+loadTransactions()
+}catch(e){alert('Error: '+e.message)}
+}
+
+window.rejectWithdrawal=async function(id){
+if(!confirm('Are you sure you want to reject this withdrawal?'))return
+try{
+const doc_=await getDoc(doc(db,'withdrawals',id))
+if(doc_.exists()){
+const data=doc_.data(),amount=data.amount||0
+await updateDoc(doc(db,'withdrawals',id),{status:'rejected',rejectedAt:new Date().toISOString(),rejectedBy:user.uid})
+if(data.userId){await updateDoc(doc(db,'users',data.userId),{balance:increment(amount)})}
+}
+showSuccess('❌ Withdrawal rejected and amount refunded!')
+loadTransactions()
+}catch(e){alert('Error: '+e.message)}
+}
+
+window.cancelWithdrawal=async function(id){
+if(!confirm('Are you sure you want to cancel this withdrawal?'))return
+try{
+const doc_=await getDoc(doc(db,'withdrawals',id))
+if(doc_.exists()){
+const data=doc_.data(),amount=data.amount||0
+await updateDoc(doc(db,'withdrawals',id),{status:'cancelled',cancelledAt:new Date().toISOString(),cancelledBy:user.uid})
+if(data.userId){await updateDoc(doc(db,'users',data.userId),{balance:increment(amount)})}
+}
+showSuccess('✅ Withdrawal cancelled and amount refunded!')
+loadTransactions()
+}catch(e){alert('Error: '+e.message)}
+}
+</script>
+</body>
+</html>
+    
+  </body>
+  
+</html>
