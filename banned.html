@@ -3,310 +3,2828 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شموع فوركس - فريم دقيقة (بيانات حقيقية)</title>
-    <!-- استيراد مكتبة TradingView Lightweight Charts -->
+
+    <title>EUR/USD — شموع حقيقية وتشخيص مصدر البيانات</title>
+
     <script src="https://unpkg.com/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
-    <!-- استيراد مكتبة SignalR للبث اللحظي -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 20px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1e222d;
+            background: #1e222d;
             color: #d1d4dc;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font: 14px "Segoe UI", Tahoma, sans-serif;
         }
-        #status-bar {
-            width: 100%;
+
+        main {
             max-width: 1200px;
+            margin: auto;
+        }
+
+        #status-bar,
+        .toolbar,
+        .box {
+            background: #2a2e39;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        #status-bar {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding: 10px 20px;
-            background-color: #2a2e39;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 14px;
+            gap: 12px;
+            flex-wrap: wrap;
         }
+
         #connection-status {
             display: flex;
             align-items: center;
             gap: 8px;
         }
+
         .status-dot {
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background-color: #ef5350;
+            background: #ef5350;
             display: inline-block;
         }
+
         .status-dot.connected {
-            background-color: #26a69a;
+            background: #26a69a;
         }
+
         #price-display {
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 21px;
             color: #26a69a;
+            font-weight: bold;
             font-variant-numeric: tabular-nums;
         }
+
+        .toolbar {
+            display: flex;
+            gap: 9px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        button,
+        select,
+        input {
+            background: #131722;
+            border: 1px solid #444b5c;
+            color: #d1d4dc;
+            padding: 7px;
+            border-radius: 5px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        label {
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .muted,
+        .note {
+            font-size: 12px;
+            color: #a2a8b5;
+            line-height: 1.9;
+        }
+
+        .notice {
+            border-right: 3px solid #ffc857;
+        }
+
         #chart-container {
-            width: 100%;
-            max-width: 1200px;
             height: 600px;
-            background-color: #131722;
+            position: relative;
+            background: #131722;
             border-radius: 8px;
             overflow: hidden;
-            position: relative;
+            direction: ltr;
         }
-        .note {
-            margin-top: 10px;
+
+        #draw-layer {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            pointer-events: none;
+            stroke: #ffc857;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .indicator {
+            background: #131722;
+            margin-top: 8px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .indicator strong {
+            display: block;
+            padding: 5px 10px;
             font-size: 12px;
-            color: #787b86;
-            text-align: center;
+        }
+
+        #rsi-chart,
+        #macd-chart {
+            direction: ltr;
+        }
+
+        .scroll {
+            overflow: auto;
+            max-height: 430px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font: 11px monospace;
+            direction: ltr;
+            white-space: nowrap;
+        }
+
+        th,
+        td {
+            padding: 7px;
+            border-bottom: 1px solid #404655;
+            text-align: right;
+        }
+
+        th {
+            position: sticky;
+            top: 0;
+            background: #202532;
+        }
+
+        .bad {
+            background: #ef535022;
+        }
+
+        pre {
+            max-height: 230px;
+            overflow: auto;
+            white-space: pre-wrap;
+            direction: rtl;
+            font: 12px Tahoma;
+            line-height: 1.8;
+        }
+
+        a {
+            color: #80bfff;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        h3 {
+            font-size: 15px;
+            margin: 0 0 10px;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 8px;
+            }
+
+            .toolbar {
+                gap: 6px;
+            }
         }
     </style>
 </head>
-<body>
 
+<body>
+<main>
     <div id="status-bar">
         <div id="connection-status">
             <span class="status-dot" id="status-dot"></span>
-            <span id="status-text">جاري الاتصال...</span>
+            <span id="status-text">جار التهيئة...</span>
         </div>
+
         <div>
-            EUR/USD (فريم 1 دقيقة) — السعر الحالي: 
-            <span id="price-display">--</span>
+            EUR/USD — Mid المباشر:
+            <span id="price-display">—</span>
         </div>
     </div>
 
-    <div id="chart-container"></div>
-    
-    <div class="note">
-        البيانات مصدرها MetaTrader 5 عبر biquote.io — السعر المعروض هو سعر الـ mid الحقيقي دون تعديل.
+    <div class="toolbar">
+        <label>
+            الفريم
+            <select id="frame">
+                <option>1m</option>
+                <option>5m</option>
+                <option>15m</option>
+                <option>30m</option>
+                <option>1h</option>
+                <option>4h</option>
+            </select>
+        </label>
+
+        <label>
+            العرض
+            <select id="mode">
+                <option value="provider">OHLC المزود — الافتراضي</option>
+                <option value="ticks">تجميع Mid المرصود — مستقل</option>
+            </select>
+        </label>
+
+        <button id="retry-history">استرداد التاريخ</button>
+        <button id="fit">احتواء الشارت</button>
+
+        <label>
+            <input type="checkbox" id="volume-on" checked>
+            Tick Volume المزود
+        </label>
+
+        <label>
+            <input type="checkbox" id="ma-on" checked>
+            SMA 20
+        </label>
+
+        <label>
+            <input type="checkbox" id="rsi-on" checked>
+            RSI 14
+        </label>
+
+        <label>
+            <input type="checkbox" id="macd-on" checked>
+            MACD 12/26/9
+        </label>
+
+        <label>
+            <input type="checkbox" id="arrows-on">
+            أسهم
+        </label>
     </div>
 
-    <script>
-        (function() {
-            const SYMBOL = 'EURUSD'; // يمكنك تغييره إلى XAUUSD أو غيره
-            const INTERVAL = '1m';    // فريم الدقيقة الواحدة
-            const CONTAINER = document.getElementById('chart-container');
-            const PRICE_DISPLAY = document.getElementById('price-display');
-            const STATUS_DOT = document.getElementById('status-dot');
-            const STATUS_TEXT = document.getElementById('status-text');
+    <div class="box notice muted">
+        <div id="mode-info">
+            لا يتم خلط تاريخ مجهول الأساس مع Mid.
+        </div>
 
-            // 1. تهيئة الرسم البياني
-            const chart = LightweightCharts.createChart(CONTAINER, {
-                width: CONTAINER.clientWidth,
-                height: 600,
-                layout: {
-                    background: { type: 'solid', color: '#131722' },
-                    textColor: '#d1d4dc',
-                },
-                grid: {
-                    vertLines: { color: '#2a2e39' },
-                    horzLines: { color: '#2a2e39' },
-                },
-                timeScale: {
-                    timeVisible: true,
-                    secondsVisible: false,
-                    borderColor: '#2a2e39',
-                },
-                rightPriceScale: {
-                    borderColor: '#2a2e39',
-                },
-                crosshair: {
-                    mode: LightweightCharts.CrosshairMode.Normal,
-                },
-            });
+        <div id="quote-info" dir="ltr"></div>
+        <div id="history-info"></div>
+        <div id="tick-info"></div>
 
-            // 2. إضافة سلسلة الشموع
-            const candleSeries = chart.addCandlestickSeries({
-                upColor: '#26a69a',
-                downColor: '#ef5350',
-                borderVisible: false,
-                wickUpColor: '#26a69a',
-                wickDownColor: '#ef5350',
-            });
+        <div>
+            UTC لجميع الشموع. لا ملء للفجوات ولا حجم تداول مركزي.
+            شموع المزود تتحدث كل 3 ثوانٍ؛ وضع التجميع المحلي يتحدث من البث.
+        </div>
+    </div>
 
-            // متغير لتخزين آخر شمعة مفتوحة
-            let currentBar = null;
+    <div class="toolbar">
+        <button id="draw-horizontal">خط أفقي</button>
+        <button id="draw-trend">خط اتجاه</button>
+        <button id="draw-cancel">إلغاء الأداة</button>
+        <button id="draw-clear">مسح الرسوم</button>
 
-            // 3. دالة تحديث السعر اللحظي بناءً على tick الجديد
-            function updatePriceAndBar(midPrice, timestamp) {
-                // تحديث عرض السعر
-                PRICE_DISPLAY.textContent = midPrice.toFixed(5);
+        <span id="draw-info" class="muted">
+            السحب والتكبير مفعّلان
+        </span>
+    </div>
 
-                // تحويل الطابع الزمني إلى ثوانٍ (TradingView يستخدم Unix timestamp بالثواني)
-                // biquote قد يعيد الوقت بصيغة ISO أو milliseconds، نتعامل معه بحذر
-                const now = Math.floor(Date.now() / 1000);
-                const minuteStart = Math.floor(now / 60) * 60; // بداية الدقيقة الحالية
+    <div id="chart-container">
+        <svg id="draw-layer" aria-hidden="true"></svg>
+    </div>
 
-                if (!currentBar || currentBar.time < minuteStart) {
-                    // بدء شمعة جديدة (دقيقة جديدة)
-                    if (currentBar) {
-                        // الشمعة السابقة اكتملت، نتركها كما هي (إغلاق حقيقي)
-                        // لا نقوم بتعديلها بعد الآن
-                    }
-                    
-                    // إنشاء شمعة جديدة بناءً على السعر الحالي
-                    currentBar = {
-                        time: minuteStart,
-                        open: midPrice,
-                        high: midPrice,
-                        low: midPrice,
-                        close: midPrice,
-                    };
-                    candleSeries.update(currentBar);
-                } else {
-                    // تحديث الشمعة الحالية (نفس الدقيقة)
-                    currentBar.high = Math.max(currentBar.high, midPrice);
-                    currentBar.low = Math.min(currentBar.low, midPrice);
-                    currentBar.close = midPrice;
-                    candleSeries.update(currentBar);
+    <section class="indicator" id="rsi-wrap">
+        <strong>RSI 14 — Wilder</strong>
+        <div id="rsi-chart"></div>
+    </section>
+
+    <section class="indicator" id="macd-wrap">
+        <strong>MACD — EMA 12/26، Signal EMA 9</strong>
+        <div id="macd-chart"></div>
+    </section>
+
+    <section class="box" style="margin-top:12px">
+        <h3>مقارنة OHLC دون تعديل الأسعار</h3>
+
+        <div class="toolbar">
+            <label>
+                المقارنة
+                <select id="compare-target">
+                    <option value="csv">
+                        العرض الحالي مقابل CSV المرجع
+                    </option>
+                    <option value="internal">
+                        Mid المحلي مقابل OHLC المزود
+                    </option>
+                </select>
+            </label>
+
+            <label>
+                العتبة Pip
+                <input
+                    id="tolerance"
+                    type="number"
+                    value="0"
+                    min="0"
+                    step="0.01"
+                    style="width:85px"
+                >
+            </label>
+
+            <button id="export-debug">تصدير المقارنة CSV</button>
+        </div>
+
+        <div class="toolbar">
+            <input
+                id="reference-symbol"
+                placeholder="رمز المرجع، مثل OANDA:EURUSD"
+                dir="ltr"
+            >
+
+            <select id="reference-basis">
+                <option value="">أساس سعر المرجع</option>
+                <option value="mid">Mid</option>
+                <option value="bid">Bid</option>
+                <option value="ask">Ask</option>
+                <option value="unknown">غير معلوم</option>
+            </select>
+
+            <select id="csv-time-unit">
+                <option value="iso">ISO بتوقيت صريح</option>
+                <option value="s">Unix بالثواني</option>
+                <option value="ms">Unix بالمللي ثانية</option>
+            </select>
+
+            <input
+                id="reference-file"
+                type="file"
+                accept=".csv,text/csv"
+            >
+        </div>
+
+        <p class="muted">
+            صدّر CSV المسموح لك باستخدامه من TradingView،
+            لنفس الرمز والفريم، بشموع عادية لا Heikin Ashi.
+            يلزم time, open, high, low, close.
+            لا تُستنتج المنطقة الزمنية من وقت بلا إزاحة.
+            اكتب الإعدادات أولاً ثم اختر الملف.
+        </p>
+
+        <p id="compare-info" class="muted"></p>
+
+        <div class="scroll">
+            <table>
+                <thead>
+                <tr>
+                    <th>Time UTC</th>
+                    <th>Open</th>
+                    <th>High</th>
+                    <th>Low</th>
+                    <th>Close</th>
+                    <th>Ref O</th>
+                    <th>Ref H</th>
+                    <th>Ref L</th>
+                    <th>Ref C</th>
+                    <th>ΔO</th>
+                    <th>ΔH</th>
+                    <th>ΔL</th>
+                    <th>ΔC</th>
+                    <th>ΔT s</th>
+                    <th>الحالة</th>
+                </tr>
+                </thead>
+                <tbody id="compare-body"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <details class="box">
+        <summary>سجل التشخيص والتحذيرات</summary>
+        <pre id="log"></pre>
+    </details>
+
+    <p class="note">
+        بيانات BiQuote كما يرسلها المزود؛ لا ضمان تطابق مع وسيط آخر.
+        رسوم الجلسة والشموع المحلية محفوظة في الذاكرة المؤقتة للصفحة فقط.
+        الرسم باستخدام
+        <a
+            href="https://www.tradingview.com/"
+            target="_blank"
+            rel="noopener"
+        >TradingView Lightweight Charts</a>.
+    </p>
+</main>
+
+<script>
+'use strict';
+
+/* =========================================================
+   1. التوقيت والتحقق من OHLC
+   ========================================================= */
+
+/*
+ * عقد BiQuote المفحوص يستخدم ISO 8601.
+ * لا نخمن وحدة timestamps الرقمية، ولا نستخدم حقل time الخاص بـ MT5.
+ * الوقت بلا منطقة زمنية مرفوض، حتى لا يتأثر بتوقيت جهاز المستخدم.
+ */
+function sourceTime(value) {
+    if (
+        typeof value !== 'string' ||
+        !/(Z|[+-]\d\d:\d\d)$/.test(value)
+    ) {
+        throw Error('يلزم توقيت ISO صريح المنطقة الزمنية');
+    }
+
+    const match = value.match(
+        /^(.*T\d\d:\d\d:\d\d)(?:\.(\d+))?(Z|[+-]\d\d:\d\d)$/
+    );
+
+    if (!match) {
+        throw Error('توقيت مصدر غير صالح');
+    }
+
+    const seconds =
+        Date.parse(match[1] + match[3]) / 1000 +
+        Number('0.' + (match[2] || '0'));
+
+    if (!Number.isFinite(seconds)) {
+        throw Error('توقيت غير صالح');
+    }
+
+    return seconds;
+}
+
+function validOHLC(bar) {
+    return (
+        ['open', 'high', 'low', 'close'].every(key =>
+            typeof bar[key] === 'number' &&
+            Number.isFinite(bar[key]) &&
+            bar[key] > 0
+        ) &&
+        bar.low <= Math.min(bar.open, bar.close) &&
+        bar.high >= Math.max(bar.open, bar.close) &&
+        bar.low <= bar.high
+    );
+}
+
+/* =========================================================
+   2. تجميع الرسائل المرصودة، بشكل مستقل عن تاريخ المزود
+   ========================================================= */
+
+class TickEngine {
+    constructor(report = () => {}, lateness = 3) {
+        this.report = report;
+        this.lateness = lateness;
+        this.bars = new Map();
+
+        this.maxTime = -Infinity;
+        this.order = 0;
+        this.late = 0;
+        this.ties = 0;
+
+        this.segment = 0;
+        this.firstBucket = null;
+        this.lastSource = null;
+    }
+
+    /*
+     * الانقطاع لا يُصلَح باختراع Ticks.
+     * نعلّم الشموع المتأثرة بأنها جزئية.
+     */
+    breakSegment() {
+        this.segment++;
+        this.firstBucket = null;
+
+        for (const bar of this.bars.values()) {
+            if (!bar.sealed) {
+                bar.partial = true;
+            }
+        }
+    }
+
+    accept(raw) {
+        if (!raw || raw.symbol !== 'EURUSD') {
+            return null;
+        }
+
+        const time = sourceTime(raw.timestamp);
+        const price = raw.mid;
+
+        if (
+            typeof price !== 'number' ||
+            !Number.isFinite(price) ||
+            price <= 0
+        ) {
+            throw Error('mid غير صالح');
+        }
+
+        if (
+            this.lastSource !== null &&
+            raw.source !== this.lastSource
+        ) {
+            this.breakSegment();
+            this.report('تغير معرف المصدر؛ التجميع غير متجانس');
+        }
+
+        this.lastSource = raw.source;
+
+        const bucket = Math.floor(time / 60) * 60;
+        const existing = this.bars.get(bucket);
+        const watermark = this.maxTime - this.lateness;
+
+        this.order++;
+
+        /*
+         * بعد تجاوز نافذة التأخر لا نعدّل الشمعة المجمدة.
+         * نسجل الحدث بدلاً من إخفائه أو تغيير التاريخ بصمت.
+         */
+        if (
+            existing?.sealed ||
+            bucket + 60 <= watermark
+        ) {
+            this.late++;
+            this.report(
+                'رسالة متأخرة لشمعة مجمدة: ' + bucket
+            );
+
+            return {
+                t: time,
+                p: price,
+                late: true
+            };
+        }
+
+        if (this.firstBucket === null) {
+            this.firstBucket = bucket;
+        }
+
+        let bar = existing;
+
+        if (!bar) {
+            bar = {
+                time: bucket,
+
+                open: price,
+                high: price,
+                low: price,
+                close: price,
+
+                first: time,
+                last: time,
+
+                /*
+                 * count هو عدد الرسائل المستلمة فقط.
+                 * ليس Volume مركزياً ولا بديلاً مضموناً عن tickVolume.
+                 */
+                count: 0,
+
+                sealed: false,
+                partial: bucket === this.firstBucket,
+                segment: this.segment,
+                ambiguous: false
+            };
+
+            this.bars.set(bucket, bar);
+        }
+
+        if (bar.segment !== this.segment) {
+            bar.partial = true;
+        }
+
+        /*
+         * لا يتوفر Sequence في العقد المفحوص.
+         * عند تساوي الوقت نعتمد ترتيب الوصول كحل عملي،
+         * لكن نسجل أن ترتيب Open/Close غير محسوم من المصدر.
+         *
+         * لا نحذف الرسائل المتطابقة بالسعر والوقت؛
+         * فقد تكون رسائل حقيقية مختلفة.
+         */
+        if (
+            bar.count &&
+            (time === bar.first || time === bar.last)
+        ) {
+            this.ties++;
+            bar.ambiguous = true;
+        }
+
+        bar.high = Math.max(bar.high, price);
+        bar.low = Math.min(bar.low, price);
+
+        if (time < bar.first) {
+            bar.first = time;
+            bar.open = price;
+        }
+
+        if (time >= bar.last) {
+            bar.last = time;
+            bar.close = price;
+        }
+
+        bar.count++;
+        this.maxTime = Math.max(this.maxTime, time);
+
+        /*
+         * الإغلاق وفق تقدم وقت المصدر، لا ساعة جهاز المستخدم.
+         */
+        for (const candidate of this.bars.values()) {
+            if (
+                !candidate.sealed &&
+                candidate.time + 60 <=
+                this.maxTime - this.lateness
+            ) {
+                candidate.sealed = true;
+            }
+        }
+
+        return {
+            t: time,
+            p: price,
+            late: false
+        };
+    }
+
+    /*
+     * تجميع الدقائق المرصودة إلى الفريم المختار.
+     * لا ننشئ دقائق مفقودة، ونعلّم الفريم الناقص بأنه جزئي.
+     */
+    view(seconds = 60) {
+        const groups = new Map();
+
+        const sorted = [...this.bars.values()]
+            .sort((a, b) => a.time - b.time);
+
+        for (const bar of sorted) {
+            const groupTime =
+                Math.floor(bar.time / seconds) * seconds;
+
+            let group = groups.get(groupTime);
+
+            if (!group) {
+                group = {
+                    ...bar,
+                    time: groupTime,
+                    parts: 0,
+                    lastPart: bar.time
+                };
+
+                groups.set(groupTime, group);
+            } else {
+                group.high = Math.max(group.high, bar.high);
+                group.low = Math.min(group.low, bar.low);
+                group.close = bar.close;
+                group.count += bar.count;
+
+                group.partial ||= (
+                    bar.partial ||
+                    bar.segment !== group.segment ||
+                    bar.time !== group.lastPart + 60
+                );
+
+                group.ambiguous ||= bar.ambiguous;
+                group.sealed &&= bar.sealed;
+            }
+
+            group.parts++;
+            group.lastPart = bar.time;
+        }
+
+        return [...groups.values()].map(group => ({
+            ...group,
+            partial:
+                group.partial ||
+                group.parts !== seconds / 60
+        }));
+    }
+}
+
+/* =========================================================
+   3. الإعدادات والحالة
+   ========================================================= */
+
+const $ = id => document.getElementById(id);
+
+const CFG = {
+    symbol: 'EURUSD',
+    api: 'https://biquote.io',
+
+    pip: 0.0001,
+
+    historyTarget: 500,
+    historyLimit: 1000,
+
+    pollMs: 3000,
+    latenessSeconds: 3
+};
+
+const frames = {
+    '1m': 60,
+    '5m': 300,
+    '15m': 900,
+    '30m': 1800,
+    '1h': 3600,
+    '4h': 14400
+};
+
+let frame = '1m';
+let epoch = 0;
+let provider = new Map();
+let audit = [];
+let reference = null;
+let latestQuote = null;
+let needsRecovery = false;
+
+let connection = null;
+let retryTimer = null;
+let pollTimer = null;
+let quoteBusy = false;
+let jobEpoch = null;
+let destroyed = false;
+let renderTimer = null;
+let firstFit = true;
+let refRows = [];
+
+const logs = [];
+const conflicts = new Set();
+const drawings = [];
+
+function log(message) {
+    /*
+     * وقت الجهاز هنا لسجل التشخيص فقط.
+     * لا يُستخدم لتحديد وقت أي شمعة.
+     */
+    logs.unshift(
+        new Date().toISOString() + ' ' + message
+    );
+
+    logs.length = Math.min(logs.length, 120);
+    $('log').textContent = logs.join('\n');
+}
+
+const engine = new TickEngine(
+    log,
+    CFG.latenessSeconds
+);
+
+function status(message, connected = false) {
+    $('status-text').textContent = message;
+
+    $('status-dot').classList.toggle(
+        'connected',
+        connected
+    );
+}
+
+function escapeHTML(value) {
+    return String(value ?? '').replace(
+        /[&<>"']/g,
+        character => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        }[character])
+    );
+}
+
+function fmt(number) {
+    return Number.isFinite(number)
+        ? number.toFixed(6)
+        : '—';
+}
+
+function utc(seconds) {
+    return new Date(seconds * 1000)
+        .toISOString()
+        .replace('T', ' ')
+        .replace('.000Z', 'Z');
+}
+
+/* =========================================================
+   4. REST والتحقق من عقد البيانات
+   ========================================================= */
+
+async function json(path) {
+    const controller = new AbortController();
+
+    const timeout = setTimeout(
+        () => controller.abort(),
+        15000
+    );
+
+    try {
+        const response = await fetch(
+            CFG.api + path,
+            {
+                signal: controller.signal,
+                cache: 'no-store',
+                credentials: 'omit'
+            }
+        );
+
+        if (!response.ok) {
+            throw Error('HTTP ' + response.status);
+        }
+
+        return await response.json();
+    } finally {
+        clearTimeout(timeout);
+    }
+}
+
+function normalizeBar(raw, seconds) {
+    const time = sourceTime(raw.openTime);
+
+    /*
+     * إذا اختلفت المحاذاة لا نزيح الأسعار أو الوقت لتبدو مطابقة.
+     */
+    if (
+        !Number.isInteger(time) ||
+        time % seconds !== 0
+    ) {
+        throw Error(
+            'افتتاح غير محاذى إلى UTC؛ لم تتم إزاحته تلقائياً'
+        );
+    }
+
+    if (
+        !validOHLC(raw) ||
+        typeof raw.isOpen !== 'boolean'
+    ) {
+        throw Error('OHLC أو isOpen غير صالح');
+    }
+
+    for (const key of ['tickVolume', 'volume']) {
+        if (
+            raw[key] != null &&
+            (
+                typeof raw[key] !== 'number' ||
+                !Number.isFinite(raw[key]) ||
+                raw[key] < 0
+            )
+        ) {
+            throw Error('حجم غير صالح');
+        }
+    }
+
+    return {
+        time,
+
+        open: raw.open,
+        high: raw.high,
+        low: raw.low,
+        close: raw.close,
+
+        isOpen: raw.isOpen,
+
+        tickVolume: raw.tickVolume ?? null,
+        volume: raw.volume ?? null
+    };
+}
+
+function sameBar(a, b) {
+    return [
+        'open',
+        'high',
+        'low',
+        'close',
+        'tickVolume',
+        'volume'
+    ].every(key => a[key] === b[key]);
+}
+
+function mergeBars(rows) {
+    rows.sort((a, b) => a.time - b.time);
+
+    for (const bar of rows) {
+        const existing = provider.get(bar.time);
+
+        /*
+         * الشمعة المفتوحة قابلة للتحديث من OHLC المزود.
+         *
+         * الشمعة المغلقة المحفوظة لا تُستبدل تلقائياً إذا
+         * تغيرت لاحقاً، لأن الواجهة المفحوصة لا تقدم revision
+         * أو حدث تصحيح رسمي يميز التصحيح من تغير المصدر.
+         */
+        if (existing && !existing.isOpen) {
+            if (
+                !bar.isOpen &&
+                !sameBar(existing, bar)
+            ) {
+                const key =
+                    frame + ':' +
+                    bar.time + ':' +
+                    JSON.stringify(bar);
+
+                if (!conflicts.has(key)) {
+                    conflicts.add(key);
+
+                    log(
+                        'تعارض REST مع شمعة مغلقة محفوظة ' +
+                        utc(bar.time) +
+                        '؛ لم تعدل لغياب revision رسمي'
+                    );
+
+                    audit.push({
+                        time: bar.time,
+                        old: { ...existing },
+                        candidate: { ...bar }
+                    });
                 }
             }
 
-            // 4. جلب الشموع التاريخية (فريم 1 دقيقة) لتهيئة الرسم
-            async function loadHistoricalBars() {
-                try {
-                    const url = `https://biquote.io/api/${SYMBOL}/ohlc?interval=${INTERVAL}&limit=200`;
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error('فشل جلب البيانات التاريخية');
-                    
-                    const data = await response.json();
-                    // biquote يعيد البيانات من الأحدث إلى الأقدم، نعكسها
-                    // وأيضاً نتجاهل الشمعة المفتوحة (isOpen: true) لأننا سنبنيها لحظياً
-                    const closedBars = data.bars
-                        .filter(bar => !bar.isOpen)
-                        .map(bar => ({
-                            time: Math.floor(new Date(bar.openTime).getTime() / 1000),
-                            open: bar.open,
-                            high: bar.high,
-                            low: bar.low,
-                            close: bar.close,
-                        }))
-                        .sort((a, b) => a.time - b.time); // ترتيب تصاعدي
+            continue;
+        }
 
-                    candleSeries.setData(closedBars);
-                    
-                    // بعد تحميل التاريخ، نبدأ الشمعة الحالية بالسعر الأخير
-                    if (closedBars.length > 0) {
-                        const lastClose = closedBars[closedBars.length - 1].close;
-                        const now = Math.floor(Date.now() / 1000);
-                        const minuteStart = Math.floor(now / 60) * 60;
-                        
-                        // إذا كانت آخر شمعة تاريخية هي نفس دقيقة الآن، نستخدمها كأساس
-                        // وإلا ننشئ شمعة جديدة
-                        if (closedBars[closedBars.length - 1].time === minuteStart) {
-                            // نادراً ما يحدث، لكن نتعامل معه
-                            currentBar = {
-                                time: minuteStart,
-                                open: lastClose,
-                                high: lastClose,
-                                low: lastClose,
-                                close: lastClose,
-                            };
-                        } else {
-                            currentBar = {
-                                time: minuteStart,
-                                open: lastClose,
-                                high: lastClose,
-                                low: lastClose,
-                                close: lastClose,
-                            };
-                        }
-                        candleSeries.update(currentBar);
-                        PRICE_DISPLAY.textContent = lastClose.toFixed(5);
-                    }
-                } catch (error) {
-                    console.error('خطأ في تحميل التاريخ:', error);
-                    STATUS_TEXT.textContent = 'خطأ في تحميل البيانات التاريخية';
+        provider.set(bar.time, { ...bar });
+    }
+}
+
+/*
+ * deep:
+ * - أول تحميل: محاولة الوصول إلى 500 شمعة.
+ * - بعد الانقطاع: محاولة الرجوع إلى آخر منطقة زمنية معروفة.
+ *
+ * لا يُملأ أي نقص بأسعار اصطناعية.
+ */
+async function refreshHistory(deep = false) {
+    deep ||= needsRecovery;
+
+    const id = epoch;
+    const requestedFrame = frame;
+    const seconds = frames[requestedFrame];
+
+    if (jobEpoch === id || destroyed) {
+        return;
+    }
+
+    jobEpoch = id;
+
+    const knownTimes = [...provider.keys()];
+
+    const frontier = knownTimes.length
+        ? Math.max(...knownTimes) - 2 * seconds
+        : null;
+
+    try {
+        let to = null;
+        let lastOldest = Infinity;
+
+        const collected = new Map();
+
+        for (
+            let page = 0;
+            page < (deep ? 30 : 1);
+            page++
+        ) {
+            const query = new URLSearchParams({
+                interval: requestedFrame,
+
+                limit: String(
+                    deep ? CFG.historyLimit : 100
+                )
+            });
+
+            if (to !== null) {
+                query.set(
+                    'to',
+                    new Date(to * 1000).toISOString()
+                );
+            }
+
+            const data = await json(
+                '/api/' + CFG.symbol +
+                '/ohlc?' + query
+            );
+
+            /*
+             * تجاهل استجابة فريم قديم إذا غيّر المستخدم الفريم.
+             */
+            if (id !== epoch || destroyed) {
+                return;
+            }
+
+            if (
+                data.symbol !== CFG.symbol ||
+                data.interval !== requestedFrame ||
+                !Array.isArray(data.bars)
+            ) {
+                throw Error('استجابة تاريخ مخالفة للعقد');
+            }
+
+            const rows = data.bars.map(
+                bar => normalizeBar(bar, seconds)
+            );
+
+            if (!rows.length) {
+                break;
+            }
+
+            for (const bar of rows) {
+                const previous = collected.get(bar.time);
+
+                if (
+                    previous &&
+                    !sameBar(previous, bar)
+                ) {
+                    throw Error(
+                        'شموع متعارضة بنفس الوقت داخل الطلب'
+                    );
                 }
+
+                collected.set(bar.time, bar);
             }
 
-            // 5. الاتصال ببث SignalR للتحديثات اللحظية
-            async function connectSignalR() {
-                const connection = new signalR.HubConnectionBuilder()
-                    .withUrl('https://biquote.io/hubs/tick')
-                    .withAutomaticReconnect()
-                    .build();
+            const oldest = Math.min(
+                ...rows.map(bar => bar.time)
+            );
 
-                // استقبال التيك الجديد
-                connection.on('ReceiveTick', (tick) => {
-                    // tick.symbol، tick.mid، tick.time (قد يكون هناك)
-                    // نستخدم mid كسعر حقيقي
-                    if (tick && tick.symbol === SYMBOL && tick.mid) {
-                        updatePriceAndBar(tick.mid);
+            const covered = frontier !== null
+                ? oldest <= frontier
+                : collected.size >= CFG.historyTarget;
+
+            if (!deep || covered) {
+                break;
+            }
+
+            if (oldest >= lastOldest) {
+                log(
+                    'المصدر لم يقدّم صفحة أقدم؛ ' +
+                    'توقف الاسترداد دون تخمين'
+                );
+
+                break;
+            }
+
+            lastOldest = oldest;
+            to = oldest - 1;
+        }
+
+        if (id !== epoch || destroyed) {
+            return;
+        }
+
+        mergeBars([...collected.values()]);
+
+        if (deep && collected.size) {
+            needsRecovery = false;
+        }
+
+        const sorted = [...provider.values()]
+            .sort((a, b) => a.time - b.time);
+
+        const closed = sorted.filter(
+            bar => !bar.isOpen
+        );
+
+        let gaps = 0;
+
+        for (let i = 1; i < sorted.length; i++) {
+            if (
+                sorted[i].time -
+                sorted[i - 1].time >
+                seconds
+            ) {
+                gaps++;
+            }
+        }
+
+        $('history-info').textContent =
+            `المزود: ${sorted.length} شمعة، ` +
+            `المغلقة ${closed.length} — ` +
+            `فجوات زمنية ${gaps} ` +
+            '(قد تكون عطلة أو نقص بيانات)';
+
+        if (
+            deep &&
+            sorted.length < CFG.historyTarget
+        ) {
+            log(
+                'المتاح ' + sorted.length +
+                ' شمعة فقط؛ طُلب 500 على الأقل ' +
+                'وجُربت الصفحات الأقدم'
+            );
+        }
+
+        if (
+            deep &&
+            frontier !== null &&
+            collected.size &&
+            Math.min(...collected.keys()) > frontier
+        ) {
+            log(
+                'لم يمكن تغطية كامل فترة الانقطاع ' +
+                'من التاريخ المتاح'
+            );
+        }
+
+        scheduleRender();
+    } catch (error) {
+        if (id === epoch) {
+            log('التاريخ: ' + error.message);
+
+            $('history-info').textContent =
+                'تعذر تحديث التاريخ؛ ' +
+                'البيانات المحفوظة لم تحذف';
+        }
+    } finally {
+        if (jobEpoch === id) {
+            jobEpoch = null;
+        }
+    }
+}
+
+/* =========================================================
+   5. السعر المباشر
+   ========================================================= */
+
+function showQuote(quote, fromStream) {
+    if (
+        destroyed ||
+        !quote ||
+        quote.symbol !== CFG.symbol
+    ) {
+        return;
+    }
+
+    const time = sourceTime(quote.timestamp);
+
+    if (
+        typeof quote.mid !== 'number' ||
+        !Number.isFinite(quote.mid) ||
+        quote.mid <= 0
+    ) {
+        throw Error('mid غير صالح');
+    }
+
+    /*
+     * لا نرجع السعر المعروض إلى رسالة أقدم زمنياً.
+     * الرسالة المتأخرة تظل تمر على محرك التجميع لمعالجتها.
+     */
+    if (
+        latestQuote &&
+        time < latestQuote.t
+    ) {
+        return;
+    }
+
+    latestQuote = {
+        ...quote,
+        t: time
+    };
+
+    $('price-display').textContent = fmt(quote.mid);
+
+    $('quote-info').textContent =
+        `Bid ${fmt(quote.bid)} | ` +
+        `Ask ${fmt(quote.ask)} | ` +
+        `Mid ${fmt(quote.mid)} | ` +
+        `${utc(time)} | ` +
+        `${quote.source || 'المصدر غير محدد'}` +
+        `${quote.stale ? ' | سعر قديم' : ''}` +
+        `${quote.marketState ? ' | ' + quote.marketState : ''}` +
+        ` | ${fromStream ? 'SignalR' : 'REST snapshot'}`;
+
+    if (
+        typeof quote.bid === 'number' &&
+        typeof quote.ask === 'number' &&
+        Math.abs(
+            quote.mid -
+            (quote.bid + quote.ask) / 2
+        ) > 1e-8
+    ) {
+        log(
+            'تحذير: mid مختلف عن متوسط bid/ask في الرسالة'
+        );
+    }
+
+    liveLine.applyOptions({
+        price: quote.mid,
+        axisLabelVisible: true,
+        title: 'Mid البث'
+    });
+}
+
+async function pollQuote() {
+    if (quoteBusy || destroyed) {
+        return;
+    }
+
+    quoteBusy = true;
+
+    try {
+        const quote = await json(
+            '/api/' + CFG.symbol
+        );
+
+        /*
+         * هذه لقطة سعر فقط.
+         * لا تدخل محرك Tick Aggregation،
+         * لأنها لا تمثل كل الحركات بين الطلبات.
+         */
+        showQuote(quote, false);
+    } catch (error) {
+        log('REST snapshot: ' + error.message);
+    } finally {
+        quoteBusy = false;
+    }
+}
+
+/* =========================================================
+   6. SignalR وإعادة الاتصال
+   ========================================================= */
+
+function requestRecovery() {
+    if (jobEpoch === epoch) {
+        setTimeout(() => {
+            if (!destroyed) {
+                requestRecovery();
+            }
+        }, 1000);
+
+        return;
+    }
+
+    refreshHistory(true);
+}
+
+async function startConnection() {
+    if (
+        destroyed ||
+        connection.state !==
+        signalR.HubConnectionState.Disconnected
+    ) {
+        return;
+    }
+
+    clearTimeout(retryTimer);
+    status('جار الاتصال بالبث...');
+
+    try {
+        await connection.start();
+
+        await connection.invoke(
+            'Subscribe',
+            [CFG.symbol]
+        );
+
+        status(
+            'متصل؛ وصول كل Tick غير مضمون من المزود',
+            true
+        );
+
+        requestRecovery();
+    } catch (error) {
+        log('SignalR: ' + error.message);
+
+        status(
+            'البث غير متاح؛ REST للشموع والأسعار فقط'
+        );
+
+        if (
+            connection.state !==
+            signalR.HubConnectionState.Disconnected
+        ) {
+            await connection.stop();
+        }
+
+        retryTimer = setTimeout(
+            startConnection,
+            5000
+        );
+    }
+}
+
+function buildConnection() {
+    connection = new signalR.HubConnectionBuilder()
+        .withUrl(
+            CFG.api + '/hubs/tick',
+            { withCredentials: false }
+        )
+        .withAutomaticReconnect([
+            0,
+            2000,
+            5000,
+            10000,
+            30000
+        ])
+        .configureLogging(
+            signalR.LogLevel.Error
+        )
+        .build();
+
+    connection.on('ReceiveTick', quote => {
+        if (destroyed) {
+            return;
+        }
+
+        try {
+            engine.accept(quote);
+            showQuote(quote, true);
+            scheduleRender();
+        } catch (error) {
+            log('رفض رسالة: ' + error.message);
+        }
+    });
+
+    connection.on(
+        'ReceiveSubscriptionState',
+        state => {
+            log(
+                'حالة الاشتراك: ' +
+                JSON.stringify(state)
+            );
+        }
+    );
+
+    connection.onreconnecting(() => {
+        engine.breakSegment();
+        needsRecovery = true;
+
+        status(
+            'جار إعادة الاتصال؛ التجميع المحلي غير مكتمل'
+        );
+    });
+
+    connection.onreconnected(async () => {
+        try {
+            await connection.invoke(
+                'Subscribe',
+                [CFG.symbol]
+            );
+
+            status(
+                'أعيد الاشتراك؛ جار استرداد OHLC',
+                true
+            );
+
+            requestRecovery();
+        } catch (error) {
+            log(
+                'إعادة الاشتراك: ' +
+                error.message
+            );
+
+            await connection.stop();
+        }
+    });
+
+    connection.onclose(() => {
+        engine.breakSegment();
+        needsRecovery = true;
+
+        if (!destroyed) {
+            status('انقطع البث؛ REST مستمر');
+
+            clearTimeout(retryTimer);
+
+            retryTimer = setTimeout(
+                startConnection,
+                5000
+            );
+        }
+    });
+}
+
+/* =========================================================
+   7. الرسوم
+   ========================================================= */
+
+const common = {
+    layout: {
+        background: {
+            type: 'solid',
+            color: '#131722'
+        },
+        textColor: '#d1d4dc'
+    },
+
+    grid: {
+        vertLines: {
+            color: '#252936'
+        },
+        horzLines: {
+            color: '#252936'
+        }
+    },
+
+    timeScale: {
+        timeVisible: true,
+        secondsVisible: false,
+        borderColor: '#2a2e39'
+    },
+
+    rightPriceScale: {
+        borderColor: '#2a2e39'
+    },
+
+    crosshair: {
+        mode: LightweightCharts.CrosshairMode.Normal
+    },
+
+    localization: {
+        timeFormatter: time => utc(time)
+    }
+};
+
+function makeChart(id, height) {
+    return LightweightCharts.createChart(
+        $(id),
+        {
+            ...common,
+            width: $(id).clientWidth || 1000,
+            height
+        }
+    );
+}
+
+const chart = makeChart(
+    'chart-container',
+    600
+);
+
+const rsiChart = makeChart(
+    'rsi-chart',
+    150
+);
+
+const macdChart = makeChart(
+    'macd-chart',
+    170
+);
+
+const candles = chart.addCandlestickSeries({
+    upColor: '#26a69a',
+    downColor: '#ef5350',
+
+    wickUpColor: '#26a69a',
+    wickDownColor: '#ef5350',
+
+    borderVisible: false,
+
+    priceFormat: {
+        type: 'price',
+        precision: 6,
+        minMove: 0.000001
+    }
+});
+
+const ma = chart.addLineSeries({
+    color: '#ffc857',
+    lineWidth: 2,
+
+    priceLineVisible: false,
+    lastValueVisible: false,
+
+    priceFormat: {
+        type: 'price',
+        precision: 6,
+        minMove: 0.000001
+    }
+});
+
+const volume = chart.addHistogramSeries({
+    priceScaleId: 'volume',
+
+    priceFormat: {
+        type: 'volume'
+    },
+
+    priceLineVisible: false,
+    lastValueVisible: false
+});
+
+volume.priceScale().applyOptions({
+    scaleMargins: {
+        top: 0.82,
+        bottom: 0
+    }
+});
+
+/*
+ * القيمة الابتدائية لا تُعرض ولا تُضاف لأي شمعة.
+ * الخط مخفي حتى وصول سعر حقيقي.
+ */
+const liveLine = candles.createPriceLine({
+    price: 1,
+    color: '#42a5f5',
+    lineWidth: 1,
+    lineStyle: LightweightCharts.LineStyle.Dashed,
+    axisLabelVisible: false,
+    lineVisible: false,
+    title: 'Mid البث'
+});
+
+const rsiSeries = rsiChart.addLineSeries({
+    color: '#b388ff',
+    lineWidth: 2,
+
+    priceFormat: {
+        type: 'price',
+        precision: 2,
+        minMove: 0.01
+    },
+
+    priceLineVisible: false
+});
+
+rsiSeries.createPriceLine({
+    price: 70,
+    color: '#787b86',
+    lineWidth: 1,
+    lineStyle: 2,
+    axisLabelVisible: true
+});
+
+rsiSeries.createPriceLine({
+    price: 30,
+    color: '#787b86',
+    lineWidth: 1,
+    lineStyle: 2,
+    axisLabelVisible: true
+});
+
+const macdLine = macdChart.addLineSeries({
+    color: '#42a5f5',
+    lineWidth: 2,
+    priceLineVisible: false,
+
+    priceFormat: {
+        type: 'price',
+        precision: 6,
+        minMove: 0.000001
+    }
+});
+
+const signalLine = macdChart.addLineSeries({
+    color: '#ffb74d',
+    lineWidth: 1,
+    priceLineVisible: false,
+
+    priceFormat: {
+        type: 'price',
+        precision: 6,
+        minMove: 0.000001
+    }
+});
+
+const histogram = macdChart.addHistogramSeries({
+    priceLineVisible: false,
+
+    priceFormat: {
+        type: 'price',
+        precision: 6,
+        minMove: 0.000001
+    }
+});
+
+/*
+ * مزامنة التحريك والتكبير.
+ * تُضاف نقاط whitespace للمؤشرات لاحقاً لضمان تطابق الفهارس.
+ */
+let syncing = false;
+
+for (const current of [chart, rsiChart, macdChart]) {
+    current.timeScale()
+        .subscribeVisibleLogicalRangeChange(range => {
+            if (syncing || !range) {
+                return;
+            }
+
+            syncing = true;
+
+            try {
+                for (
+                    const other of
+                    [chart, rsiChart, macdChart]
+                ) {
+                    if (current !== other) {
+                        other.timeScale()
+                            .setVisibleLogicalRange(range);
                     }
-                });
-
-                // أحداث الاتصال
-                connection.onreconnecting(() => {
-                    STATUS_DOT.classList.remove('connected');
-                    STATUS_TEXT.textContent = 'جاري إعادة الاتصال...';
-                });
-
-                connection.onreconnected(() => {
-                    STATUS_DOT.classList.add('connected');
-                    STATUS_TEXT.textContent = 'متصل (بث لحظي)';
-                    connection.invoke('Subscribe', [SYMBOL]).catch(console.error);
-                });
-
-                connection.onclose(() => {
-                    STATUS_DOT.classList.remove('connected');
-                    STATUS_TEXT.textContent = 'انقطع الاتصال';
-                });
-
-                try {
-                    await connection.start();
-                    STATUS_DOT.classList.add('connected');
-                    STATUS_TEXT.textContent = 'متصل (بث لحظي)';
-                    // الاشتراك في الرمز
-                    await connection.invoke('Subscribe', [SYMBOL]);
-                } catch (err) {
-                    console.error('فشل الاتصال بـ SignalR:', err);
-                    STATUS_TEXT.textContent = 'فشل الاتصال بالبث';
-                    // في حالة الفشل، يمكننا الاعتماد على polling كخطة بديلة
-                    startPollingFallback();
                 }
+            } finally {
+                syncing = false;
             }
 
-            // خطة بديلة: استقصاء دوري في حال فشل WebSocket
-            let pollingInterval;
-            function startPollingFallback() {
-                if (pollingInterval) clearInterval(pollingInterval);
-                pollingInterval = setInterval(async () => {
-                    try {
-                        const res = await fetch(`https://biquote.io/api/${SYMBOL}`);
-                        const tick = await res.json();
-                        if (tick && tick.mid) {
-                            updatePriceAndBar(tick.mid);
-                        }
-                    } catch (e) {
-                        console.error('فشل الاستقصاء:', e);
-                    }
-                }, 2000); // كل ثانيتين
+            renderDrawings();
+        });
+}
+
+/* =========================================================
+   8. المؤشرات — دون قيم ابتدائية وهمية
+   ========================================================= */
+
+function ema(values, period) {
+    const output = Array(values.length).fill(null);
+
+    let sum = 0;
+    let count = 0;
+    let previous = null;
+
+    const alpha = 2 / (period + 1);
+
+    for (let i = 0; i < values.length; i++) {
+        const value = values[i];
+
+        if (value === null) {
+            continue;
+        }
+
+        if (previous === null) {
+            sum += value;
+            count++;
+
+            if (count === period) {
+                previous = sum / period;
+                output[i] = previous;
+            }
+        } else {
+            previous =
+                value * alpha +
+                previous * (1 - alpha);
+
+            output[i] = previous;
+        }
+    }
+
+    return output;
+}
+
+function indicators(bars) {
+    const closes = bars.map(bar => bar.close);
+
+    const sma = [];
+    const rsi = [];
+
+    const fast = ema(closes, 12);
+    const slow = ema(closes, 26);
+
+    const macd = closes.map((_, index) =>
+        fast[index] === null ||
+        slow[index] === null
+            ? null
+            : fast[index] - slow[index]
+    );
+
+    const signal = ema(macd, 9);
+
+    let sum = 0;
+    let gain = 0;
+    let loss = 0;
+
+    for (let i = 0; i < bars.length; i++) {
+        sum += closes[i];
+
+        if (i >= 20) {
+            sum -= closes[i - 20];
+        }
+
+        if (i >= 19) {
+            sma.push({
+                time: bars[i].time,
+                value: sum / 20
+            });
+        }
+
+        if (i > 0) {
+            const difference =
+                closes[i] - closes[i - 1];
+
+            const currentGain =
+                Math.max(0, difference);
+
+            const currentLoss =
+                Math.max(0, -difference);
+
+            if (i <= 14) {
+                gain += currentGain;
+                loss += currentLoss;
+
+                if (i === 14) {
+                    gain /= 14;
+                    loss /= 14;
+                }
+            } else {
+                gain =
+                    (gain * 13 + currentGain) / 14;
+
+                loss =
+                    (loss * 13 + currentLoss) / 14;
             }
 
-            // 6. بدء التشغيل
-            loadHistoricalBars().then(() => {
-                connectSignalR();
-            });
+            if (i >= 14) {
+                const value = loss === 0
+                    ? (gain === 0 ? 50 : 100)
+                    : 100 - 100 / (1 + gain / loss);
 
-            // تعديل الحجم عند تغيير النافذة
-            window.addEventListener('resize', () => {
-                chart.applyOptions({ width: CONTAINER.clientWidth });
-            });
+                rsi.push({
+                    time: bars[i].time,
+                    value
+                });
+            }
+        }
+    }
 
-            // تنظيف عند إغلاق الصفحة
-            window.addEventListener('beforeunload', () => {
-                if (pollingInterval) clearInterval(pollingInterval);
+    return {
+        sma,
+        rsi,
+
+        macd: bars.flatMap((bar, index) =>
+            macd[index] === null
+                ? []
+                : [{
+                    time: bar.time,
+                    value: macd[index]
+                }]
+        ),
+
+        signal: bars.flatMap((bar, index) =>
+            signal[index] === null
+                ? []
+                : [{
+                    time: bar.time,
+                    value: signal[index]
+                }]
+        ),
+
+        histogram: bars.flatMap((bar, index) =>
+            signal[index] === null
+                ? []
+                : [{
+                    time: bar.time,
+                    value:
+                        macd[index] - signal[index],
+
+                    color:
+                        macd[index] >= signal[index]
+                            ? '#26a69a'
+                            : '#ef5350'
+                }]
+        )
+    };
+}
+
+/* =========================================================
+   9. تحديث العرض
+   ========================================================= */
+
+function currentBars() {
+    if ($('mode').value === 'provider') {
+        return [...provider.values()]
+            .sort((a, b) => a.time - b.time);
+    }
+
+    return engine.view(frames[frame]);
+}
+
+function scheduleRender() {
+    if (renderTimer || destroyed) {
+        return;
+    }
+
+    /*
+     * تجميع عمليات الرسم فقط.
+     * معالجة كل رسالة مستلمة تتم مباشرة في engine.accept.
+     */
+    renderTimer = setTimeout(() => {
+        renderTimer = null;
+        render();
+    }, 250);
+}
+
+function render() {
+    const bars = currentBars();
+    const isProvider =
+        $('mode').value === 'provider';
+
+    const calculated = indicators(bars);
+
+    candles.setData(
+        bars.map(bar => ({
+            time: bar.time,
+            open: bar.open,
+            high: bar.high,
+            low: bar.low,
+            close: bar.close
+        }))
+    );
+
+    /*
+     * Whitespace ليس شمعة أو سعراً.
+     * يُستخدم فقط لمحاذاة زمن المؤشرات مع زمن الشموع.
+     */
+    const align = values => {
+        const valuesByTime = new Map(
+            values.map(value => [
+                value.time,
+                value
+            ])
+        );
+
+        return bars.map(bar =>
+            valuesByTime.get(bar.time) || {
+                time: bar.time
+            }
+        );
+    };
+
+    ma.setData(
+        $('ma-on').checked
+            ? align(calculated.sma)
+            : []
+    );
+
+    rsiSeries.setData(
+        align(calculated.rsi)
+    );
+
+    macdLine.setData(
+        align(calculated.macd)
+    );
+
+    signalLine.setData(
+        align(calculated.signal)
+    );
+
+    histogram.setData(
+        align(calculated.histogram)
+    );
+
+    /*
+     * لا نحول عدد رسائل المتصفح إلى Tick Volume مزود.
+     * نعرض tickVolume المرسل في OHLC فقط.
+     */
+    const volumeData = isProvider
+        ? bars
+            .filter(bar => bar.tickVolume !== null)
+            .map(bar => ({
+                time: bar.time,
+                value: bar.tickVolume,
+
+                color: bar.close >= bar.open
+                    ? '#26a69a66'
+                    : '#ef535066'
+            }))
+        : [];
+
+    volume.setData(
+        $('volume-on').checked
+            ? volumeData
+            : []
+    );
+
+    candles.priceScale().applyOptions({
+        scaleMargins: {
+            top: 0.08,
+
+            bottom:
+                $('volume-on').checked && isProvider
+                    ? 0.23
+                    : 0.08
+        }
+    });
+
+    candles.setMarkers(
+        $('arrows-on').checked
+            ? bars
+                .slice(-1000)
+                .filter(bar => bar.close !== bar.open)
+                .map(bar => ({
+                    time: bar.time,
+
+                    position:
+                        bar.close > bar.open
+                            ? 'belowBar'
+                            : 'aboveBar',
+
+                    color:
+                        bar.close > bar.open
+                            ? '#26a69a'
+                            : '#ef5350',
+
+                    shape:
+                        bar.close > bar.open
+                            ? 'arrowUp'
+                            : 'arrowDown'
+                }))
+            : []
+    );
+
+    liveLine.applyOptions({
+        lineVisible: latestQuote !== null,
+        axisLabelVisible: latestQuote !== null
+    });
+
+    $('rsi-wrap').hidden =
+        !$('rsi-on').checked;
+
+    $('macd-wrap').hidden =
+        !$('macd-on').checked;
+
+    $('mode-info').textContent = isProvider
+        ? (
+            'OHLC المزود كما وردت؛ أساس السعر ' +
+            'وتجانس التاريخ غير مثبتين. ' +
+            'خط Mid مستقل ولا يعيد تشكيلها.'
+        )
+        : (
+            'Mid من رسائل SignalR المرصودة فقط؛ ' +
+            'لا تاريخ مختلط، ولا ضمان اكتمال. ' +
+            'أول دقيقة وبعد الانقطاع جزئية، ' +
+            'وترتيب الرسائل المتساوية زمنياً غير محسوم.'
+        );
+
+    $('tick-info').textContent =
+        `شموع محلية: ${engine.bars.size} | ` +
+        `متأخرة مرفوضة: ${engine.late} | ` +
+        `تعادل طوابع زمنية: ${engine.ties} | ` +
+        `خلافات شموع مزود مغلقة: ${audit.length}`;
+
+    if (firstFit && bars.length) {
+        chart.timeScale().fitContent();
+        firstFit = false;
+    }
+
+    renderComparison();
+    renderDrawings();
+}
+
+/* =========================================================
+   10. قراءة CSV المرجعي
+   ========================================================= */
+
+function parseCSV(text) {
+    text = text.replace(/^\uFEFF/, '');
+
+    const firstLine = text.split(/\r?\n/, 1)[0];
+
+    const semicolons =
+        (firstLine.match(/;/g) || []).length;
+
+    const commas =
+        (firstLine.match(/,/g) || []).length;
+
+    const separator =
+        semicolons > commas ? ';' : ',';
+
+    const rows = [];
+
+    let row = [];
+    let cell = '';
+    let quoted = false;
+
+    for (let i = 0; i < text.length; i++) {
+        const character = text[i];
+
+        if (character === '"') {
+            if (
+                quoted &&
+                text[i + 1] === '"'
+            ) {
+                cell += '"';
+                i++;
+            } else {
+                quoted = !quoted;
+            }
+        } else if (
+            character === separator &&
+            !quoted
+        ) {
+            row.push(cell);
+            cell = '';
+        } else if (
+            (
+                character === '\n' ||
+                character === '\r'
+            ) &&
+            !quoted
+        ) {
+            if (
+                character === '\r' &&
+                text[i + 1] === '\n'
+            ) {
+                i++;
+            }
+
+            row.push(cell);
+
+            if (row.some(value => value.trim())) {
+                rows.push(row);
+            }
+
+            row = [];
+            cell = '';
+        } else {
+            cell += character;
+        }
+    }
+
+    if (quoted) {
+        throw Error('CSV اقتباس غير مغلق');
+    }
+
+    row.push(cell);
+
+    if (row.some(value => value.trim())) {
+        rows.push(row);
+    }
+
+    return rows;
+}
+
+function csvTime(value, unit) {
+    const text = value.trim();
+
+    if (/^-?\d+(\.\d+)?$/.test(text)) {
+        if (unit === 'iso') {
+            throw Error('اختر وحدة Unix الصحيحة');
+        }
+
+        const seconds =
+            Number(text) /
+            (unit === 'ms' ? 1000 : 1);
+
+        if (!Number.isFinite(seconds)) {
+            throw Error('زمن CSV غير صالح');
+        }
+
+        return seconds;
+    }
+
+    return sourceTime(text);
+}
+
+async function importReference() {
+    try {
+        const file =
+            $('reference-file').files[0];
+
+        if (!file) {
+            return;
+        }
+
+        if (
+            !$('reference-symbol').value.trim()
+        ) {
+            throw Error(
+                'اكتب رمز المرجع كاملاً مثل OANDA:EURUSD'
+            );
+        }
+
+        if (
+            !$('reference-basis').value
+        ) {
+            throw Error(
+                'حدد أساس سعر المرجع أو اختر غير معلوم'
+            );
+        }
+
+        if (file.size > 20 * 1024 * 1024) {
+            throw Error('CSV أكبر من 20MB');
+        }
+
+        const rows = parseCSV(
+            await file.text()
+        );
+
+        if (rows.length < 2) {
+            throw Error('CSV فارغ');
+        }
+
+        const headers = rows.shift().map(
+            value => value.trim().toLowerCase()
+        );
+
+        const index = {};
+
+        for (
+            const key of
+            ['open', 'high', 'low', 'close']
+        ) {
+            index[key] = headers.indexOf(key);
+
+            if (index[key] < 0) {
+                throw Error('عمود مفقود ' + key);
+            }
+        }
+
+        index.time = headers.findIndex(
+            key => [
+                'time',
+                'timestamp',
+                'date'
+            ].includes(key)
+        );
+
+        if (index.time < 0) {
+            throw Error('عمود time مفقود');
+        }
+
+        const map = new Map();
+
+        for (const row of rows) {
+            const time = csvTime(
+                row[index.time],
+                $('csv-time-unit').value
+            );
+
+            if (
+                !Number.isInteger(time) ||
+                time % frames[frame]
+            ) {
+                throw Error(
+                    'CSV غير محاذى للفريم؛ ' +
+                    'صدّره بتوقيت صريح وبدون إزاحة'
+                );
+            }
+
+            const bar = { time };
+
+            for (
+                const key of
+                ['open', 'high', 'low', 'close']
+            ) {
+                const value =
+                    (row[index[key]] ?? '').trim();
+
+                if (!value) {
+                    throw Error('قيمة OHLC فارغة');
+                }
+
+                bar[key] = Number(value);
+            }
+
+            if (!validOHLC(bar)) {
+                throw Error('OHLC غير صالح في CSV');
+            }
+
+            if (map.has(time)) {
+                throw Error(
+                    'وقت مكرر في CSV ' +
+                    utc(time)
+                );
+            }
+
+            map.set(time, bar);
+        }
+
+        reference = {
+            frame,
+            symbol:
+                $('reference-symbol').value.trim(),
+            basis:
+                $('reference-basis').value,
+            bars: map
+        };
+
+        $('compare-target').value = 'csv';
+
+        log(
+            'استيراد ' + map.size +
+            ' شمعة مرجعية دون تعديل التوقيت'
+        );
+
+        renderComparison();
+    } catch (error) {
+        log('CSV: ' + error.message);
+
+        $('compare-info').textContent =
+            'فشل الاستيراد: ' +
+            error.message;
+    }
+}
+
+/* =========================================================
+   11. مقارنة OHLC والتوقيت
+   ========================================================= */
+
+function renderComparison() {
+    const useCSV =
+        $('compare-target').value === 'csv';
+
+    let localBars;
+    let referenceBars;
+
+    if (useCSV) {
+        if (
+            !reference ||
+            reference.frame !== frame
+        ) {
+            $('compare-body').innerHTML = '';
+
+            $('compare-info').textContent =
+                'استورد CSV للفريم الحالي؛ ' +
+                'لا توجد مقارنة فعلية مع TradingView ' +
+                'حتى استيراده';
+
+            refRows = [];
+            return;
+        }
+
+        localBars = new Map(
+            currentBars()
+                .filter(bar =>
+                    $('mode').value !== 'provider' ||
+                    !bar.isOpen
+                )
+                .map(bar => [
+                    bar.time,
+                    bar
+                ])
+        );
+
+        referenceBars = reference.bars;
+    } else {
+        localBars = new Map(
+            engine.view(frames[frame])
+                .map(bar => [
+                    bar.time,
+                    bar
+                ])
+        );
+
+        referenceBars = provider;
+    }
+
+    const tolerance =
+        Number($('tolerance').value);
+
+    if (
+        !Number.isFinite(tolerance) ||
+        tolerance < 0
+    ) {
+        return;
+    }
+
+    const times = [
+        ...new Set([
+            ...localBars.keys(),
+            ...referenceBars.keys()
+        ])
+    ].sort((a, b) => b - a);
+
+    let mismatch = 0;
+    let missing = 0;
+    let provisional = 0;
+
+    refRows = [];
+
+    for (const time of times) {
+        const local = localBars.get(time);
+        const ref = referenceBars.get(time);
+
+        let state = 'مطابقة ضمن العتبة';
+        const delta = {};
+
+        if (!local || !ref) {
+            state = !local
+                ? 'مفقودة محلياً'
+                : 'مفقودة بالمرجع';
+
+            missing++;
+        } else {
+            for (
+                const key of
+                ['open', 'high', 'low', 'close']
+            ) {
+                delta[key] =
+                    local[key] - ref[key];
+            }
+
+            if (
+                local.partial ||
+                local.ambiguous ||
+                local.sealed === false ||
+                local.isOpen ||
+                ref.isOpen
+            ) {
+                state =
+                    'جزئية/مؤقتة/ترتيب غير محسوم';
+
+                provisional++;
+            } else if (
+                Object.values(delta).some(
+                    value =>
+                        Math.abs(value) >
+                        tolerance * CFG.pip + 1e-12
+                )
+            ) {
+                state = 'مختلفة';
+                mismatch++;
+            }
+        }
+
+        /*
+         * المطابقة السعرية تتم فقط عند تطابق وقت الافتتاح.
+         *
+         * إذا غاب الوقت:
+         * نعرض فرق أقرب وقت للتشخيص فقط،
+         * ولا ننقل الشموع أو نقارن أسعار شمعتين مختلفتين.
+         */
+        let timestampDifference =
+            local && ref ? 0 : null;
+
+        if (timestampDifference === null) {
+            const otherTimes = [
+                ...(local
+                    ? referenceBars
+                    : localBars
+                ).keys()
+            ];
+
+            if (otherTimes.length) {
+                const nearest = otherTimes.reduce(
+                    (best, candidate) =>
+                        Math.abs(candidate - time) <
+                        Math.abs(best - time)
+                            ? candidate
+                            : best,
+                    otherTimes[0]
+                );
+
+                timestampDifference = local
+                    ? time - nearest
+                    : nearest - time;
+            }
+        }
+
+        refRows.push({
+            time,
+            local,
+            ref,
+            delta,
+            state,
+            timestampDifference
+        });
+    }
+
+    const comparable =
+        refRows.length -
+        missing -
+        provisional;
+
+    const percentage = comparable
+        ? (
+            ' (' +
+            (100 * mismatch / comparable).toFixed(2) +
+            '%)'
+        )
+        : '';
+
+    const description = useCSV
+        ? reference.symbol + ' / ' + reference.basis
+        : 'محلي Mid مقابل OHLC مزود مجهول الأساس';
+
+    $('compare-info').textContent =
+        description +
+        ` | مقارنة مغلقة قابلة للحساب ${comparable}` +
+        ` | مختلفة ${mismatch}${percentage}` +
+        ` | مفقودة ${missing}` +
+        ` | جزئية ${provisional}` +
+        ' | Δ بالسعر، ΔT بالثواني ' +
+        '(أقرب زمن عند الفقد للتشخيص فقط، ' +
+        'دون مطابقة أسعار أو إزاحة)؛ ' +
+        'الجدول آخر 250. ' +
+        'المطابقة رقمية وليست إثبات ترخيص أو تجانس مصدر.';
+
+    $('compare-body').innerHTML =
+        refRows.slice(0, 250).map(row => {
+            const localValues = [
+                'open', 'high', 'low', 'close'
+            ].map(key =>
+                '<td>' +
+                fmt(row.local?.[key]) +
+                '</td>'
+            ).join('');
+
+            const referenceValues = [
+                'open', 'high', 'low', 'close'
+            ].map(key =>
+                '<td>' +
+                fmt(row.ref?.[key]) +
+                '</td>'
+            ).join('');
+
+            const differences = [
+                'open', 'high', 'low', 'close'
+            ].map(key =>
+                '<td>' +
+                fmt(row.delta[key]) +
+                '</td>'
+            ).join('');
+
+            return (
+                '<tr class="' +
+                (row.state === 'مختلفة' ? 'bad' : '') +
+                '">' +
+
+                '<td>' +
+                escapeHTML(utc(row.time)) +
+                '</td>' +
+
+                localValues +
+                referenceValues +
+                differences +
+
+                '<td>' +
+                (row.timestampDifference ?? '—') +
+                '</td>' +
+
+                '<td>' +
+                escapeHTML(row.state) +
+                '</td>' +
+
+                '</tr>'
+            );
+        }).join('');
+}
+
+function exportDebug() {
+    const headers = [
+        'time_utc',
+
+        'local_open',
+        'local_high',
+        'local_low',
+        'local_close',
+
+        'ref_open',
+        'ref_high',
+        'ref_low',
+        'ref_close',
+
+        'delta_open',
+        'delta_high',
+        'delta_low',
+        'delta_close',
+
+        'delta_time_seconds',
+        'state'
+    ];
+
+    const rows = refRows.map(row => [
+        utc(row.time),
+
+        ...['open', 'high', 'low', 'close']
+            .map(key => row.local?.[key] ?? ''),
+
+        ...['open', 'high', 'low', 'close']
+            .map(key => row.ref?.[key] ?? ''),
+
+        ...['open', 'high', 'low', 'close']
+            .map(key => row.delta[key] ?? ''),
+
+        row.timestampDifference ?? '',
+        row.state
+    ]);
+
+    const text = '\uFEFF' +
+        [headers, ...rows].map(row =>
+            row.map(value =>
+                '"' +
+                String(value).replace(/"/g, '""') +
+                '"'
+            ).join(',')
+        ).join('\r\n');
+
+    const url = URL.createObjectURL(
+        new Blob(
+            [text],
+            { type: 'text/csv;charset=utf-8' }
+        )
+    );
+
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.download =
+        'EURUSD-' + frame + '-comparison.csv';
+
+    link.click();
+
+    setTimeout(
+        () => URL.revokeObjectURL(url),
+        1000
+    );
+}
+
+/* =========================================================
+   12. أدوات الرسم
+   ========================================================= */
+
+let drawTool = '';
+let drawStart = null;
+
+function setTool(tool) {
+    drawTool = tool;
+    drawStart = null;
+
+    $('draw-info').textContent =
+        tool === 'trend'
+            ? 'اختر نقطتين على الرسم'
+            : tool === 'horizontal'
+                ? 'اختر مستوى السعر'
+                : 'السحب والتكبير مفعّلان';
+}
+
+chart.subscribeClick(event => {
+    if (
+        !drawTool ||
+        !event.point ||
+        typeof event.time !== 'number'
+    ) {
+        return;
+    }
+
+    const price = candles.coordinateToPrice(
+        event.point.y
+    );
+
+    if (price === null) {
+        return;
+    }
+
+    const point = {
+        time: event.time,
+        price
+    };
+
+    if (drawTool === 'horizontal') {
+        drawings.push({
+            type: 'horizontal',
+            a: point
+        });
+
+        setTool('');
+    } else if (!drawStart) {
+        drawStart = point;
+    } else {
+        drawings.push({
+            type: 'trend',
+            a: drawStart,
+            b: point
+        });
+
+        setTool('');
+    }
+
+    renderDrawings();
+});
+
+function renderDrawings() {
+    const svg = $('draw-layer');
+
+    if (!svg) {
+        return;
+    }
+
+    const width =
+        $('chart-container').clientWidth;
+
+    const height = 600;
+
+    svg.setAttribute(
+        'viewBox',
+        `0 0 ${width} ${height}`
+    );
+
+    const nodes = [];
+
+    for (const drawing of drawings) {
+        const y1 = candles.priceToCoordinate(
+            drawing.a.price
+        );
+
+        if (y1 === null) {
+            continue;
+        }
+
+        if (drawing.type === 'horizontal') {
+            const anchor =
+                chart.timeScale().timeToCoordinate(
+                    drawing.a.time
+                );
+
+            if (anchor !== null) {
+                nodes.push(
+                    `<line x1="0" y1="${y1}" ` +
+                    `x2="${width - 70}" y2="${y1}"/>`
+                );
+            }
+        } else {
+            const x1 =
+                chart.timeScale().timeToCoordinate(
+                    drawing.a.time
+                );
+
+            const x2 =
+                chart.timeScale().timeToCoordinate(
+                    drawing.b.time
+                );
+
+            const y2 =
+                candles.priceToCoordinate(
+                    drawing.b.price
+                );
+
+            if (
+                x1 !== null &&
+                x2 !== null &&
+                y2 !== null
+            ) {
+                nodes.push(
+                    `<line x1="${x1}" y1="${y1}" ` +
+                    `x2="${x2}" y2="${y2}"/>`
+                );
+            }
+        }
+    }
+
+    svg.innerHTML = nodes.join('');
+}
+
+/* =========================================================
+   13. تغيير الحجم وعناصر التحكم
+   ========================================================= */
+
+const resizeObserver = new ResizeObserver(() => {
+    const targets = [
+        [chart, 'chart-container', 600],
+        [rsiChart, 'rsi-chart', 150],
+        [macdChart, 'macd-chart', 170]
+    ];
+
+    for (
+        const [targetChart, id, height]
+        of targets
+    ) {
+        const width = $(id).clientWidth;
+
+        if (width) {
+            targetChart.applyOptions({
+                width,
+                height
             });
-        })();
-    </script>
+        }
+    }
+
+    renderDrawings();
+});
+
+for (
+    const id of
+    ['chart-container', 'rsi-chart', 'macd-chart']
+) {
+    resizeObserver.observe($(id));
+}
+
+$('chart-container').addEventListener(
+    'pointermove',
+    renderDrawings
+);
+
+$('chart-container').addEventListener(
+    'wheel',
+    () => requestAnimationFrame(renderDrawings),
+    { passive: true }
+);
+
+$('frame').onchange = () => {
+    epoch++;
+    frame = $('frame').value;
+
+    provider = new Map();
+    firstFit = true;
+    drawStart = null;
+
+    scheduleRender();
+    refreshHistory(true);
+};
+
+$('mode').onchange = () => {
+    firstFit = true;
+    scheduleRender();
+};
+
+for (
+    const id of [
+        'ma-on',
+        'rsi-on',
+        'macd-on',
+        'volume-on',
+        'arrows-on'
+    ]
+) {
+    $(id).onchange = scheduleRender;
+}
+
+$('reference-file').onchange = importReference;
+
+$('compare-target').onchange =
+    renderComparison;
+
+$('tolerance').oninput =
+    renderComparison;
+
+$('export-debug').onclick =
+    exportDebug;
+
+$('retry-history').onclick =
+    requestRecovery;
+
+$('fit').onclick = () => {
+    chart.timeScale().fitContent();
+};
+
+$('draw-horizontal').onclick = () => {
+    setTool('horizontal');
+};
+
+$('draw-trend').onclick = () => {
+    setTool('trend');
+};
+
+$('draw-cancel').onclick = () => {
+    setTool('');
+};
+
+$('draw-clear').onclick = () => {
+    drawings.length = 0;
+    setTool('');
+    renderDrawings();
+};
+
+/* =========================================================
+   14. التشغيل والتنظيف
+   ========================================================= */
+
+async function boot() {
+    buildConnection();
+
+    /*
+     * يبدأ الاشتراك بالتوازي مع تحميل التاريخ.
+     * التجميع المحلي مستقل، لذلك لا تضيع رسائله
+     * بسبب استبدال setData الخاص بشموع المزود.
+     */
+    const connecting = startConnection();
+
+    await refreshHistory(true);
+
+    if (destroyed) {
+        return;
+    }
+
+    pollQuote();
+
+    pollTimer = setInterval(() => {
+        refreshHistory();
+
+        if (
+            connection.state !==
+            signalR.HubConnectionState.Connected
+        ) {
+            pollQuote();
+        }
+    }, CFG.pollMs);
+
+    await connecting;
+}
+
+window.addEventListener(
+    'pagehide',
+    () => {
+        destroyed = true;
+
+        clearTimeout(retryTimer);
+        clearTimeout(renderTimer);
+        clearInterval(pollTimer);
+
+        resizeObserver.disconnect();
+
+        connection?.stop();
+
+        chart.remove();
+        rsiChart.remove();
+        macdChart.remove();
+    },
+    { once: true }
+);
+
+boot().catch(error => {
+    status('خطأ بدء التشغيل');
+    log(error.message);
+});
+</script>
 </body>
 </html>
